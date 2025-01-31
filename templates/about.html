@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Car Maintenance App</title>
+    <style>
+        /* Reset margin and padding for html and body */
+        html, body {
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+            height: 100%; /* Ensure full height */
+            width: 100%; /* Ensure full width */
+            display: flex; /* Use flexbox for vertical alignment */
+            flex-direction: column; /* Stack children vertically */
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            color: white;
+        }
+
+        header {
+            background: #070707;
+            color: rgb(8, 211, 86);
+            padding: 20px;
+            align-items: center;
+            font-size: 18px;
+        }
+
+        .about-content {
+            flex: 1;
+            /* max-width:; 
+            margin-right: ;  
+            padding:; */
+            background: white;
+            border-radius: 10px;
+            
+        }
+
+        .description h2 {
+            align-items: center;
+            color: rgb(74, 175, 74);
+        }
+
+        .features {
+            display: grid; /* Use grid layout */
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive columns */
+            gap: 15px; /* Space between items */
+            margin-top: 20px;
+            margin-bottom: 20 px;
+        }
+
+        .feature {
+            background:bisque;
+            padding: 20px;
+            padding-top: 70px;
+            border-radius: 5px;
+            cursor: pointer; /* Change cursor to pointer */
+            transition: background-color 0.3s; /* Smooth transition */
+            
+        }
+
+        .feature h3 {
+            margin: 0;
+            color: #003366;
+        }
+
+        .feature-content {
+            display: none; /* Hidden by default */
+            padding-top: 10px;
+             /* Space above content */
+            color: #070707;
+        }
+
+        .feature:hover {
+            background-color: #d1e7ff; /* Lighten on hover */
+        }
+        #footer{
+            background-color: #070707;
+            
+            
+        }
+        .footer-section{
+            color: #d1e7ff;
+        }
+        
+    </style>
+</head>
+<body>
+    <header>
+        <h3>About Us</h3>
+    </header>
+    
+    <section class="about-content">
+        <div class="description">
+            <h2 >Versatile Car Maintenance Platform</h2>
+            <p>Our app is designed to serve both casual car owners and professional mechanics. We ensure users stay updated on the latest car maintenance techniques and technologies.</p>
+        </div>
+
+        <div class="features">
+            <div class="feature" onclick="toggleContent(this)">
+                <h3>Customized Solutions</h3>
+                <div class="feature-content">Enter your car model and get tailored maintenance solutions based on your vehicle’s unique configurations.</div>
+            </div>
+
+            <div class="feature" onclick="toggleContent(this)">
+                <h3>Step-by-Step Guides</h3>
+                <div class="feature-content">Easy-to-follow instructions for common car issues, complete with high-quality images.</div>
+            </div>
+            
+            <div class="feature" onclick="toggleContent(this)">
+                <h3>Embedded Video Tutorials</h3>
+                <div class="feature-content">Save time by watching curated, high-quality video tutorials directly within the app.</div>
+            </div>
+            
+
+            <div class="feature" onclick="toggleContent(this)">
+                <h3>User-Friendly Interface</h3>
+                <div class="feature-content">Find solutions quickly with our intuitive design, optimized for easy navigation.</div>
+            </div>
+
+            <div class="feature" onclick="toggleContent(this)">
+                <h3>Mechanic-Centric Features</h3>
+                <div class="feature-content">Professional mechanics can use our app to enhance efficiency and access updated information.</div>
+            </div>
+
+            <div class="feature" onclick="toggleContent(this)">
+                <h3>Knowledge Base for Beginners</h3>
+                <div class="feature-content">New mechanics can learn about fundamental car components like brakes, engines, and transmissions.</div>
+            </div>
+            
+
+            <div class="feature" onclick="toggleContent(this)">
+                <h3>Interactive Chatbot</h3>
+                <div class="feature-content">Ask real-time questions and get guided troubleshooting assistance with our AI-powered chatbot.</div>
+            </div>
+        </div>
+    </div>
+            
+        <div id="footer">
+           
+            <div class="footer-section">
+                <h2>Contact</h2>
+                <p>9975954830</p>
+            </div>
+            <div class="footer-section">
+                <h2>Help</h2>
+                <p>backendrunner2@gmail.com</p>
+            </div>
+            <div>
+
+            </div>
+    </section>
+
+    <script>
+        function toggleContent(element) {
+            const content = element.querySelector('.feature-content');
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+</html>

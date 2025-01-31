@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Car Repair Help</title>
+ <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+ <link rel="shortcut icon" href="https://i.pinimg.com/736x/c5/94/96/c5949627262b8098970838894f57c94e.jpg"/>
+ <style>
+
+
+ body {
+ font-family: 'Roboto', sans-serif;
+ background-color: #f9f9f9;
+ color: #333;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ padding: 20px;
+ margin: 0;
+ }
+
+ header {
+ width: 100%;
+ background-color: #333;
+ color: white;
+ padding: 10px 20px;
+ text-align: center;
+ font-size: 24px;
+ }
+
+ .content {
+ max-width: 800px;
+ text-align: center;
+ margin-top: 20px;
+ }
+
+ .content h1 {
+ color: #2e7d32;
+ font-size: 28px;
+ }
+
+ .search-bar {
+ margin: 20px 0;
+ display: flex;
+ justify-content: center;
+ }
+
+ .search-bar input {
+ padding: 10px;
+ font-size: 16px;
+ border: 1px solid #ccc;
+ border-radius: 5px;
+ flex: 1;
+ max-width: 500px;
+ }
+
+ .search-bar button {
+ padding: 10px 20px;
+ margin-left: 5px;
+ font-size: 16px;
+ background-color: #4CAF50;
+ color: white;
+ border: none;
+ border-radius: 5px;
+ cursor: pointer;
+ }
+
+ .search-bar button:hover {
+ background-color: #45a049;
+ }
+
+ .cards-container {
+ display: grid;
+ grid-template-columns: repeat(3, 200px);
+ row-gap: 100px;
+ column-gap: 60px;
+ justify-content: center;
+ margin-top: 30px;
+ align-items: center;
+ text-align: center;
+ margin-left: 260px;
+ }
+
+ .card {
+ padding: 20px;
+ border-radius: 10px;
+ background-color: white;
+ box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+ text-align: center;
+ cursor: pointer;
+ transition: transform 0.3s, box-shadow 0.3s;
+ }
+
+ .card:hover {
+ transform: translateY(-5px);
+ box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+ }
+
+ .card h3 {
+ margin: 0;
+ color: #2e7d32;
+ font-size: 24px;
+ }
+
+ .card select {
+ max-width: 100%;
+ width: 100%;
+ margin-top: 10px;
+ padding: 5px;
+ box-sizing: border-box;
+ border: 1px solid #ccc;
+ border-radius: 5px;
+ }
+
+ .popup {
+ display: none;
+ position: fixed;
+ left: 50%;
+ top: 50%;
+ transform: translate(-50%, -50%);
+ background-color: #fff;
+ padding: 20px;
+ border: 1px solid #ddd;
+ border-radius: 10px;
+ box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ z-index: 1000;
+ max-width: 90%;
+ max-height: 80%;
+ overflow-y: auto;
+ text-align: center;
+ }
+
+ .popup h2 {
+ margin-top: 0;
+ }
+
+ .popup img {
+ max-width: 100%;
+ height: auto;
+ margin-bottom: 10px;
+ }
+
+ .popup .close {
+ display: block;
+ text-align: right;
+ cursor: pointer;
+ color: #888;
+ font-size: 18px;
+ }
+
+ .popup .close:hover {
+ color: #555;
+ }
+
+ .overlay {
+ display: none;
+ position: fixed;
+ left: 0;
+ top: 0;
+ width: 100%;
+ height: 100%;
+ background: rgba(0, 0, 0, 0.5);
+ z-index: 999;
+ }
+
+ body {
+ font-family: 'Roboto', sans-serif;
+ background-image: url('/Users/aditya/Desktop/W.png'); /* Replace with your image path */
+ background-size: cover; /* Ensures the image covers the entire screen */
+ background-repeat: no-repeat; /* Prevents the image from repeating */
+ background-position: center; /* Centers the image */
+ color: #333;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ padding: 20px;
+ margin: 0;
+ min-height: 100vh; /* Ensures body takes full height of the viewport */
+}
+
+footer {
+ width: 100%;
+ background-color: #333;
+ color: white;
+ padding: 20px 0;
+ margin-top: auto; /* Ensures footer stays at the bottom */
+}
+
+.footer-container {
+ display: flex;
+ justify-content: space-around;
+ max-width: 1200px;
+ margin: 0 auto;
+ text-align: left;
+}
+
+.footer-section {
+ width: 30%;
+ padding: 0 15px;
+}
+
+.footer-section h3 {
+ margin-top: 0;
+ margin-bottom: 10px;
+ color: #f1f1f1;
+ font-size: 20px;
+}
+
+.footer-section p {
+ margin: 5px 0;
+ font-size: 14px;
+ color: #ccc;
+}
+
+@media (max-width: 768px) {
+ .footer-container {
+ flex-direction: column;
+ text-align: center;
+ }
+
+ .footer-section {
+ width: 100%;
+ margin-bottom: 20px;
+ }
+}
+
+ .help-button {
+ position: fixed;
+ bottom: 20px;
+ right: 20px;
+ background-color: #4CAF50;
+ color: white;
+ padding: 15px 20px;
+ font-size: 16px;
+ border: none;
+ border-radius: 50px;
+ cursor: pointer;
+ box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+ transition: background-color 0.3s, transform 0.3s;
+ }
+
+ .help-button:hover {
+ background-color: #45a049;
+ transform: scale(1.05);
+ }
+ .help-button:hover {
+ background-color: #45a049;
+ transform: scale(1.05);
+ }
+ body {
+ font-family: 'Roboto', sans-serif;
+ background-image: url('/Users/aditya/Desktop/W.png'); /* Replace with your image path */
+ background-size: cover; /* Ensures the image covers the entire screen */
+ background-repeat: no-repeat; /* Prevents the image from repeating */
+ background-position: center; /* Centers the image */
+ color: #333;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ padding: 20px;
+ margin: 0;
+ }
+ /* Chatbot styles */
+ .chat-button {
+ position: fixed;
+ bottom: 20px;
+ left: 20px;
+ background-color: #007bff;
+ color: white;
+ border: none;
+ border-radius: 50%;
+ width: 60px;
+ height: 60px;
+ font-size: 24px;
+ text-align: center;
+ cursor: pointer;
+ box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+ }
+
+ .chat-window {
+ display: none;
+ position: fixed;
+ bottom: 90px;
+ left: 20px;
+ width: 300px;
+ height: 400px;
+ border: 1px solid #ccc;
+ border-radius: 10px;
+ background-color: white;
+ box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+ z-index: 1000;
+ overflow: hidden;
+ }
+
+ .chat-header {
+ background-color: #007bff;
+ color: white;
+ padding: 10px;
+ text-align: center;
+ font-size: 18px;
+ }
+
+ .chat-messages {
+ height: calc(100% - 100px);
+ overflow-y: auto;
+ padding: 10px;
+ background: #f9f9f9;
+ }
+
+ .chat-input {
+ display: flex;
+ padding: 10px;
+ border-top: 1px solid #ccc;
+ }
+
+ .chat-input input {
+ flex: 1;
+ padding: 8px;
+ border: 1px solid #ccc;
+ border-radius: 5px;
+ margin-right: 5px;
+ }
+
+ .chat-input button {
+ padding: 8px 10px;
+ background-color: #007bff;
+ color: white;
+ border: none;
+ border-radius: 5px;
+ cursor: pointer;
+ }
+
+ #background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+           opacity: 0.9;
+        }
+
+ </style>
+</head>
+<body>
+
+<header>
+ <h1>Car Repair Assistance</h1>
+</header>
+
+<video id="background-video" autoplay loop muted>
+    <source src="https://videos.pexels.com/video-files/14052381/14052381-hd_1920_1080_25fps.mp4">
+</video>
+
+<div class="content">
+ <h1>TYRE ASSISTANT</h1>
+ <p style="color: #fff;">ANY PROBLEMS WITH THE ENGINE? YOU ARE AT THE RIGHT PLACE!</p>
+<!-- Search Bar -->
+ <div class="search-bar">
+ <input type="text" id="searchInput" placeholder="Search your problem...">
+ <button onclick="searchProblems()">Search</button>
+ </div>
+</div>
+</head>
+<body>
+ 
+ <div class="cards-container">
+ <div class="card">
+ <h3>1</h3>
+ <p> Puncture</p>
+ <select onchange="optionClicked(this.value)">
+ <option value="" selected disabled>Select Option</option>
+ <option value="A">Loss of Air Pressure</option>
+ <option value="B"> Steering Issues.</option>
+ <option value="C">Visible DamageS
+ </select>
+ </div>
+ <div class="card">
+ <h3>2</h3>
+ <p> tyre maintenance
+ </p>
+ <select onchange="optionClicked(this.value)">
+ <option value="" selected disabled>Select Option</option>
+ <option value="D">P1</option>
+ <option value="E">P2
+ </option>
+ <option value="F"> P3
+ </option>
+ 
+ 
+ 
+ 
+ </option>
+ </select>
+ </div>
+ </div>
+
+ </option>
+
+ <br><br>
+
+<!-- Footer Section -->
+<footer>
+ <div class="footer-container">
+ <div class="footer-section">
+ <h3>About Us</h3>
+ <p>We are committed to helping you solve car-related problems efficiently and affordably.</p>
+ </div>
+
+ <div class="footer-section">
+ <h3>Help</h3>
+ <p>Need assistance? Browse our FAQs or contact support for more information.</p>
+ </div>
+
+ <div class="footer-section">
+ <h3>Contact</h3>
+ <p>Email: support@carrepairhelp.com</p>
+ <p>Phone: +123 456 7890</p>
+ </div>
+ </div>
+</footer>
+<!-- Popups and Overlay -->
+<div class="overlay" id="overlay"></div>
+
+<!-- Popups for different options -->
+<div class="popup" id="popupA">
+ <span class="close" onclick="closePopup()">&times;</span>
+ <h2>Loss of Air Pressure.</h2>
+ <p>STEP 1 : 
+    Check Tire Pressure:
+
+Use a tire pressure gauge to measure the current pressure of your tire.
+
+Compare it to the recommended pressure (found in your car's manual or on a sticker inside the driver's door frame).
+ </p>
+ <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzm6UZqqHdThgp-e1lWq95Y2HF2yD0Qwb3iA&s" alt="s1">
+<p>STEP 2 :
+    Inspect for Visible Damage:
+
+Look for punctures, cuts, or bulges on the tire tread and sidewalls.
+
+Check the valve stem for any cracks or damage.
+</p>
+<img src="https://blog.mccarthytoyotaofsedalia.com/wp-content/uploads/sites/83/2020/02/Tire-Wear.jpg" alt="s2">
+<p>STEP 3 :
+    Listen for Air Leaks:
+
+Inflate the tire slightly and listen for any hissing sounds that indicate air escaping.
+</p>
+<img src="https://www.wikihow.com/images/thumb/e/e0/234827-3.jpg/v4-460px-234827-3.jpg" alt="s3">
+
+<p>STEP 4 :
+    Use Soapy Water:
+
+Mix soap and water in a spray bottle.
+
+Spray the solution around the tire, including the valve stem, bead area, and any visible cracks or bulges.
+
+If bubbles form, it indicates the presence of a leak.
+</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/YRPctxGV6bw?si=hS_O7-CEAO8lSxrx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<p>STEP 5 :
+    Check the Bead Area:
+
+Ensure the tire bead (the edge that forms a seal with the wheel rim) is properly seated.
+
+If it's damaged or has debris between it and the rim, it can cause air to escape.
+</p>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFkcss-_UBVhXZ4VRbMiNJ8J71dxGw5AlgEA&s" alt="S5">
+
+<p>
+    STEP 6 :
+    Inspect the Rim:
+
+Check the rim for any damage or corrosion that might cause air to leak.
+
+Ensure the rim is clean and free of debris.
+</p>
+<img src="https://i.ytimg.com/vi/12d0tSNq2Z4/sddefault.jpg" alt="s6">
+
+<p>STEP 7 :
+    Repair or Replace:
+
+Small punctures can often be repaired with a tire plug or patch kit.
+
+For larger damage or if the tire is old and worn, it might be best to replace the tire.
+</p>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg5XpnvkQWS1irZdK0i4VbPVTPNu3PJ8b-Vw&s" alt="s7">
+
+<p> 
+    STEP 8 :
+    Reinflate the Tire:
+
+    Use an air pump to inflate the tire to the recommended pressure.
+    
+    Double-check the pressure with your gauge to ensure it's correct.
+</p>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuTIp7V0Bth8GPgr2jWFEpgqpRoBByBI8kYw&s" alt="s8">
+
+<p>
+    STEP 9 :
+    Monitor Tire Pressure Regularly:
+
+    Check your tire pressure once a month and before long trips.
+    
+    Adjust as needed to maintain proper pressure.
+</p>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSt6DO4uXVBO592tHn0QCKNB3CDj7NM9Oqg3w&s" alt="S9">
+</div>
+
+<div class="popup" id="popupB">
+ <span class="close" onclick="closePopup()">&times;</span>
+ <h2>Steering Issues.</h2>
+ <p>
+    STEP 1 :
+    Check Tire Pressure:
+
+    Ensure all tires are properly inflated to the recommended pressure.
+    
+    Uneven tire pressure can cause steering problems.
+
+ </p>
+ <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGGbxm0KKD91ethd8cOAh-qZ0FqaXgENTTVQ&s" alt="S1">
+ <P>
+    STEP 2 :
+      Inspect Tires for Wear:
+
+Look for uneven tire wear, which can indicate alignment issues.
+
+Check for punctures, cuts, or bulges on the tires.
+ </P>
+ <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGL-fnpim0uB9LEkTH6d1CyegKk_2kp-FU4w&s" alt="S2">
+ <p> STEP 3 :
+    Check Power Steering Fluid:
+
+Ensure the power steering fluid is at the correct level.
+
+Top up if necessary and check for any leaks in the system.
+ </p>
+ <img src="https://www.wikihow.com/images/thumb/3/30/Flush-Power-Steering-Fluid-Step-8-Version-3.jpg/v4-460px-Flush-Power-Steering-Fluid-Step-8-Version-3.jpg.webp" alt="s3">
+
+ <p>STEP 4 :
+    Inspect the Steering Wheel:
+
+Check if the steering wheel is centered when driving straight.
+
+If it's off-center, it might indicate an alignment issue.
+ </p>
+ <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDpjB9kST-oVxD25lAo_J9T4eM0QRhw9aCfg&s" alt="s4">
+
+ <p>STEP 5 :
+    Listen for Unusual Noises:
+
+Pay attention to any squealing, groaning, or clicking sounds while turning the wheel.
+
+These noises can indicate problems with the steering system.
+ </p>
+ <img src="https://www.wikihow.com/images/thumb/1/1a/Car-Makes-Noise-when-Turning-Step-6.jpg/v4-460px-Car-Makes-Noise-when-Turning-Step-6.jpg" alt="S5">
+
+ <p>STEP 6 :
+    Check for Steering Wheel Vibration:
+
+If you feel vibration or shaking in the steering wheel, it could be due to unbalanced tires or worn suspension components.
+ </p>
+ <img src="https://i.ytimg.com/vi/1Ze0cvClGQ8/sddefault.jpg" alt="s6">
+
+ <p>STEP 7 :
+    Inspect the Steering Linkage:
+
+Check for loose or damaged components in the steering linkage.
+
+Ensure all connections are tight and secure.
+ </p>
+ <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTx0MShEMwxWCEEHs3GyfXfekQuEst6CQSqYNxvKRw-kRCXeBMd6al8UfGJU2AcjON8lF8&usqp=CAU" alt="s7">
+
+ <p>STEP 8 :
+    Check Wheel Alignment:
+
+Have a professional mechanic check and adjust the wheel alignment if necessary.
+
+Misaligned wheels can cause steering issues and uneven tire wear.
+ </p>
+ <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThgIks4Rx0L77MJ4LCIm9MYGk9Z4j5242J8A&s" alt="s8">
+
+ <p>
+    STEP 9 :
+    Inspect the Steering Gear and Rack:
+
+Look for any damage or wear in the steering gear and rack.
+
+These components may need to be repaired or replaced if faulty.
+ </p>
+ <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQffqrBYi1Ns-VttwdT0-s1iA09PgL7knmshg&s" alt="s9">
+
+ <p>STEP 10 :
+    Consult a Professional:
+
+If you're unable to identify or fix the issue, it's best to consult a professional mechanic for a thorough inspection and repair.
+ </p>
+ <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF39H-sDaQjANTnMLk27Sjcup1yVq-jo4NSg&s" alt="s10">
+</div>
+<div class="popup" id="popupC">
+ <span class="close" onclick="closePopup()">&times;</span>
+ <h2>Visible Damage
+ </h2>
+ <p>SOL 3.</p>
+</div>
+<div class="popup" id="popupD">
+ <span class="close" onclick="closePopup()">&times;</span>
+ <h2>P 1.</h2>
+ <p>STEP 1 :
+    Check Tire Pressure:
+
+    Use a tire pressure gauge to measure the pressure of each tire.
+    
+    Compare it to the recommended pressure (found in your car's manual or on a sticker inside the driver's door frame).
+    
+    Adjust the pressure as needed, and check at least once a month and before long trips.
+</p>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0k_E8hAGrKLwQ1n-PvpQtCG1uwN1pqOadfg&s" alt="s1">
+
+<p>STEP 2 :
+    Inspect Tread Depth:
+
+Use a tread depth gauge or the penny test: Insert a penny into the tread with Lincoln's head facing down. If you can see the top of Lincoln's head, it's time to replace the tire.
+
+Ensure the tread depth is at least 1.6 millimeters (2/32 inches) or more for safe driving.
+</p>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3bh1IeFQHIUOUnWRHNnQIP8NdrISuJKTNlA&s" alt="s2">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZHl56IhAxd1tl_Xvzng-D0YjLo0Jh7bYcBw&s" alt="s22">
+<p>STEP 3 :
+    Rotate Tires:
+
+Follow your car manufacturer's recommendation for tire rotation, typically every 6,000 to 8,000 kilometers (4,000 to 5,000 miles).
+
+Regular rotation helps ensure even tire wear and extends tire life.
+</p>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTx4Cq0ZlaOAUMG1HEitiGa3DFzGFsB9W-jEQ&s" alt="s3">
+
+<p>STEP 4 :
+    Balance Tires:
+
+Have your tires balanced whenever you notice vibration or after a tire repair.
+
+Balancing ensures smooth driving and prevents uneven wear.
+</p>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNZLRuXcxlQxr9MqNbFM7xSo6jHzooQ3FjKg&s" alt="S4">
+
+<p>STEP 5 :
+    Align Wheels:
+
+Get your wheels aligned every 20,000 to 30,000 kilometers (12,000 to 18,000 miles) or as recommended by your manufacturer.
+
+Proper alignment ensures even tire wear and optimal handling.
+</p>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJqHy0GTHKhize6A3gNhmL8q17zlwJmPhxAA&s" alt="s5">
+
+<p>STEP 6 :
+    Inspect for Damage:
+
+Regularly check for any cuts, punctures, bulges, or cracks on the tire surface and sidewalls.
+
+Replace tires with significant damage or wear.
+</p>
+<img src="https://westlaketireusa.com/wp-content/uploads/2017/07/Tires101_inspection1a.jpg" alt="s6">
+
+<p>STEP 7 :
+    Check Valve Stems:
+
+    Ensure the valve stems are in good condition and not leaking.
+    
+    Replace damaged valve stems as needed.
+</p>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkPvzwE-yjOR_NWzffpw7Cf7ZJJPQrwCEzzg&s" alt="s9">
+
+<p>STEP 8 :
+    Clean Tires:
+
+Clean your tires regularly to remove dirt, debris, and road grime.
+
+Use a mild soap and water solution or a tire cleaner.
+</p>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3ZjlRSs5PZbA6dRwKZmxqkLCai1z7Z8yVWA&s" alt="s8">
+
+<p>STEP 9 :
+    Monitor Tire Age:
+
+    Tires generally last around 6 to 10 years depending on usage and conditions.
+    
+    Check the manufacturing date on the tire sidewall (usually indicated by a four-digit code, e.g., 3219 means the 32nd week of 2019).
+</p>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2ZScRWE74nkCzJ1trDDAxK8SbKQbqGRtHQw&s" alt="s9">
+
+
+</div>
+<div class="popup" id="popupE">
+ <span class="close" onclick="closePopup()">&times;</span>
+ <h2>p 2</h2>
+ <p> sol 2. </p>
+</div>
+<div class="popup" id="popupF">
+ <span class="close" onclick="closePopup()">&times;</span>
+ <h2>p3</h2>
+ <p>sol 3</p>
+</div>
+
+</div>
+<!-- Chatbot Button -->
+<button class="chat-button" onclick="toggleChat()">💬</button>
+
+<!-- Chatbot Window -->
+<div class="chat-window" id="chatWindow">
+ <div class="chat-header">Chat with Us!</div>
+ <div class="chat-messages" id="chatMessages"></div>
+ <div class="chat-input">
+ <input type="text" id="chatInput" placeholder="Type your message...">
+ <button onclick="sendMessage()">Send</button>
+ </div>
+</div>
+
+<!-- Help Button -->
+<button class="help-button" onclick="openHelpPage()">Need More Help?</button>
+
+<script>
+ // Chatbot functionality
+ function toggleChat() {
+ const chatWindow = document.getElementById("chatWindow");
+ chatWindow.style.display = chatWindow.style.display === "block" ? "none" : "block";
+ }
+
+ function sendMessage() {
+ const input = document.getElementById("chatInput");
+ const messages = document.getElementById("chatMessages");
+ const userMessage = input.value.trim();
+ 
+ if (userMessage) {
+ const messageElement = document.createElement("div");
+ messageElement.textContent = "You: " + userMessage;
+ messages.appendChild(messageElement);
+
+ // Simulate chatbot response
+ const botMessageElement = document.createElement("div");
+ botMessageElement.textContent = "Bot: Thank you for your query!";
+ botMessageElement.style.color = "gray";
+ messages.appendChild(botMessageElement);
+
+ messages.scrollTop = messages.scrollHeight; // Auto-scroll
+ input.value = ""; // Clear input
+ }
+ }
+ 
+ function optionClicked(option) {
+ document.querySelectorAll(".popup").forEach(popup => popup.style.display = "none");
+ const popup = document.getElementById(`popup${option}`);
+ if (popup) {
+ popup.style.display = "block";
+ document.getElementById("overlay").style.display = "block";
+ }
+ }
+ 
+ function closePopup() {
+ document.querySelectorAll(".popup").forEach(popup => popup.style.display = "none");
+ document.getElementById("overlay").style.display = "none";
+ }
+ 
+ // Search Functionality
+ function searchProblems() {
+ const input = document.getElementById("searchInput").value.toLowerCase();
+ const cards = document.querySelectorAll(".card");
+ 
+ cards.forEach(card => {
+ const cardText = card.querySelector("p").textContent.toLowerCase();
+ card.style.display = cardText.includes(input) ? "block" : "none";
+ });
+ }
+ 
+
+function openHelpPage() {
+ window.location.href = "/query"; // Redirect to the query page
+}
+
+function searchProblems() {
+ const input = document.getElementById("searchInput").value.toLowerCase();
+ alert(`Searching for: ${input}`);
+}
+
+</script>
+
+</body>
+</html>

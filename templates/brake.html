@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://i.pinimg.com/736x/c5/94/96/c5949627262b8098970838894f57c94e.jpg"/>
+    <title>Car Repair Help</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            /* background-color: #f9f9f9; */
+            color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+            background-image: url('https://img.freepik.com/premium-photo/shiny-car-brake-disc-displayed-against-dark-background-emphasizing-its-mechanical-precision-industrial-aesthetic_95891-108626.jpg');
+        }
+
+        header {
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        #background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+           opacity: 0.9;
+        }
+
+        .content {
+            max-width: 800px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .content h1 {
+            color: #2e7d32;
+            font-size: 28px;
+        }
+
+        .search-bar {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-bar input {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .search-bar button {
+            padding: 10px 20px;
+            margin-left: 5px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-bar button:hover {
+            background-color: #45a049;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(3, 200px);
+            row-gap: 100px;
+            column-gap: 60px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .card {
+            padding: 20px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h3 {
+            margin: 0;
+            color: #2e7d32;
+            font-size: 24px;
+        }
+
+        .card select {
+            max-width: 100%;
+            width: 100%;
+            margin-top: 10px;
+            padding: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            max-width: 90%;
+            max-height: 80%;
+            overflow-y: auto;
+            text-align: center;
+        }
+
+        .popup h2 {
+            margin-top: 0;
+        }
+
+        .popup img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .popup .close {
+            display: block;
+            text-align: right;
+            cursor: pointer;
+            color: #ac0101;
+            font-size: 28px;
+            position: relative;
+        }
+
+        .popup .close:hover {
+            color: #000000;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(241, 239, 239, 0.5);
+            z-index: 999;
+        }
+
+        footer {
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-around;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .footer-section {
+            width: 30%;
+            padding: 0 15px;
+        }
+
+        .footer-section h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #f1f1f1;
+            font-size: 20px;
+        }
+
+        .footer-section p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        @media (max-width: 768px) {
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-section {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+
+        .help-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .help-button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+        .help-button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+        body {
+    font-family: 'Roboto', sans-serif;
+    background-image: url('/Users/aditya/Documents/ASEP PRO/Back3.jpeg'); /* Replace with your image path */
+    background-size: cover; /* Ensures the image covers the entire screen */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-position: center; /* Centers the image */
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin: 0;
+        }
+        /* Chatbot styles */
+        .chat-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .chat-window {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            left: 20px;
+            width: 300px;
+            height: 400px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .chat-messages {
+            height: calc(100% - 100px);
+            overflow-y: auto;
+            padding: 10px;
+            background: #f9f9f9;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 5px;
+        }
+
+        .chat-input button {
+            padding: 8px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <video id="background-video" autoplay loop muted>
+        <source src="https://videos.pexels.com/video-files/9031118/9031118-uhd_2560_1440_24fps.mp4">
+    </video>
+    
+
+<!-- Hello -->
+<header>
+   <h1>Car Repair Assistance</h1>
+</header>
+
+<div class="content">
+   <h1 style="font-size: 35px;">BRAKES SYSTEMS</h1>
+   <p style="color:#ddd ;">LEARN HOW TO MAINTAIN AND REPAIR YOUR BRAKES.</p>
+
+   <div class="search-bar">
+       <input type="text" id="searchInput" placeholder="Search your problem...">
+       <button onclick="searchProblems()">Search</button>
+   </div>
+
+   <div class="cards-container">
+       <div class="card">
+           <h3>1</h3>
+           <p>Squeaking or Squealing Noises</p>
+           <select onchange="optionClicked(this.value)">
+               <option value="" selected disabled>Select Option</option>
+               <option value="A">Worn-Out Brake Pads</option>
+               <option value="B">Dust or Debris on Brake Pads</option>
+               <option value="C">Glazed Brake Pads or Rotors</option>
+           </select>
+       </div>
+       <div class="card">
+           <h3>2</h3>
+           <p>Grinding Noises </p>
+           <select onchange="optionClicked(this.value)">
+               <option value="" selected disabled>Select Option</option>
+               <option value="D">Warped Brake Rotors</option>
+               <option value="E">Contaminated Brake Pads</option>
+               <option value="F">Prevent Contamination:
+               </option>
+           </select>
+       </div>
+       <div class="card">
+           <h3>3</h3>
+           <p>Soft or Mushy Brake Pedal</p>
+           <select onchange="optionClicked(this.value)">
+               <option value="" selected disabled>Select Option</option>
+               <option value="G">Air in the Brake Lines</option>
+               <option value="H"> Brake Fluid Leak</option>
+               <option value="I"> Worn Master Cylinder</option>
+           </select>
+       </div>
+       <div class="card">
+           <h3>4</h3>
+           <p> Vibrations or Pulsations When Braking </p>
+           <select onchange="optionClicked(this.value)">
+               <option value="" selected disabled>Select Option</option>
+               <option value="J">Warped Brake Rotors</option>
+               <option value="K">Uneven Brake Pad Wear</option>
+               <option value="L"> Brake Drum or Rotor Out of Balance</option>
+           </select>
+       </div>
+       <div class="card">
+           <h3>5</h3>
+           <p>Brake Light on Dashboard Stays On</p>
+           <select onchange="optionClicked(this.value)">
+               <option value="" selected disabled>Select Option</option>
+               <option value="M"> Parking Brake Engaged</option>
+               <option value="N">Low Brake Fluid Level</option>
+               <option value="O">Faulty Brake Light Switch</option>
+           </select>
+       </div>
+       <div class="card">
+           <h3>6</h3>
+           <p>Vehicle Pulls to One Side When Braking </p>
+           <select onchange="optionClicked(this.value)">
+               <option value="" selected disabled>Select Option</option>
+               <option value="P">Uneven Brake Pad Wear</option>
+               <option value="Q">Sticking Brake Caliper</option>
+               <option value="R"> Uneven Tire Pressure</option>
+           </select>
+       </div>
+   </div>
+</div>
+
+<footer>
+   <div class="footer-container">
+       <div class="footer-section">
+           <h3>About Us</h3>
+           <p>We are committed to helping you solve car-related problems efficiently and affordably.</p>
+       </div>
+       <div class="footer-section">
+           <h3>Help</h3>
+           <p>Need assistance? Browse our FAQs or contact support for more information.</p>
+       </div>
+       <div class="footer-section">
+           <h3>Contact</h3>
+           <p>Email: support@carrepairhelp.com</p>
+           <p>Phone: +123 456 7890</p>
+       </div>
+   </div>
+</footer>
+<!-- Popups and Overlay -->
+<div class="overlay" id="overlay"></div>
+
+<!-- Popups for different options -->
+<div class="popup" id="popupA">
+   <span class="close" onclick="closePopup()">&times;</span>
+   <h2> Inspect Brake Pads:</h2>
+   <p>Check the thickness of the brake pads. If they are below the recommended thickness, they need to be replaced.
+
+       Replace Brake Pads:
+       
+       Replace the worn-out brake pads with new ones. Ensure to use high-quality brake pads for better performance and longevity.
+       Regular Maintenance:
+
+Regularly inspect the brake pads during routine maintenance to catch wear early and prevent further damage.
+</p>
+</div>
+
+<div class="popup" id="popupB">
+   <span class="close" onclick="closePopup()">&times;</span>
+   <h2>Clean Brake Components:</h2>
+   <p> STEP 1 :-  Identify the Noise Source:
+
+Check brakes, belts, steering system, suspension, and other moving parts.
+
+Tighten or Replace:
+
+Tighten loose belts or components</p>
+   <img src="https://i.pinimg.com/736x/af/05/a7/af05a791470439e6d2fba95a5237ac48.jpg" alt="">
+   <p> STEP 2 :- Replace worn brake pads, belts, or other parts. </p>
+   <img src= " https://i.pinimg.com/736x/20/de/64/20de64e80a45053ed75efece2010c418.jpg" alt = "">
+   <p> STEP 3 :- Clean and Lubricate:
+
+Clean rubber seals and moving parts.
+ </p>
+   <img src = "https://drive.google.com/file/d/1MvYS5QH2keSUH0rvmZW6lYDKZibpUubV/view?usp=drive_link" alt = " Image not found ">
+   <img src = " https://i.pinimg.com/736x/46/a2/23/46a223f0e95fee9b6258ab12bc2996b9.jpg" alt = "Image not found">
+   <p> STEP 3 :- Apply appropriate lubricants.
+</p>
+    <img src = "https://i.pinimg.com/736x/6a/fa/d9/6afad9ef44c58555dd8f696b38bd9d78.jpg" alt = "Image not found">
+   <p> STEP 4 :- Test Drive:
+
+Drive the car to see if the noise is gone. If it persists, consult a professional mechanic.</p>
+   <img src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ2U6WnaKHZJDqJ-w6LThuaKzaFjmwMK0p3A&s" alt = "Image not found">
+   
+
+   <p> STEP 5 :- Use a brake cleaner to remove dust and debris from the brake pads and rotors. Ensure the components are thoroughly dried before reassembly.
+
+       Inspect for Damage:
+       
+       While cleaning, inspect the brake pads and rotors for any signs of damage or excessive wear.
+       
+       Regular Cleaning:
+       
+       Keep the brake components clean by regularly washing the wheels and brakes, especially if driving in dusty or dirty conditions.
+        </p>
+        <img src="data:image/jpeg;base64,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">
+<!-- 
+    <h2>CHECK AND REPLACE SPARK PLUG:</h2> -->
+ <img src="/">
+</div>
+<div class="popup" id="popupC">
+   <span class="close" onclick="closePopup()">&times;</span>
+   <h2>Resurface or Replace Rotors:</h2>
+   <p> STEP 1:
+    Safety First: Ensure your vehicle is parked on a flat surface and the parking brake is engaged. Block the rear wheels to prevent rolling. Wear gloves and safety glasses for protection.
+</p>
+<img src="https://5.imimg.com/data5/IK/SF/MY-10763297/parking-safety-product-500x500.jpg">
+   <p> STEP 2:
+    Lift the Vehicle: Loosen the wheel lug nuts and raise the vehicle using a jack. Secure it with jack stands1.
+</p>
+<img src="https://m.media-amazon.com/images/I/81cEmjARV9L.jpg">
+   <p>STEP 3:
+    Clean the Brake Pads: Spray the brake cleaning solution onto the brake pads and surrounding areas. Use the soft-bristled brush to gently scrub away the dust and debris2.
+   </p>
+   <img src="data:image/jpeg;base64,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">
+   <p>STEP 4:
+     Wipe Clean: Use a clean cloth or paper towel to wipe off the loosened dust and cleaning solution.
+   </p>
+   <p> STEP 5:
+    Optional - Compressed Air/Vacuum: If you have compressed air or a vacuum cleaner, you can use it to blow away any remaining dust particles.
+
+   </p>
+
+   <p> STEP 6 :
+    Reassemble: Once the brake pads are clean, reassemble the brake system by putting the wheels back on and tightening the lug nuts.
+   </p>
+   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPhuplgV9kb9c-Pukwj9pHS9MXlwESaPhWig&s">
+   <p>STEP 7 :
+     Test the Brakes: Before driving, test the brakes to ensure they are functioning properly.</p>
+   <img src="data:image/jpeg;base64,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">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+   <p>If the rotors are glazed, they can be resurfaced to remove the glaze. If resurfacing is not possible, replace the rotors.
+
+       Replace Glazed Brake Pads:
+       
+       Replace the glazed brake pads with new ones. Ensure the new pads are properly bedded in to prevent glazing.
+       
+       Adjust Driving Habits:
+       
+       Avoid hard or excessive braking to prevent overheating the brake pads and rotors. Drive more smoothly and gradually to reduce stress on the braking system.. </p>
+</div>
+<div class="popup" id="popupD">
+   <span class="close" onclick="closePopup()">&times;</span>
+   <h2>Inspect Brake Rotors:</h2>
+   <p> <b>CAUTION :-</b> Safety First: Make sure your car is parked on a flat surface. Turn on the parking brake so the car doesn't move. Wear gloves and safety glasses to protect yourself.
+   </p>
+<p> Step 1 :- Lift the Car: Use a lug wrench to loosen the wheel lug nuts. Use a jack to lift the car and place jack stands under it to keep it secure.
+</p>
+<img src="https://5.imimg.com/data5/IK/SF/MY-10763297/parking-safety-product-500x500.jpg" alt="">
+<p> Step 2 :- Remove the Wheels: Take off the wheels to see the brake parts.
+</p>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS94b3RcnelvlMYPfe65MwU_yt7Y7Ysp_SvUw&s" alt="">
+<p> Step 3 :-Remove the Brake Caliper: Use a socket set and ratchet to take off the bolts holding the brake caliper. Carefully remove the caliper and hang it with a wire or bungee cord so it doesn't hang by the brake hose.
+</p>
+<img src="data:image/jpeg;base64,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" alt="">
+<img src="" >
+<p> Step 4 :- Remove the Brake Rotor: Slide the brake rotor off the wheel hub. If it's stuck, tap it gently with a rubber mallet.
+</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/hFzK2atPoZc?si=u7KjBhgFzF08L8fT&amp;controls=0&amp;start=10" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<p> Step 5 :- Check the Brake Pads: Look at the brake pads. If they're worn out or damaged, replace them with new ones.
+
+</p>
+<img src="https://www.wikihow.com/images/thumb/9/99/Check-Brake-Pads-Step-6.jpg/v4-460px-Check-Brake-Pads-Step-6.jpg.webp" alt="">
+<img src="https://www.team-bhp.com/sites/default/files/pictures2021/brake-pad-wear-4.jpg">
+<p> Step 6 :- Install the New Brake Rotor: Slide the new brake rotor onto the wheel hub. Make sure it's sitting flat and aligned properly.
+</p>
+<img src="https://res.cloudinary.com/yourmechanic/image/upload/dpr_auto,f_auto,q_auto/v1/article_images/3_How_to_Replace_Brake_Rotors_wheel_removed_rotor_exposed" alt="Image not found">
+<p> Step 7 :- Reinstall the Brake Caliper: Use a C-clamp or brake caliper tool to push the caliper piston back so there's room for the new rotor. Put the brake caliper back on and tighten the bolts with a torque wrench to the manufacturer's specifications.
+</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/mwqUQnlQVdM?si=Ci-kHA9iIMojTWIz&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<p> Step 8 :- Reassemble the Wheels: Put the wheels back on and tighten the lug nuts.
+</p>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyr7EEFeAndc601VUezAbk-5otKb3ljKeOBA&s" alt="">
+<p> Step 9 :- Lower the Car: Use the jack to carefully lower the car and remove the jack stands. Tighten the lug nuts with a torque wrench to the manufacturer's specifications.
+</p>
+
+<p> Step 10 :- Test the Brakes: Before driving, pump the brake pedal a few times to make sure the brake pads are properly seated and the brakes are working correctly.
+
+</p>
+
+</div>
+<div class="popup" id="popupE">
+   <span class="close" onclick="closePopup()">&times;</span>
+   <h2>Inspect Brake Pads:</h2>
+   <p>Check the brake pads for any signs of contamination.
+
+       Clean or Replace Pads:
+       
+       If the contamination is minimal, clean the brake pads with a brake cleaner. If the pads are heavily contaminated, replace them with new ones.
+       
+       Prevent Contamination:
+       
+       Ensure that any leaks in the brake system are repaired promptly to prevent contamination. Handle brake components with clean hands or gloves to avoid transferring oil or grease.
+       .</p>
+</div>
+<div class="popup" id="popupF">
+   <span class="close" onclick="closePopup()">&times;</span>
+   <h>Allow Brakes to Cool:</h2>
+   <p>If you notice a burning smell, safely pull over and allow the brakes to cool down before continuing to drive.
+
+       Adjust Driving Habits:
+       
+       Avoid prolonged or aggressive braking by using engine braking or downshifting when driving downhill. Maintain a safe following distance to reduce the need for sudden stops.
+       
+       Inspect Brake Components:
+       
+       After cooling, inspect the brake pads and rotors for any signs of damage or glazing. Replace any components that show excessive wear or heat damage.
+       . </p>
+</div>
+<div class="popup" id="popupG">
+   <span class="close" onclick="closePopup()">&times;</span>
+   <h2> Bleed the Brake System:</h2>
+   <p> Step 1:- Have a helper pump the brake pedal a few times and then hold it down.</p>
+   <img src="https://www.wikihow.com/images/thumb/f/f5/Bleed-a-Master-Cylinder-Step-27.jpg/v4-460px-Bleed-a-Master-Cylinder-Step-27.jpg.webp" alt="">
+
+<p> Step 2:- Open the bleeder valve to let the air escape into the container.
+</p>
+<img src="https://www.wikihow.com/images/thumb/0/0e/Bleed-Car-Brakes-Step-3-Version-5.jpg/v4-460px-Bleed-Car-Brakes-Step-3-Version-5.jpg.webp" alt="">
+<p> Step 3:- Close the bleeder valve, then release the brake pedal.
+</p>
+<img src="https://www.wikihow.com/images/thumb/1/18/Bleed-Brake-Lines-Step-15.jpg/v4-460px-Bleed-Brake-Lines-Step-15.jpg.webp" alt="">
+<p> Step 4:- Repeat this process until no more air bubbles appear in the tube.
+</p>
+<p> Step 5:- Refill the Brake Fluid:
+
+    Check the brake fluid level in the reservoir and top it off if needed.
+    
+    Make sure to use the correct type of brake fluid for your car.
+    </p>
+    <img src="https://res.cloudinary.com/yourmechanic/image/upload/dpr_auto,f_auto,q_auto/v1/article_images/1_How_to_Refill_Brake_Fluid_mechanic_topping_up_brake_fluid_reservoir" alt="Image not found">
+    <p> Step 6:- Test the Brakes:
+
+        After bleeding the brakes, test the brake pedal to ensure it feels firm and responsive.</p>
+       
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/YVFEtJ2Q658?si=wKBJlFyr2xt2A0u8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/JrcYugtpTzc?si=2hixfu0mVSy7URyN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+ <p> Use a brake bleeder kit to remove air from the brake lines. Start with the brake farthest from the master cylinder and work your way closer.
+
+       Check for Leaks:
+       
+       Inspect the entire brake system for any leaks that might have allowed air to enter. Repair any leaks before bleeding the system.
+       
+       Regular Maintenance:
+       
+       Periodically check and bleed the brake system as part of regular maintenance to prevent air buildup. </p>
+</div>
+<div class="popup" id="popupH">
+   <span class="close" onclick="closePopup()">&times;</span>
+   <h2> Inspect for Leaks:</h2>
+   <p> Check all brake lines, hoses, and connections for signs of fluid leaks. Look for wet spots or drips under the car.
+
+       Repair or Replace Damaged Components:
+       
+       Replace any damaged or leaking brake lines, hoses, or connections. Ensure all fittings are secure and tight.
+       
+       Refill and Bleed the Brake System:
+       
+       After repairing leaks, refill the brake fluid reservoir with the correct type of brake fluid and bleed the system to remove any air</p>
+</div>
+<div class="popup" id="popupI">
+   <span class="close" onclick="closePopup()">&times;</span>
+   <h2>Inspect the Master Cylinder:</h2>
+<p> Step 1:- ark your car on a flat surface and engage the parking brake.
+</p>
+<img src="jciwjecic" alt="Image not found">
+<P> Step 2:- Use wheel chocks to secure the wheels.
+</P>
+<img src="jciwjecic" alt="Image not found">
+<p> Step 3:- Lift the car using a jack and support it with jack stands.
+</p>
+<img src="jciwjecic" alt="Image not found">
+<p> Step 4:- Locate the Leak:
+
+    Inspect the brake lines, hoses, and master cylinder for any signs of leaking fluid.
+    
+    Check around the brake calipers and wheel cylinders as well.
+    </p>
+    <img src="jciwjecic" alt="Image not found">
+    <p> Step 5:- Identify the Source:
+
+        Determine whether the leak is coming from a brake line, hose, master cylinder, or another component.
+        
+        Brake fluid leaks often appear as oily spots under the car or wetness around the brake components.
+        
+        </p>
+        <img src="jciwjecic" alt="Image not found">
+        <p> Step 6:- Replace the Damaged Component:
+
+            If a brake line or hose is leaking, you'll need to replace the damaged part.
+            
+            For a leaking master cylinder, it may need to be replaced or rebuilt.
+            
+            Always use compatible replacement parts and follow the manufacturer's instructions.
+            </p>
+            <img src="jciwjecic" alt="Image not found">
+            <p> Step 7:- Drain the Brake Fluid:
+
+                Use a drain pan to catch the old brake fluid.
+                
+                Open the bleeder valves to allow the fluid to drain out.
+                </p>
+                <img src="jciwjecic" alt="Image not found">
+                <p> Step 8:- Install the New Component:
+
+                    Install the new brake line, hose, or master cylinder.
+                    
+                    Ensure all connections are secure and properly tightened.
+                    </p>
+                    <img src="jciwjecic" alt="Image not found">
+                    <p> Step 9:- Refill the Brake Fluid:
+
+                        Fill the brake fluid reservoir with the recommended type of brake fluid for your car.
+                        
+                        Be careful not to spill brake fluid, as it can damage paint and other surfaces.
+                        </p>
+                        <img src="jciwjecic" alt="Image not found">
+                        <p> Step 10:- Bleed the Brakes:
+
+                            Follow the brake bleeding procedure to remove any air from the brake lines (refer to the previous guide on bleeding brakes).
+                            </p>
+                            <img src="jciwjecic" alt="Image not found">
+
+                            <p> Step 11:- Test the Brakes:
+
+                                After bleeding the brakes, test the brake pedal to ensure it feels firm and responsive.
+                                
+                                Check for any signs of leaks and ensure everything is functioning properly.</p>
+
+
+
+
+
+   <p> Check the master cylinder for signs of wear or internal leaks. Look for brake fluid around the master cylinder area.
+
+       Replace the Master Cylinder:
+       
+       If the master cylinder is worn or failing, replace it with a new one. Ensure all connections are properly tightened and secured.
+       
+       Bleed the Brake System:
+       
+       After replacing the master cylinder, bleed the brake system to remove any air that may have entered during the replacement process.
+       . </p>
+</div>
+<div class="popup" id="popupJ">
+   <span class="close" onclick="closePopup()">&times;</span>
+   <h2>Inspect Brake Rotors:</h2>
+   <p>Check the brake rotors for warping or uneven surfaces. This can be done using a dial indicator to measure rotor runout.
+
+       Resurface or Replace Rotors:
+       
+       If the rotors are slightly warped, they can be resurfaced to restore a smooth, even surface. If they are severely warped or too thin, replace them with new ones.
+       
+       Proper Installation:
+       
+       Ensure that the rotors are installed correctly and the wheel lug nuts are torqued evenly to prevent future warping.</p>
+</div>
+<div class="popup" id="popupK">
+   <span class="close" onclick="closePopup()">&times;</span>
+   <h2>Inspect Brake Pads:</h2>
+   <p>Check the brake pads for uneven wear. Uneven thickness indicates a problem with the calipers or braking system alignment.
+
+       Replace Brake Pads:
+       
+       Replace the unevenly worn brake pads with new ones. Ensure to replace both pads on the same axle to maintain balanced braking.
+       
+       Check Calipers and Hardware:
+       
+       Inspect the brake calipers and related hardware for proper alignment an </p>
+</div>
+<div class="popup" id="popupL">
+   <span class="close" onclick="closePopup()">&times;</span>
+   <h2>Inspect for Balance: </h2>
+<p> Step 1:- Safety First: Park your car on a flat surface, engage the parking brake, and place wheel chocks behind the wheels.
+</p>
+<p> Step 2:- Lift the Car: Use a jack to lift the car and place it securely on jack stands.
+</p>
+<p> Step 3:- Remove the Wheel: Use a lug wrench to remove the wheel and expose the brake drum or rotor.
+</p>
+<p> Step 4:- Inspect the Brake Drum/Rotor: Check for any visible damage, wear, or warping. If you find any issues, you may need to replace the drum or rotor.
+</p>
+<p> Step 5:- Clean the Drum/Rotor: Use brake cleaner and a wire brush to clean the drum or rotor thoroughly.
+</p>
+<p> Step 6:- Check for Warping: Spin the drum or rotor and check for any wobbling or unevenness. If it's warped, you may need to have it machined or replaced.
+
+</p>
+<p> Step 7:- Adjust the Brake Shoes/Pad: If you have drum brakes, use the brake adjusting spoon or screwdriver to adjust the brake shoes so they are evenly spaced and parallel to each other.
+</p>
+<p> Step 8:- Reassemble: Reinstall the wheel and lower the car back to the ground.
+
+</p>
+<p> Step 9:- Test Drive: Take a short test drive to ensure the brakes are working smoothly and there is no more vibration or pulsing.</p>
+
+
+   <p>Check the brake drum or rotor for balance issues. A qualified mechanic can use specialized equipment to test and balance the components.
+
+       Balance or Replace:       
+       If the drum or rotor is found to be out of balance, have it balanced by a professional. If balancing is not possible due to damage, replace the component with a new one.
+       
+       Regular Maintenance:
+       
+       Regularly inspect the braking components for signs of imbalance or damage, and address any issues promptly to maintain smooth braking performance.. </p>
+</div>
+<div class="popup" id="popupM">
+   <span class="close" onclick="closePopup()">&times;</span>
+   <h2> Check the Parking Brake:</h2>
+
+
+
+
+
+
+   <p>Ensure the parking brake is fully released. Sometimes, it might not be fully disengaged even if it feels like it is.
+
+       Inspect the Parking Brake Switch:
+       
+       If the brake light remains on, there might be an issue with the parking brake switch. Have it inspected and replaced if necessary.
+       
+       Adjust or Replace the Parking Brake:
+       
+       If the parking brake lever is hard to release, it might need adjustment or replacement. </p>
+</div>
+<div class="popup" id="popupN">
+   <span class="close" onclick="closePopup()">&times;</span>
+   <h2>Check Brake Fluid Level:</h2>
+   <p>Inspect the brake fluid reservoir and refill it to the recommended level if it's low.
+
+       Inspect for Leaks:
+       
+       Look for any signs of brake fluid leaks around the brake lines, hoses, or master cylinder. Repair any leaks found.
+       
+       Bleed the Brake System:
+       
+       After refilling the brake fluid, bleed the brake system to remove any air that might have entered the lines</p>
+</div>
+<div class="popup" id="popupO">
+   <span class="close" onclick="closePopup()">&times;</span>
+   <h2>Inspect the Brake Light Switch: </h2>
+   <p>Check the brake light switch for any signs of damage or malfunction.
+
+       Replace the Brake Light Switch:
+       
+       If the switch is faulty, replace it with a new one. Ensure all connections are properly secured during installation.
+       
+       Test the New Switch:
+       
+       After replacing the switch, test the brake light to ensure it turns on and off correctly with the brake pedal.
+        </p>
+</div>
+<div class="popup" id="popupP">
+   <span class="close" onclick="closePopup()">&times;</span>
+   <h2>Inspect Brake Pads:</h2>
+   <p>Check the brake pads for uneven wear. Uneven thickness indicates a problem with the calipers or braking system alignment.
+
+       Replace Brake Pads:
+       
+       Replace the unevenly worn brake pads with new ones. Ensure to replace both pads on the same axle to maintain balanced braking.
+       
+       Check Calipers and Hardware:
+       
+       Inspect the brake calipers and related hardware for proper alignment and function. Clean and lubricate any sticking components to ensure even wear. </p>
+</div>
+<div class="popup" id="popupQ">
+   <span class="close" onclick="closePopup()">&times;</span>
+   <h2> Inspect Brake Calipers:</h2>
+<p> Step 1:- Safety First: Park your car on a flat surface, engage the parking brake, and turn off the engine. Wear safety glasses to protect your eyes.
+
+</p>
+<p> Step 2:- Loosen the Lug Nuts: Loosen the lug nuts on the wheel that's pulling to one side (don't remove them completely yet).
+
+</p>
+<p> Step 3:- Lift the Vehicle: Use a jack to lift the car and place it securely on jack stands.
+</p>
+<p> Step 4:- Remove the Wheel: Finish removing the lug nuts and take off the wheel to expose the brake caliper.
+</p>
+<p> Step 5:- Remove the Brake Caliper: Locate the caliper and remove the mounting bolts using a wrench. Carefully lift the caliper away from the rotor and support it with a hanger or tie so it’s not dangling by the brake line.
+</p>
+<p> Step 6:- Inspect the Brake Caliper: Check for visible signs of damage or wear. If the pistons are stuck, use a C-clamp or brake caliper tool to push them back into the caliper housing.
+</p>
+<p> Step 7:- Clean the Caliper and Bracket: Use brake cleaner and a wire brush to remove any debris, rust, or old brake pad residue from the caliper and bracket.
+
+</p>
+<p> Step 8:- Lubricate the Caliper Slides: Apply brake lubricant to the caliper slides to ensure smooth movement.
+</p>
+<p> Step 9:- Reassemble the Brake Components: Reinstall the brake caliper and secure it with the mounting bolts. Make sure everything is properly aligned.
+</p>
+<p> Step 10:- Replace the Wheel: Put the wheel back on and hand-tighten the lug nuts.
+</p>
+<p> Step 11:- Lower the Vehicle: Lower the car back to the ground and use a lug wrench to fully tighten the lug nuts in a star pattern.
+</p>
+<p> Step 12:- Test the Brakes: Start the car and press the brake pedal a few times to ensure the brakes are working smoothly and the vehicle no longer pulls to one side.</p>
+
+ <p>Check the brake calipers for signs of sticking or improper operation.
+
+       Clean and Lubricate Calipers:
+       
+       Clean the brake calipers and lubricate the caliper pins to ensure smooth operation.
+       
+       Replace Faulty Calipers:
+       
+       If the calipers are found to be faulty, replace them with new ones to ensure balanced braking.
+        </p>
+</div>
+<div class="popup" id="popupR">
+   <span class="close" onclick="closePopup()">&times;</span>
+   <h2>Check Tire Pressure: </h2>
+   <p> Regularly check the tire pressure and ensure all tires are inflated to the recommended levels specified by the vehicle manufacturer.
+
+       Inspect Tires for Damage
+       
+       Check the tires for any signs of damage or uneven wear, which can affect traction and braking performance.
+       
+       Maintain Proper Tire Pressure:
+       
+       Maintain proper tire pressure through regular checks and adjustments to ensure even traction and balanced braking.</p>
+</div>
+
+<!-- Help Button and Popup -->
+<button class="help-button" onclick="openHelp()">Need More Help?</button>
+
+<div class="popup" id="helpPopup">
+   <span class="close" onclick="closePopup()">&times;</span>
+   <h2>Need More Help?</h2>
+   <p>Contact our support team for additional assistance.</p>
+   <p>Email: support@carrepairhelp.com</p>
+   <p>Phone: +123 456 7890</p>
+</div>
+
+
+<!-- Help Button -->
+<button class="help-button" onclick="openHelpPage()">Need More Help?</button>
+
+<script>
+   
+   function optionClicked(option) {
+       document.querySelectorAll(".popup").forEach(popup => popup.style.display = "none");
+       const popup = document.getElementById(`popup${option}`);
+       if (popup) {
+           popup.style.display = "block";
+           document.getElementById("overlay").style.display = "block";
+       }
+   }
+   
+   function closePopup() {
+       document.querySelectorAll(".popup").forEach(popup => popup.style.display = "none");
+       document.getElementById("overlay").style.display = "none";
+   }
+   
+   // Search Functionality
+   function searchProblems() {
+       const input = document.getElementById("searchInput").value.toLowerCase();
+       const cards = document.querySelectorAll(".card");
+   
+       cards.forEach(card => {
+           const cardText = card.querySelector("p").textContent.toLowerCase();
+           card.style.display = cardText.includes(input) ? "block" : "none";
+       });
+   }
+   
+
+function openHelpPage() {
+   window.location.href = "/query";  // Redirect to the query page
+}
+
+function searchProblems() {
+   const input = document.getElementById("searchInput").value.toLowerCase();
+   alert(`Searching for: ${input}`);
+}
+</script>
+
+
+
+<!-- -------------------------------------Chat Bot------------------------------------------ -->
+
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-image: url('/Users/aditya/Desktop/W.png'); /* Replace with your image path */
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        margin: 0;
+    }
+
+    /* Chatbot styles */
+    .chat-button {
+        position: fixed;
+        bottom: 20px;
+        left: 20px; /* Move the button to the left corner */
+        background-color: #4caf50; /* Green color */
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+        text-align: center;
+        cursor: pointer;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s ease;
+    }
+
+    .chat-button:hover {
+        transform: scale(1.1);
+    }
+
+    .chat-window {
+        display: none;
+        position: fixed;
+        bottom: 90px;
+        left: 20px; /* Adjusted for left side */
+        width: 350px;
+        height: 500px;
+        border: 2px solid #4caf50; /* Green border */
+        border-radius: 10px;
+        background-color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        overflow: hidden;
+    }
+
+    .chat-header {
+        background-color: #4caf50; /* Green header */
+        color: white;
+        padding: 15px;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 500;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .chat-messages {
+        height: calc(100% - 150px);
+        overflow-y: auto;
+        padding: 10px;
+        background: #f9fff4; /* Light green background */
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .chat-messages div {
+        padding: 8px 12px;
+        border-radius: 10px;
+        max-width: 80%;
+    }
+
+    .user-message {
+        background-color: #4caf50; /* Green user messages */
+        color: white;
+        align-self: flex-end;
+    }
+
+    .bot-message {
+        background-color: #dff2df; /* Light green bot messages */
+        color: #333;
+        align-self: flex-start;
+    }
+
+    .chat-input {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 10px;
+        border-top: 1px solid #4caf50; /* Green border */
+        background: #f4f4f4;
+    }
+
+    .chat-input input {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 5px;
+        flex-grow: 1;
+    }
+
+    .chat-input button {
+        padding: 10px;
+        background-color: #4caf50; /* Green button */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+
+    .chat-input label {
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    .chat-input input[type="file"] {
+        display: none;
+    }
+
+    .chat-input button:hover {
+        background-color: #388e3c; /* Darker green on hover */
+    }
+
+    .chat-image {
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: 10px;
+        margin-top: 5px;
+    }
+</style>
+</head>
+<body>
+
+<!-- Chatbot Button -->
+<button class="chat-button" onclick="toggleChat()">💬</button>
+
+<!-- Chatbot Window -->
+<div class="chat-window" id="chatWindow">
+<div class="chat-header">Car Repair Assistant</div>
+<div class="chat-messages" id="chatMessages">
+    <div class="bot-message">Hello! How can I assist you with your car today?</div>
+</div>
+<div class="chat-input">
+    <input type="text" id="chatInput" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
+    <label for="chatFileInput" class="upload-btn">📷</label>
+    <input type="file" id="chatFileInput" accept="image/*" onchange="previewImage()">
+</div>
+</div>
+
+<script>
+// Chatbot functionality
+function toggleChat() {
+    const chatWindow = document.getElementById("chatWindow");
+    chatWindow.style.display = chatWindow.style.display === "block" ? "none" : "block";
+}
+
+function sendMessage() {
+    const input = document.getElementById("chatInput");
+    const messages = document.getElementById("chatMessages");
+    const userMessage = input.value.trim();
+
+    if (userMessage) {
+        const userMessageElement = document.createElement("div");
+        userMessageElement.className = "user-message";
+        userMessageElement.textContent = userMessage;
+        messages.appendChild(userMessageElement);
+
+        // Simulate chatbot response
+        const botMessageElement = document.createElement("div");
+        botMessageElement.className = "bot-message";
+        botMessageElement.textContent = "Bot: Thank you for sharing. Let me assist you!";
+        messages.appendChild(botMessageElement);
+
+        messages.scrollTop = messages.scrollHeight; // Auto-scroll
+        input.value = ""; // Clear input
+    }
+}
+
+function previewImage() {
+    const fileInput = document.getElementById("chatFileInput");
+    const file = fileInput.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const messages = document.getElementById("chatMessages");
+            const userMessageElement = document.createElement("div");
+            userMessageElement.className = "user-message";
+
+            // Create image element for the uploaded file
+            const img = document.createElement("img");
+            img.className = "chat-image";
+            img.src = event.target.result;
+            img.alt = "Uploaded Image";
+
+            userMessageElement.appendChild(img);
+            messages.appendChild(userMessageElement);
+
+            // Simulate chatbot response
+            const botMessageElement = document.createElement("div");
+            botMessageElement.className = "bot-message";
+            botMessageElement.textContent = "Bot: Image received. I'll analyze the issue shortly!";
+            messages.appendChild(botMessageElement);
+
+            messages.scrollTop = messages.scrollHeight; // Auto-scroll
+            fileInput.value = ""; // Clear file input
+        };
+        reader.readAsDataURL(file);
+    } else {
+        alert("Please select an image to upload.");
+    }
+}
+</script>
+
+</body>
+</html>
+
+
