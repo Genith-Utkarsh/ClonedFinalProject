@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Profile Page</title>
   <style>
+    /* Basic styles for the profile page */
     body {
       font-family: 'Poppins', sans-serif;
       background: #f2f2f2;
@@ -59,9 +60,9 @@
     <p id="user-email">Email: Loading...</p>
     <button id="logout-btn">Logout</button>
   </div>
-  
+
   <script>
-    // Firebase configuration (update with your actual configuration)
+    // Your Firebase configuration (ensure databaseURL is included)
     var firebaseConfig = {
       apiKey: "AIzaSyCCzT5d2u0IkWpZfF5FCr4PwKMHPaGrtE0",
       authDomain: "sample-login-33567.firebaseapp.com",
@@ -77,79 +78,47 @@
     var auth = firebase.auth();
     var database = firebase.database();
     
-    // Set persistence so the session is maintained
+    // Set persistence to LOCAL to maintain session on the same domain
     auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
       .then(function() {
         console.log("Persistence set to LOCAL.");
-        handleAuth();
+        // Listen for authentication state changes
+        auth.onAuthStateChanged(function(user) {
+          if (user) {
+            // User is signed in
+            var uid = user.uid;
+            document.getElementById("user-email").textContent = "Email: " + user.email;
+            // Retrieve user data from the Realtime Database (data stored under "users/{uid}")
+            database.ref('users/' + uid).once('value')
+              .then(function(snapshot) {
+                var userData = snapshot.val();
+                if (userData) {
+                  document.getElementById("user-name").textContent = "Name: " + userData.name;
+                  document.getElementById("user-phone").textContent = "Phone: " + userData.phone;
+                  document.getElementById("welcome-message").textContent = "Welcome " + userData.name + " to Example.com";
+                } else {
+                  document.getElementById("user-name").textContent = "Name: Data not found";
+                  document.getElementById("user-phone").textContent = "Phone: Data not found";
+                }
+              })
+              .catch(function(error) {
+                console.error("Error fetching user data:", error);
+              });
+          } else {
+            // No user is signed in; redirect to login page
+            window.location.href = "login.html"; // Ensure this points to your login page on the same domain
+          }
+        });
       })
       .catch(function(error) {
         console.error("Error setting persistence:", error);
       });
     
-    // Helper: Get query parameter by name
-    function getQueryParam(param) {
-      var urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(param);
-    }
-    
-    // Handle authentication on the profile page
-    function handleAuth() {
-      var token = getQueryParam('token');
-      if (token) {
-        // If a custom token is provided, use it to sign in the user
-        auth.signInWithCustomToken(token)
-          .then(function() {
-            console.log("Signed in with custom token.");
-            fetchUserData();
-          })
-          .catch(function(error) {
-            console.error("Error signing in with custom token:", error);
-          });
-      } else {
-        // If no token is provided, check if a user is already signed in
-        auth.onAuthStateChanged(function(user) {
-          console.log("Auth state changed. User:", user);
-          if (user) {
-            fetchUserData();
-          } else {
-            // No authenticated user found; redirect to login domain
-            window.location.href = "https://loginfirebase-v1.vercel.app/";
-          }
-        });
-      }
-    }
-    
-    // Fetch user data from Realtime Database and update the page
-    function fetchUserData() {
-      var user = auth.currentUser;
-      if (user) {
-        var uid = user.uid;
-        document.getElementById("user-email").textContent = "Email: " + user.email;
-        database.ref('users/' + uid).once('value')
-          .then(function(snapshot) {
-            var data = snapshot.val();
-            console.log("Fetched user data:", data);
-            if (data) {
-              document.getElementById("user-name").textContent = "Name: " + data.name;
-              document.getElementById("user-phone").textContent = "Phone: " + data.phone;
-              document.getElementById("welcome-message").textContent = "Welcome " + data.name + " to Example.com";
-            } else {
-              document.getElementById("user-name").textContent = "Name: Data not found";
-              document.getElementById("user-phone").textContent = "Phone: Data not found";
-            }
-          })
-          .catch(function(error) {
-            console.error("Error fetching user data:", error);
-          });
-      }
-    }
-    
     // Logout functionality
     document.getElementById("logout-btn").addEventListener("click", function() {
       auth.signOut()
         .then(function() {
-          window.location.href = "https://loginfirebase-v1.vercel.app/";
+          window.location.href = "login.html"; // Ensure this points to your login page on the same domain
         })
         .catch(function(error) {
           console.error("Error signing out:", error);
