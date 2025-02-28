@@ -1,114 +1,251 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="shortcut icon" href="https://i.pinimg.com/736x/c5/94/96/c5949627262b8098970838894f57c94e.jpg"/>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7fc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .container {
-            background-color: white;
-            padding: 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            width: 350px;
-        }
-
-        h2 {
-            text-align: center;
-            color: #333;
-        }
-
-        label {
-            font-size: 14px;
-            color: #555;
-            margin-bottom: 6px;
-            display: block;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            padding: 12px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-
-        .form-footer {
-            text-align: center;
-        }
-
-        .form-footer a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .form-footer a:hover {
-            text-decoration: underline;
-        }
-
-        .flash-message {
-            color: red;
-            font-size: 14px;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Login / Register</title>
+  <link rel="stylesheet" href="login.css">
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500&display=swap">
+  <style>
+    /* Global Styles */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    /* Container Styles */
+    .container {
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 8px;
+      box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+      width: 360px;
+      text-align: center;
+    }
+    .container h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    /* Message Styles */
+    #message {
+      margin-bottom: 15px;
+      padding: 10px;
+      display: none;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    #message.error {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    #message.success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    /* Input Styles */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px 15px;
+      margin: 8px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    /* Button Styles */
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #28a745;
+      border: none;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px 0;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #218838;
+    }
+    .google-btn {
+      background: #4285F4;
+    }
+    .google-btn:hover {
+      background: #357ae8;
+    }
+    /* Toggle Link Styles */
+    .toggle {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+    .toggle a {
+      color: #007bff;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .toggle a:hover {
+      text-decoration: underline;
+    }
+  </style>
+  <!-- Firebase App (the core Firebase SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <!-- Firebase Authentication -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <!-- Firebase Realtime Database -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 </head>
 <body>
-
-    <div class="container">
-        <h2>Login</h2>
-
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="flash-message">
-                    <p>{{ messages[0] }}</p>
-                </div>
-            {% endif %}
-        {% endwith %}
-
-        <form action="{{ url_for('login_page') }}" method="POST">
-            <label for="username">Username</label>
-            <input type="text" name="username" required><br>
-
-            <label for="password">Password</label>
-            <input type="password" name="password" required><br>
-
-            <input type="submit" value="Login">
-
-        </form>
-
-        <div class="form-footer">
-            <p>Don't have an account? <a href="{{ url_for('register_page') }}">Register here</a></p>
-        </div>
+  <div class="container">
+    <h2 id="form-title">Login</h2>
+    <!-- Message display -->
+    <div id="message"></div>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <!-- Additional fields for registration -->
+    <input type="text" id="username" placeholder="Name" style="display:none;">
+    <input type="text" id="phone" placeholder="Phone Number" style="display:none;">
+    <button id="submit-btn">Login</button>
+    <button class="google-btn" id="google-btn">Sign in with Google</button>
+    <div class="toggle">
+      <span id="toggle-text">
+        Don't have an account? <a id="toggle-link" href="javascript:void(0);">Sign up</a>
+      </span>
     </div>
-
+  </div>
+  <script>
+    // Your Firebase configuration – including databaseURL
+    var firebaseConfig = {
+      apiKey: "AIzaSyCCzT5d2u0IkWpZfF5FCr4PwKMHPaGrtE0",
+      authDomain: "sample-login-33567.firebaseapp.com",
+      databaseURL: "https://sample-login-33567-default-rtdb.firebaseio.com",
+      projectId: "sample-login-33567",
+      storageBucket: "sample-login-33567.firebasestorage.app",
+      messagingSenderId: "567157020233",
+      appId: "1:567157020233:web:ae6593986a25b26e5d1198"
+    };
+    
+    // Initialize Firebase using compat libraries
+    firebase.initializeApp(firebaseConfig);
+    var auth = firebase.auth();
+    var database = firebase.database();
+    
+    var formTitle = document.getElementById('form-title');
+    var submitBtn = document.getElementById('submit-btn');
+    var toggleText = document.getElementById('toggle-text');
+    var messageDiv = document.getElementById('message');
+    var isLogin = true;
+    
+    // Function to display inline messages
+    function displayMessage(text, type) {
+      messageDiv.textContent = text;
+      messageDiv.className = "";
+      messageDiv.classList.add(type);
+      messageDiv.style.display = 'block';
+      setTimeout(function() {
+        messageDiv.style.display = 'none';
+      }, 4000);
+    }
+    
+    // Toggle between Login and Sign Up
+    function toggleMode() {
+      isLogin = !isLogin;
+      formTitle.innerText = isLogin ? "Login" : "Sign Up";
+      submitBtn.innerText = isLogin ? "Login" : "Register";
+      toggleText.innerHTML = isLogin 
+        ? "Don't have an account? <a id='toggle-link' href='javascript:void(0);'>Sign up</a>"
+        : "Already have an account? <a id='toggle-link' href='javascript:void(0);'>Login</a>";
+      
+      // Show or hide additional fields for sign-up
+      document.getElementById('username').style.display = isLogin ? "none" : "block";
+      document.getElementById('phone').style.display = isLogin ? "none" : "block";
+      
+      // Reattach the event listener to the new toggle link
+      document.getElementById('toggle-link').addEventListener('click', toggleMode);
+    }
+    
+    // Initial event listener for the toggle link
+    document.getElementById('toggle-link').addEventListener('click', toggleMode);
+    
+    // Handle form submission
+    submitBtn.addEventListener('click', function() {
+      var email = document.getElementById('email').value.trim();
+      var password = document.getElementById('password').value;
+      
+      if (!email || !password) {
+        displayMessage("Please enter both email and password.", "error");
+        return;
+      }
+      
+      if (isLogin) {
+        // Log in user
+        auth.signInWithEmailAndPassword(email, password)
+          .then(function() {
+            displayMessage("Login successful!", "success");
+            setTimeout(function() {
+              window.location.href = "https://cloned-final-project.vercel.app/";
+            }, 1000);
+          })
+          .catch(function(error) {
+            displayMessage(error.message, "error");
+          });
+      } else {
+        // For registration, also get additional details
+        var username = document.getElementById('username').value.trim();
+        var phone = document.getElementById('phone').value.trim();
+        
+        if (!username || !phone) {
+          displayMessage("Please enter name and phone number.", "error");
+          return;
+        }
+        
+        // Create user with email and password
+        auth.createUserWithEmailAndPassword(email, password)
+          .then(function(userCredential) {
+            var user = userCredential.user;
+            // Save additional user details in the Realtime Database under a "users" node
+            return database.ref('users/' + user.uid).set({
+              name: username,
+              phone: phone,
+              email: email
+            });
+          })
+          .then(function() {
+            displayMessage("Registration successful!", "success");
+            setTimeout(function() {
+              window.location.href = "https://cloned-final-project.vercel.app/";
+            }, 1000);
+          })
+          .catch(function(error) {
+            displayMessage(error.message, "error");
+          });
+      }
+    });
+    
+    // Google Sign-In functionality using Firebase
+    var googleBtn = document.getElementById('google-btn');
+    googleBtn.addEventListener('click', function() {
+      var provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(function(result) {
+          displayMessage("Google sign-in successful!", "success");
+          setTimeout(function() {
+            window.location.href = "https://cloned-final-project.vercel.app/";
+          }, 1000);
+        })
+        .catch(function(error) {
+          displayMessage(error.message, "error");
+        });
+    });
+  </script>
 </body>
 </html>
