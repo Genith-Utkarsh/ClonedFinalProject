@@ -3,11 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Profile Page</title>
-  <link rel="stylesheet" href="profile.css">
-  <!-- Google Fonts -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500&display=swap">
   <style>
-    /* Inline CSS for profile page */
     body {
       font-family: 'Poppins', sans-serif;
       background: #f2f2f2;
@@ -65,7 +61,7 @@
   </div>
   
   <script>
-    // Firebase configuration with databaseURL included
+    // Firebase configuration (ensure databaseURL is included)
     var firebaseConfig = {
       apiKey: "AIzaSyCCzT5d2u0IkWpZfF5FCr4PwKMHPaGrtE0",
       authDomain: "sample-login-33567.firebaseapp.com",
@@ -81,7 +77,7 @@
     var auth = firebase.auth();
     var database = firebase.database();
     
-    // Set persistence so the user's session is maintained across pages
+    // Set persistence to LOCAL so the session is maintained
     auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
       .then(function() {
         console.log("Persistence set to LOCAL.");
@@ -90,20 +86,20 @@
         console.error("Error setting persistence:", error);
       });
     
-    // Debug: Log currentUser after a short delay
+    // Debug: Wait briefly then log current user
     setTimeout(function(){
-      console.log("Current user from auth.currentUser:", auth.currentUser);
+      console.log("auth.currentUser:", auth.currentUser);
     }, 1000);
     
     // Listen for authentication state changes
     auth.onAuthStateChanged(function(user) {
       console.log("Auth state changed. User:", user);
       if (user) {
-        // User is signed in.
+        // User is signed in; display basic info
         var uid = user.uid;
         document.getElementById("user-email").textContent = "Email: " + user.email;
         
-        // Fetch user data from Realtime Database at "users/{uid}"
+        // Fetch additional user data from Realtime Database (data stored under "users/{uid}")
         database.ref('users/' + uid).once('value')
           .then(function(snapshot) {
             var userData = snapshot.val();
@@ -113,24 +109,25 @@
               document.getElementById("user-phone").textContent = "Phone: " + userData.phone;
               document.getElementById("welcome-message").textContent = "Welcome " + userData.name + " to Example.com";
             } else {
-              document.getElementById("user-name").textContent = "Name: Not available";
-              document.getElementById("user-phone").textContent = "Phone: Not available";
+              document.getElementById("user-name").textContent = "Name: Data not found";
+              document.getElementById("user-phone").textContent = "Phone: Data not found";
             }
           })
           .catch(function(error) {
             console.error("Error fetching user data:", error);
           });
       } else {
-        console.log("No user is signed in. Redirecting to login page.");
-        window.location.href = "https://loginfirebase-v1.vercel.app/";
+        // No user is signed in; redirect to login page
+        console.log("No user signed in; redirecting to login page.");
+        window.location.href = "login.html";
       }
     });
     
-    // Logout functionality
+    // Logout button functionality
     document.getElementById("logout-btn").addEventListener("click", function() {
       auth.signOut()
         .then(function() {
-          window.location.href = "https://loginfirebase-v1.vercel.app/";
+          window.location.href = "login.html";
         })
         .catch(function(error) {
           console.error("Error signing out:", error);
