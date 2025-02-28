@@ -21,6 +21,10 @@ class User(db.Model):
 # Index page
 @app.route("/")
 def index_page():
+    return render_template("login.html")
+
+@app.route("/home")
+def index_page():
     return render_template("index.html")
 
 # Tyre page
