@@ -41,33 +41,39 @@
  }
 
  .search-bar {
- margin: 20px 0;
- display: flex;
- justify-content: center;
+ margin: 2rem 0;
  }
 
- .search-bar input {
- padding: 10px;
- font-size: 16px;
- border: 1px solid #ccc;
+ .search-bar input[type="text"] {
+ width: 50%;
+ padding: 0.5rem;
+ font-size: 1rem;
  border-radius: 5px;
- flex: 1;
- max-width: 500px;
+ border: 1px solid #ccc;
+ margin-right: 0.5rem;
  }
 
- .search-bar button {
- padding: 10px 20px;
- margin-left: 5px;
- font-size: 16px;
+ .search-bar input[type="submit"] {
+ padding: 0.5rem 1rem;
  background-color: #4CAF50;
  color: white;
  border: none;
  border-radius: 5px;
  cursor: pointer;
+ transition: background-color 0.3s;
  }
 
- .search-bar button:hover {
+ .search-bar input[type="submit"]:hover {
  background-color: #45a049;
+ }
+
+ .search-bar select {
+ width: 20%;
+ padding: 0.5rem;
+ font-size: 1rem;
+ border-radius: 5px;
+ border: 1px solid #ccc;
+ margin-right: 0.5rem;
  }
 
  .cards-container {
@@ -355,49 +361,43 @@ footer {
 </video>
 
 <div class="content">
- <h1>TYRE ASSISTANT</h1>
- <p style="color: #fff;">ANY PROBLEMS WITH THE ENGINE? YOU ARE AT THE RIGHT PLACE!</p>
-<!-- Search Bar -->
- <div class="search-bar">
- <input type="text" id="searchInput" placeholder="Search your problem...">
- <button onclick="searchProblems()">Search</button>
- </div>
+    <h1>TYRE ASSISTANT</h1>
+    <p style="color: #fff;">ANY PROBLEMS WITH THE ENGINE? YOU ARE AT THE RIGHT PLACE!</p>
+    <!-- Choose Car Dropdown -->
+    <div class="search-bar">
+        <select id="carSelect" onchange="checkCarSelection()">
+            <option disabled selected>Choose Car</option>
+            <option value="SUV">SUV</option>
+            <option value="Hatchback">Hatchback</option>
+            <option value="Sedan">Sedan</option>
+        </select>
+        <input type="text" id="searchInput" placeholder="Search your problem..." disabled>
+        <input type="submit" value="Search" onclick="searchProblems()" disabled>
+    </div>
 </div>
-</head>
-<body>
  
  <div class="cards-container">
- <div class="card">
- <h3>1</h3>
- <p> Puncture</p>
- <select onchange="optionClicked(this.value)">
- <option value="" selected disabled>Select Option</option>
- <option value="A">Loss of Air Pressure</option>
- <option value="B"> Steering Issues.</option>
- <option value="C">Visible DamageS
- </select>
- </div>
- <div class="card">
- <h3>2</h3>
- <p> tyre maintenance
- </p>
- <select onchange="optionClicked(this.value)">
- <option value="" selected disabled>Select Option</option>
- <option value="D">P1</option>
- <option value="E">P2
- </option>
- <option value="F"> P3
- </option>
- 
- 
- 
- 
- </option>
- </select>
- </div>
- </div>
-
- </option>
+    <div class="card">
+        <h3>1</h3>
+        <p>Puncture</p>
+        <select onchange="optionClicked(this.value)">
+            <option value="" selected disabled>Select Option</option>
+            <option value="A">Loss of Air Pressure</option>
+            <option value="B">Steering Issues</option>
+            <option value="C">Visible Damage</option>
+        </select>
+    </div>
+    <div class="card">
+        <h3>2</h3>
+        <p>Tyre Maintenance</p>
+        <select onchange="optionClicked(this.value)">
+            <option value="" selected disabled>Select Option</option>
+            <option value="D">P1</option>
+            <option value="E">P2</option>
+            <option value="F">P3</option>
+        </select>
+    </div>
+</div>
 
  <br><br>
 
@@ -608,105 +608,103 @@ If you're unable to identify or fix the issue, it's best to consult a profession
  <p>SOL 3.</p>
 </div>
 <div class="popup" id="popupD">
- <span class="close" onclick="closePopup()">&times;</span>
- <h2>P 1.</h2>
- <p>STEP 1 :
-    Check Tire Pressure:
+    <span class="close" onclick="closePopup()">&times;</span>
+    <h2>P1</h2>
+    <p>STEP 1 :
+        Check Tire Pressure:
 
-    Use a tire pressure gauge to measure the pressure of each tire.
-    
-    Compare it to the recommended pressure (found in your car's manual or on a sticker inside the driver's door frame).
-    
-    Adjust the pressure as needed, and check at least once a month and before long trips.
-</p>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0k_E8hAGrKLwQ1n-PvpQtCG1uwN1pqOadfg&s" alt="s1">
+        Use a tire pressure gauge to measure the pressure of each tire.
+        
+        Compare it to the recommended pressure (found in your car's manual or on a sticker inside the driver's door frame).
+        
+        Adjust the pressure as needed, and check at least once a month and before long trips.
+    </p>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0k_E8hAGrKLwQ1n-PvpQtCG1uwN1pqOadfg&s" alt="s1">
 
-<p>STEP 2 :
-    Inspect Tread Depth:
+    <p>STEP 2 :
+        Inspect Tread Depth:
 
-Use a tread depth gauge or the penny test: Insert a penny into the tread with Lincoln's head facing down. If you can see the top of Lincoln's head, it's time to replace the tire.
+        Use a tread depth gauge or the penny test: Insert a penny into the tread with Lincoln's head facing down. If you can see the top of Lincoln's head, it's time to replace the tire.
 
-Ensure the tread depth is at least 1.6 millimeters (2/32 inches) or more for safe driving.
-</p>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3bh1IeFQHIUOUnWRHNnQIP8NdrISuJKTNlA&s" alt="s2">
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZHl56IhAxd1tl_Xvzng-D0YjLo0Jh7bYcBw&s" alt="s22">
-<p>STEP 3 :
-    Rotate Tires:
+        Ensure the tread depth is at least 1.6 millimeters (2/32 inches) or more for safe driving.
+    </p>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3bh1IeFQHIUOUnWRHNnQIP8NdrISuJKTNlA&s" alt="s2">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZHl56IhAxd1tl_Xvzng-D0YjLo0Jh7bYcBw&s" alt="s22">
 
-Follow your car manufacturer's recommendation for tire rotation, typically every 6,000 to 8,000 kilometers (4,000 to 5,000 miles).
+    <p>STEP 3 :
+        Rotate Tires:
 
-Regular rotation helps ensure even tire wear and extends tire life.
-</p>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTx4Cq0ZlaOAUMG1HEitiGa3DFzGFsB9W-jEQ&s" alt="s3">
+        Follow your car manufacturer's recommendation for tire rotation, typically every 6,000 to 8,000 kilometers (4,000 to 5,000 miles).
 
-<p>STEP 4 :
-    Balance Tires:
+        Regular rotation helps ensure even tire wear and extends tire life.
+    </p>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTx4Cq0ZlaOAUMG1HEitiGa3DFzGFsB9W-jEQ&s" alt="s3">
 
-Have your tires balanced whenever you notice vibration or after a tire repair.
+    <p>STEP 4 :
+        Balance Tires:
 
-Balancing ensures smooth driving and prevents uneven wear.
-</p>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNZLRuXcxlQxr9MqNbFM7xSo6jHzooQ3FjKg&s" alt="S4">
+        Have your tires balanced whenever you notice vibration or after a tire repair.
 
-<p>STEP 5 :
-    Align Wheels:
+        Balancing ensures smooth driving and prevents uneven wear.
+    </p>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNZLRuXcxlQxr9MqNbFM7xSo6jHzooQ3FjKg&s" alt="S4">
 
-Get your wheels aligned every 20,000 to 30,000 kilometers (12,000 to 18,000 miles) or as recommended by your manufacturer.
+    <p>STEP 5 :
+        Align Wheels:
 
-Proper alignment ensures even tire wear and optimal handling.
-</p>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJqHy0GTHKhize6A3gNhmL8q17zlwJmPhxAA&s" alt="s5">
+        Get your wheels aligned every 20,000 to 30,000 kilometers (12,000 to 18,000 miles) or as recommended by your manufacturer.
 
-<p>STEP 6 :
-    Inspect for Damage:
+        Proper alignment ensures even tire wear and optimal handling.
+    </p>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJqHy0GTHKhize6A3gNhmL8q17zlwJmPhxAA&s" alt="s5">
 
-Regularly check for any cuts, punctures, bulges, or cracks on the tire surface and sidewalls.
+    <p>STEP 6 :
+        Inspect for Damage:
 
-Replace tires with significant damage or wear.
-</p>
-<img src="https://westlaketireusa.com/wp-content/uploads/2017/07/Tires101_inspection1a.jpg" alt="s6">
+        Regularly check for any cuts, punctures, bulges, or cracks on the tire surface and sidewalls.
 
-<p>STEP 7 :
-    Check Valve Stems:
+        Replace tires with significant damage or wear.
+    </p>
+    <img src="https://westlaketireusa.com/wp-content/uploads/2017/07/Tires101_inspection1a.jpg" alt="s6">
 
-    Ensure the valve stems are in good condition and not leaking.
-    
-    Replace damaged valve stems as needed.
-</p>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkPvzwE-yjOR_NWzffpw7Cf7ZJJPQrwCEzzg&s" alt="s9">
+    <p>STEP 7 :
+        Check Valve Stems:
 
-<p>STEP 8 :
-    Clean Tires:
+        Ensure the valve stems are in good condition and not leaking.
+        
+        Replace damaged valve stems as needed.
+    </p>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkPvzwE-yjOR_NWzffpw7Cf7ZJJPQrwCEzzg&s" alt="s9">
 
-Clean your tires regularly to remove dirt, debris, and road grime.
+    <p>STEP 8 :
+        Clean Tires:
 
-Use a mild soap and water solution or a tire cleaner.
-</p>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3ZjlRSs5PZbA6dRwKZmxqkLCai1z7Z8yVWA&s" alt="s8">
+        Clean your tires regularly to remove dirt, debris, and road grime.
 
-<p>STEP 9 :
-    Monitor Tire Age:
+        Use a mild soap and water solution or a tire cleaner.
+    </p>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3ZjlRSs5PZbA6dRwKZmxqkLCai1z7Z8yVWA&s" alt="s8">
 
-    Tires generally last around 6 to 10 years depending on usage and conditions.
-    
-    Check the manufacturing date on the tire sidewall (usually indicated by a four-digit code, e.g., 3219 means the 32nd week of 2019).
-</p>
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2ZScRWE74nkCzJ1trDDAxK8SbKQbqGRtHQw&s" alt="s9">
+    <p>STEP 9 :
+        Monitor Tire Age:
 
-
+        Tires generally last around 6 to 10 years depending on usage and conditions.
+        
+        Check the manufacturing date on the tire sidewall (usually indicated by a four-digit code, e.g., 3219 means the 32nd week of 2019).
+    </p>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2ZScRWE74nkCzJ1trDDAxK8SbKQbqGRtHQw&s" alt="s9">
 </div>
 <div class="popup" id="popupE">
- <span class="close" onclick="closePopup()">&times;</span>
- <h2>p 2</h2>
- <p> sol 2. </p>
+    <span class="close" onclick="closePopup()">&times;</span>
+    <h2>P2</h2>
+    <div id="p2Content"></div>
 </div>
 <div class="popup" id="popupF">
- <span class="close" onclick="closePopup()">&times;</span>
- <h2>p3</h2>
- <p>sol 3</p>
+    <span class="close" onclick="closePopup()">&times;</span>
+    <h2>P3</h2>
+    <div id="p3Content"></div>
 </div>
 
-</div>
 <!-- Chatbot Button -->
 <button class="chat-button" onclick="toggleChat()">💬</button>
 
@@ -753,13 +751,20 @@ Use a mild soap and water solution or a tire cleaner.
  }
  
  function optionClicked(option) {
- document.querySelectorAll(".popup").forEach(popup => popup.style.display = "none");
- const popup = document.getElementById(`popup${option}`);
- if (popup) {
- popup.style.display = "block";
- document.getElementById("overlay").style.display = "block";
- }
- }
+    const carSelect = document.getElementById("carSelect");
+    if (carSelect.value === "Choose Car") {
+        alert("Please choose a car type first.");
+        return;
+    }
+
+    document.querySelectorAll(".popup").forEach(popup => popup.style.display = "none");
+    const popup = document.getElementById(`popup${option}`);
+    if (popup) {
+        popup.style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+        updatePopupContent(option);
+    }
+}
  
  function closePopup() {
  document.querySelectorAll(".popup").forEach(popup => popup.style.display = "none");
@@ -785,6 +790,59 @@ function openHelpPage() {
 function searchProblems() {
  const input = document.getElementById("searchInput").value.toLowerCase();
  alert(`Searching for: ${input}`);
+}
+
+function checkCarSelection() {
+    const carSelect = document.getElementById("carSelect");
+    const searchInput = document.getElementById("searchInput");
+    const searchButton = document.querySelector(".search-bar input[type='submit']");
+
+    if (carSelect.value !== "Choose Car") {
+        searchInput.disabled = false;
+        searchButton.disabled = false;
+    } else {
+        searchInput.disabled = true;
+        searchButton.disabled = true;
+    }
+}
+
+function searchProblems() {
+    const input = document.getElementById("searchInput").value.toLowerCase();
+    alert(`Searching for: ${input}`);
+}
+
+function updatePopupContent(option) {
+    const carType = document.getElementById("carSelect").value;
+    let content = "";
+
+    if (option === "D") {
+        if (carType === "SUV") {
+            content = "<p>SUV Tyre Maintenance: Ensure proper inflation, check for wear and tear, and rotate tyres every 5,000 miles.</p>";
+        } else if (carType === "Hatchback") {
+            content = "<p>Hatchback Tyre Maintenance: Regularly check tyre pressure, inspect for punctures, and rotate tyres every 6,000 miles.</p>";
+        } else if (carType === "Sedan") {
+            content = "<p>Sedan Tyre Maintenance: Maintain correct tyre pressure, look for uneven wear, and rotate tyres every 7,000 miles.</p>";
+        }
+        document.getElementById("p1Content").innerHTML = content;
+    } else if (option === "E") {
+        if (carType === "SUV") {
+            content = "<p>SUV Tyre Maintenance: Balance tyres regularly, check alignment, and replace tyres every 50,000 miles.</p>";
+        } else if (carType === "Hatchback") {
+            content = "<p>Hatchback Tyre Maintenance: Ensure tyres are balanced, check for alignment issues, and replace tyres every 40,000 miles.</p>";
+        } else if (carType === "Sedan") {
+            content = "<p>Sedan Tyre Maintenance: Balance tyres periodically, inspect alignment, and replace tyres every 45,000 miles.</p>";
+        }
+        document.getElementById("p2Content").innerHTML = content;
+    } else if (option === "F") {
+        if (carType === "SUV") {
+            content = "<p>SUV Tyre Maintenance: Regularly inspect for damage, maintain proper inflation, and replace tyres every 60,000 miles.</p>";
+        } else if (carType === "Hatchback") {
+            content = "<p>Hatchback Tyre Maintenance: Check for punctures, maintain correct pressure, and replace tyres every 50,000 miles.</p>";
+        } else if (carType === "Sedan") {
+            content = "<p>Sedan Tyre Maintenance: Inspect for wear, ensure proper inflation, and replace tyres every 55,000 miles.</p>";
+        }
+        document.getElementById("p3Content").innerHTML = content;
+    }
 }
 
 </script>
