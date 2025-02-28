@@ -57,7 +57,7 @@
 </head>
 <body>
   <div class="profile-container">
-    <h1 id="welcome-message">Welcome to Car Mechanic</h1>
+    <h1 id="welcome-message">Welcome to Example.com</h1>
     <p id="user-name">Name: Loading...</p>
     <p id="user-phone">Phone: Loading...</p>
     <p id="user-email">Email: Loading...</p>
@@ -65,7 +65,7 @@
   </div>
   
   <script>
-    // Your Firebase configuration (including databaseURL)
+    // Your Firebase configuration (ensure databaseURL is included)
     var firebaseConfig = {
       apiKey: "AIzaSyCCzT5d2u0IkWpZfF5FCr4PwKMHPaGrtE0",
       authDomain: "sample-login-33567.firebaseapp.com",
@@ -81,36 +81,43 @@
     var auth = firebase.auth();
     var database = firebase.database();
     
-    // Listen for auth state changes
-    auth.onAuthStateChanged(function(user) {
-      if (user) {
-        // User is signed in; get their UID.
-        var uid = user.uid;
-        // Display email from auth info
-        document.getElementById("user-email").textContent = "Email: " + user.email;
-        
-        // Fetch additional user details from the Realtime Database
-        var userRef = database.ref('users/' + uid);
-        userRef.once('value')
-          .then(function(snapshot) {
-            var userData = snapshot.val();
-            if (userData) {
-              document.getElementById("user-name").textContent = "Name: " + userData.name;
-              document.getElementById("user-phone").textContent = "Phone: " + userData.phone;
-              document.getElementById("welcome-message").textContent = "Welcome " + userData.name + " Car Mechanic ";
-            } else {
-              document.getElementById("user-name").textContent = "Name: Not available";
-              document.getElementById("user-phone").textContent = "Phone: Not available";
-            }
-          })
-          .catch(function(error) {
-            console.error("Error fetching user data:", error);
-          });
-      } else {
-        // No user is signed in; redirect to login page.
-        window.location.href = "https://loginfirebase-v1.vercel.app/";
-      }
-    });
+    // Set persistence so the user's session is maintained
+    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+      .then(function() {
+        // Once persistence is set, listen for auth state changes
+        auth.onAuthStateChanged(function(user) {
+          if (user) {
+            // User is signed in.
+            var uid = user.uid;
+            // Display the email from auth info
+            document.getElementById("user-email").textContent = "Email: " + user.email;
+            
+            // Retrieve additional user details from Realtime Database
+            var userRef = database.ref('users/' + uid);
+            userRef.once('value')
+              .then(function(snapshot) {
+                var userData = snapshot.val();
+                if (userData) {
+                  document.getElementById("user-name").textContent = "Name: " + userData.name;
+                  document.getElementById("user-phone").textContent = "Phone: " + userData.phone;
+                  document.getElementById("welcome-message").textContent = "Welcome " + userData.name + " to Example.com";
+                } else {
+                  document.getElementById("user-name").textContent = "Name: Not available";
+                  document.getElementById("user-phone").textContent = "Phone: Not available";
+                }
+              })
+              .catch(function(error) {
+                console.error("Error fetching user data:", error);
+              });
+          } else {
+            // No user is signed in, redirect to login page.
+            window.location.href = "https://loginfirebase-v1.vercel.app/";
+          }
+        });
+      })
+      .catch(function(error) {
+        console.error("Error setting persistence:", error);
+      });
     
     // Logout functionality
     document.getElementById("logout-btn").addEventListener("click", function() {
