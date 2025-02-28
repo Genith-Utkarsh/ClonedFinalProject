@@ -1,146 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="https://i.pinimg.com/736x/c5/94/96/c5949627262b8098970838894f57c94e.jpg"/>
-    <title>User Profile</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        header {
-            width: 100%;
-            background-color: #333;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            font-size: 24px;
-        }
-
-        .content {
-            max-width: 800px;
-            margin-top: 20px;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            text-align: left;
-        }
-
-        .content h1 {
-            color: #2e7d32;
-            font-size: 28px;
-        }
-
-        .content p {
-            font-size: 16px;
-            margin: 10px 0;
-        }
-
-        label {
-            display: block;
-            font-weight: 500;
-            margin: 15px 0 5px;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        .submit-btn {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            display: block;
-            margin: 0 auto;
-            transition: background-color 0.3s;
-        }
-
-        .submit-btn:hover {
-            background-color: #45a049;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Profile Page</title>
+  <link rel="stylesheet" href="profile.css">
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500&display=swap">
+  <style>
+    /* Inline CSS for simplicity */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .profile-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 400px;
+      text-align: center;
+    }
+    .profile-container h1 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .profile-container p {
+      font-size: 16px;
+      color: #555;
+      margin: 8px 0;
+    }
+    .profile-container button {
+      padding: 10px 20px;
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+    .profile-container button:hover {
+      background: #c82333;
+    }
+  </style>
+  <!-- Firebase App (the core Firebase SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <!-- Firebase Authentication -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <!-- Firebase Realtime Database -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 </head>
 <body>
-
-<header>
-    <h1>User Profile</h1>
-</header>
-
-<div class="content">
-    <h1>Welcome to Car Mechanic</h1>
-    <p>Please update your details and car information below:</p>
+  <div class="profile-container">
+    <h1 id="welcome-message">Welcome to Car Mechanic</h1>
+    <p id="user-name">Name: Loading...</p>
+    <p id="user-phone">Phone: Loading...</p>
+    <p id="user-email">Email: Loading...</p>
+    <button id="logout-btn">Logout</button>
+  </div>
+  
+  <script>
+    // Your Firebase configuration (including databaseURL)
+    var firebaseConfig = {
+      apiKey: "AIzaSyCCzT5d2u0IkWpZfF5FCr4PwKMHPaGrtE0",
+      authDomain: "sample-login-33567.firebaseapp.com",
+      databaseURL: "https://sample-login-33567-default-rtdb.firebaseio.com",
+      projectId: "sample-login-33567",
+      storageBucket: "sample-login-33567.firebasestorage.app",
+      messagingSenderId: "567157020233",
+      appId: "1:567157020233:web:ae6593986a25b26e5d1198"
+    };
     
-    <form id="profileForm">
-        <label for="name">Name</label>
-        <input type="text" id="name" placeholder="Enter your name" required>
-
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="Enter your email" required>
-
-        <label for="contact">Contact Info</label>
-        <input type="tel" id="contact" placeholder="Enter your contact number" required>
-
-        <label for="car">Select Your Car</label>
-        <select id="car" required>
-            <option value="" disabled selected>Select your car brand</option>
-            <option value="Toyota">Toyota</option>
-            <option value="Honda">Honda</option>
-            <option value="Ford">Ford</option>
-            <option value="Chevrolet">Chevrolet</option>
-            <option value="BMW">BMW</option>
-        </select>
-
-        <label for="model">Select Your Model</label>
-        <select id="model" required>
-            <option value="" disabled selected>Select your car model</option>
-            <option value="Model A">Model A</option>
-            <option value="Model B">Model B</option>
-            <option value="Model C">Model C</option>
-            <option value="Model D">Model D</option>
-            <option value="Model E">Model E</option>
-        </select>
-
-        <button type="button" class="submit-btn" onclick="saveProfile()">Save Profile</button>
-    </form>
-</div>
-
-<script>
-    function saveProfile() {
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const contact = document.getElementById('contact').value;
-        const car = document.getElementById('car').value;
-        const model = document.getElementById('model').value;
-
-        if (!name || !email || !contact || !car || !model) {
-            alert("Please fill out all fields.");
-            return;
-        }
-
-        // Redirect to success page
-        window.location.href = "http://127.0.0.1:5000/success";
-    }
-</script>
-
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    var auth = firebase.auth();
+    var database = firebase.database();
+    
+    // Listen for auth state changes
+    auth.onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in; get their UID.
+        var uid = user.uid;
+        // Display email from auth info
+        document.getElementById("user-email").textContent = "Email: " + user.email;
+        
+        // Fetch additional user details from the Realtime Database
+        var userRef = database.ref('users/' + uid);
+        userRef.once('value')
+          .then(function(snapshot) {
+            var userData = snapshot.val();
+            if (userData) {
+              document.getElementById("user-name").textContent = "Name: " + userData.name;
+              document.getElementById("user-phone").textContent = "Phone: " + userData.phone;
+              document.getElementById("welcome-message").textContent = "Welcome " + userData.name + " Car Mechanic ";
+            } else {
+              document.getElementById("user-name").textContent = "Name: Not available";
+              document.getElementById("user-phone").textContent = "Phone: Not available";
+            }
+          })
+          .catch(function(error) {
+            console.error("Error fetching user data:", error);
+          });
+      } else {
+        // No user is signed in; redirect to login page.
+        window.location.href = "https://loginfirebase-v1.vercel.app/";
+      }
+    });
+    
+    // Logout functionality
+    document.getElementById("logout-btn").addEventListener("click", function() {
+      auth.signOut().then(function() {
+        window.location.href = "https://loginfirebase-v1.vercel.app/";
+      }).catch(function(error) {
+        console.error("Error signing out:", error);
+      });
+    });
+  </script>
 </body>
 </html>
