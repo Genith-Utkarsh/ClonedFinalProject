@@ -5,61 +5,63 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>User Input</title>
   <!-- Bootstrap CSS -->
-  <link
-    rel="stylesheet"
-    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-  />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
   <!-- Google Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
   <!-- FontAwesome for icons -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
   <style>
     body {
       font-family: 'Roboto', sans-serif;
-      background: linear-gradient(135deg, #74ABE2, #5563DE);
+      background: linear-gradient(135deg, #ffffff, #ffffff);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 20px;
     }
     .card {
       width: 100%;
-      max-width: 500px;
+      max-width: 550px;
+      background-color: #fff; /* Form background set to white */
       border: none;
-      border-radius: 15px;
+      border-radius: 20px;
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
     }
     .card-header {
-      background: #5563DE;
+      background: #4CAF50;
       color: #fff;
-      border-top-left-radius: 15px;
-      border-top-right-radius: 15px;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
       text-align: center;
       font-size: 1.5rem;
+      padding: 1rem;
     }
     .input-group-text {
       background: #fff;
       border: none;
-      color: #5563DE;
+      color: #4CAF50;
       font-size: 1.2rem;
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
     }
-    .form-control {
+    .form-control, .custom-select {
       border-left: 0;
+      border-radius: 0 20px 20px 0;
+    }
+    .form-group {
+      margin-bottom: 1.2rem;
     }
     .btn-custom {
-      background: #5563DE;
+      background: #4CAF50;
       color: #fff;
       border: none;
       transition: background 0.3s;
+      border-radius: 20px;
+      padding: 0.6rem;
     }
     .btn-custom:hover {
-      background: #4453b3;
+      background: #388E3C;
     }
   </style>
 </head>
@@ -68,71 +70,107 @@
     <div class="card-header">Enter Your Details</div>
     <div class="card-body">
       <form id="userForm">
+        <!-- Name Field -->
         <div class="form-group">
-          <div class="input-group mb-3">
+          <div class="input-group">
             <div class="input-group-prepend">
-              <span class="input-group-text"
-                ><i class="fas fa-user"></i
-              ></span>
+              <span class="input-group-text">
+                <i class="fas fa-user"></i>
+              </span>
             </div>
-            <input
-              type="text"
-              id="name"
-              class="form-control"
-              placeholder="Enter your name"
-              required
-            />
+            <input type="text" id="name" class="form-control" placeholder="Enter your name" required />
           </div>
         </div>
+        <!-- Mobile Field -->
         <div class="form-group">
-          <div class="input-group mb-3">
+          <div class="input-group">
             <div class="input-group-prepend">
-              <span class="input-group-text"
-                ><i class="fas fa-phone"></i
-              ></span>
+              <span class="input-group-text">
+                <i class="fas fa-phone"></i>
+              </span>
             </div>
-            <input
-              type="text"
-              id="mobile"
-              class="form-control"
-              placeholder="Enter your mobile number"
-              required
-            />
+            <input type="text" id="mobile" class="form-control" placeholder="Enter your mobile number" required />
           </div>
         </div>
+        <!-- Email Field -->
         <div class="form-group">
-          <div class="input-group mb-3">
+          <div class="input-group">
             <div class="input-group-prepend">
-              <span class="input-group-text"
-                ><i class="fas fa-envelope"></i
-              ></span>
+              <span class="input-group-text">
+                <i class="fas fa-envelope"></i>
+              </span>
             </div>
-            <input
-              type="email"
-              id="email"
-              class="form-control"
-              placeholder="Enter your email"
-              required
-            />
+            <input type="email" id="email" class="form-control" placeholder="Enter your email" required />
           </div>
         </div>
-        <button type="submit" class="btn btn-custom btn-block">
-          Submit
-        </button>
+        <!-- Car Model Field -->
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fas fa-car"></i>
+              </span>
+            </div>
+            <select id="carModel" class="custom-select" required>
+              <option value="" disabled selected>Select Car Model</option>
+              <option value="Toyota">Toyota</option>
+              <option value="Honda">Honda</option>
+              <option value="BMW">BMW</option>
+              <option value="Mercedes">Mercedes</option>
+              <option value="Tesla">Tesla</option>
+            </select>
+          </div>
+        </div>
+        <!-- Car Type Field -->
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fas fa-cogs"></i>
+              </span>
+            </div>
+            <select id="carType" class="custom-select" required>
+              <option value="" disabled selected>Select Car Type</option>
+              <option value="Sedan">Sedan</option>
+              <option value="SUV">SUV</option>
+              <option value="Hatchback">Hatchback</option>
+              <option value="Convertible">Convertible</option>
+              <option value="Truck">Truck</option>
+            </select>
+          </div>
+        </div>
+        <!-- Region Field -->
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fas fa-map-marker-alt"></i>
+              </span>
+            </div>
+            <input type="text" id="region" class="form-control" placeholder="Enter your region" required />
+          </div>
+        </div>
+        <!-- City Field -->
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fas fa-city"></i>
+              </span>
+            </div>
+            <input type="text" id="city" class="form-control" placeholder="Enter your city" required />
+          </div>
+        </div>
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-custom btn-block">Submit</button>
       </form>
     </div>
   </div>
 
   <!-- Firebase Modular SDKs -->
   <script type="module">
-    // Import the functions you need from the SDKs
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-    import {
-      getDatabase,
-      ref,
-      push,
-      set
-    } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+    import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
 
     // Your Firebase configuration
     const firebaseConfig = {
@@ -144,7 +182,7 @@
       appId: "1:124553004439:web:63ba5a87d1a09f0d5d70d2"
     };
 
-    // Initialize Firebase and get the Realtime Database instance
+    // Initialize Firebase and get Database instance
     const appFirebase = initializeApp(firebaseConfig);
     const database = getDatabase(appFirebase);
 
@@ -155,6 +193,10 @@
       const name = document.getElementById("name").value;
       const mobile = document.getElementById("mobile").value;
       const email = document.getElementById("email").value;
+      const carModel = document.getElementById("carModel").value;
+      const carType = document.getElementById("carType").value;
+      const region = document.getElementById("region").value;
+      const city = document.getElementById("city").value;
 
       // Create a new entry in the "users" collection
       const usersRef = ref(database, "users");
@@ -163,16 +205,19 @@
       set(newUserRef, {
         name: name,
         mobile: mobile,
-        email: email
+        email: email,
+        carModel: carModel,
+        carType: carType,
+        region: region,
+        city: city
       })
-        .then(() => {
-          alert("User info submitted successfully");
-          // Optionally clear the form after submission
-          document.getElementById("userForm").reset();
-        })
-        .catch((error) => {
-          alert("Error: " + error);
-        });
+      .then(() => {
+        alert("User info submitted successfully");
+        document.getElementById("userForm").reset();
+      })
+      .catch((error) => {
+        alert("Error: " + error);
+      });
     });
   </script>
 </body>
