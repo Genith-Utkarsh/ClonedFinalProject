@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>User Input</title>
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+  />
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
   <!-- FontAwesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
   <style>
     body {
       font-family: 'Roboto', sans-serif;
@@ -24,7 +33,7 @@
       max-width: 500px;
       border: none;
       border-radius: 15px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
     }
     .card-header {
       background: #5563DE;
@@ -62,36 +71,69 @@
         <div class="form-group">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text"><i class="fas fa-user"></i></span>
+              <span class="input-group-text"
+                ><i class="fas fa-user"></i
+              ></span>
             </div>
-            <input type="text" id="name" class="form-control" placeholder="Enter your name" required>
+            <input
+              type="text"
+              id="name"
+              class="form-control"
+              placeholder="Enter your name"
+              required
+            />
           </div>
         </div>
         <div class="form-group">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text"><i class="fas fa-phone"></i></span>
+              <span class="input-group-text"
+                ><i class="fas fa-phone"></i
+              ></span>
             </div>
-            <input type="text" id="mobile" class="form-control" placeholder="Enter your mobile number" required>
+            <input
+              type="text"
+              id="mobile"
+              class="form-control"
+              placeholder="Enter your mobile number"
+              required
+            />
           </div>
         </div>
         <div class="form-group">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+              <span class="input-group-text"
+                ><i class="fas fa-envelope"></i
+              ></span>
             </div>
-            <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+            <input
+              type="email"
+              id="email"
+              class="form-control"
+              placeholder="Enter your email"
+              required
+            />
           </div>
         </div>
-        <button type="submit" class="btn btn-custom btn-block">Submit</button>
+        <button type="submit" class="btn btn-custom btn-block">
+          Submit
+        </button>
       </form>
     </div>
   </div>
 
-  <!-- Firebase JS SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js"></script>
-  <script>
+  <!-- Firebase Modular SDKs -->
+  <script type="module">
+    // Import the functions you need from the SDKs
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+    import {
+      getDatabase,
+      ref,
+      push,
+      set
+    } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+
     // Your Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyB6AUhDTbiY9j-Ji6dvkeQPJHL6Ft5PnNo",
@@ -102,33 +144,35 @@
       appId: "1:124553004439:web:63ba5a87d1a09f0d5d70d2"
     };
 
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const database = firebase.database(app);
+    // Initialize Firebase and get the Realtime Database instance
+    const appFirebase = initializeApp(firebaseConfig);
+    const database = getDatabase(appFirebase);
 
     // Handle form submission
-    document.getElementById('userForm').addEventListener('submit', function(e) {
+    document.getElementById("userForm").addEventListener("submit", function (e) {
       e.preventDefault();
-      
-      const name = document.getElementById('name').value;
-      const mobile = document.getElementById('mobile').value;
-      const email = document.getElementById('email').value;
 
-      // Push data to Firebase Realtime Database under 'users'
-      const userRef = database.ref('users').push();
-      userRef.set({
+      const name = document.getElementById("name").value;
+      const mobile = document.getElementById("mobile").value;
+      const email = document.getElementById("email").value;
+
+      // Create a new entry in the "users" collection
+      const usersRef = ref(database, "users");
+      const newUserRef = push(usersRef);
+
+      set(newUserRef, {
         name: name,
         mobile: mobile,
         email: email
-      }, function(error) {
-        if (error) {
-          alert('Error: ' + error);
-        } else {
-          alert('User info submitted successfully');
-          // Optionally, you can clear the form fields
-          document.getElementById('userForm').reset();
-        }
-      });
+      })
+        .then(() => {
+          alert("User info submitted successfully");
+          // Optionally clear the form after submission
+          document.getElementById("userForm").reset();
+        })
+        .catch((error) => {
+          alert("Error: " + error);
+        });
     });
   </script>
 </body>
