@@ -1,3 +1,957 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://i.pinimg.com/736x/c5/94/96/c5949627262b8098970838894f57c94e.jpg"/>
+    <title>What Are You Looking For?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #003865;
+            padding: 1rem;
+            position: relative;
+            font-family: 'Roboto', sans-serif;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            margin: 0 0.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s, transform 0.2s;
+            margin-left: 20px;
+            font-weight: 500;
+        }
+
+        .navbar a:hover {
+            background-color: #002a4d;
+            transform: translateY(-2px);
+        }
+
+        .navbar a.active {
+            background-color: #002a4d;
+            font-weight: 600;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            right: 1rem;
+        }
+
+        .profile img {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin-right: 0.75rem;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            flex: 1;
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h1 {
+            color: #003865;
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        p {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .search-bar {
+            margin: 2rem auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.75rem;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .search-bar input[type="text"] {
+            width: 60%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e0e0e0;
+            margin-right: 0;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+
+        .search-bar input[type="text"]:focus {
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+        }
+
+        .search-bar input[type="submit"] {
+            padding: 0.75rem 1.5rem;
+            background-color: #4299e1;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            font-size: 1rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .search-bar input[type="submit"]:hover {
+            background-color: #3182ce;
+            transform: translateY(-2px);
+        }
+
+        .search-bar select {
+            width: 30%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e0e0e0;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+
+        .search-bar select:focus {
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+        }
+
+        .key-components {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .key-components .component {
+            flex: 1;
+            min-width: 250px;
+            max-width: 350px;
+            margin: 0;
+            padding: 1.5rem;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 0.75rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: left;
+            border: 1px solid #f0f0f0;
+        }
+
+        .key-components .component:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .key-components .component h2 {
+            color: #4299e1;
+            margin-bottom: 0.75rem;
+            font-size: 1.5rem;
+        }
+
+        .key-components .component h2 a {
+            color: #4299e1;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .key-components .component h2 a:hover {
+            color: #3182ce;
+        }
+
+        .key-components .component p {
+            color: #666;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        .key-components .component p:hover {
+            color: #4a5568;
+        }
+
+        footer {
+            background-color: #003865;
+            color: white;
+            padding: 2.5rem 0;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+            border-top: 1px solid #002a4d;
+        }
+
+        .footer-section {
+            margin: 0 2rem;
+            text-align: left;
+        }
+
+        .footer-section h2 {
+            color: #fff;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .footer-section p {
+            color: #e0e0e0;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        #background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.85;
+        }
+
+        header h1:hover{
+            color: #4299e1;
+        }
+
+        .dark-mode {
+            background-color: #1a202c;
+            color: #f7fafc;
+        }
+        .dark-mode .navbar {
+            background-color: #2d3748;
+             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .dark-mode .navbar a {
+            color: #f7fafc;
+        }
+        .dark-mode .navbar a:hover {
+            background-color: #4a5568;
+        }
+        .dark-mode .key-components .component {
+            background-color: #2d3748;
+            color: #f7fafc;
+            border-color: #4a5568;
+             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .dark-mode .key-components .component h2{
+            color: #a0aec0;
+        }
+        .dark-mode .key-components .component a:hover{
+             color: #f56565;
+        }
+
+
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background: #a7dcf3;
+            border-radius: 1.2rem;
+            cursor: pointer;
+            transition: background 0.5s;
+            display: flex;
+            align-items: center;
+            padding: 0.25rem;
+            margin-right: 1rem;
+            text-align: center;
+            border: 2px solid #86efac;
+        }
+
+        .toggle-switch::before {
+            content: '\1F31E';
+            position: absolute;
+            left: 0.3rem;
+            font-size: 1.2rem;
+            transition: left 0.5s;
+            color: #fcd34d;
+
+        }
+
+        .toggle-button {
+            width: 1.1rem;
+            height: 1.1rem;
+            background: white;
+            border-radius: 50%;
+            position: relative;
+            transition: transform 0.5s;
+        }
+
+        .dark-mode .toggle-switch {
+            background: #1A202C;
+            margin-right: 1rem;
+            border-color: #4a5568;
+
+
+        }
+
+        .dark-mode .toggle-switch::before {
+            content: '\1F319';
+            left: 2.1rem;
+            color: #cbd5e0;
+
+
+        }
+
+        .dark-mode .toggle-button {
+            transform: translateX(26px);
+
+        }
+
+        .dark-mode {
+            background: #1a202c;
+            color: #f7fafc;
+
+
+        }
+
+        .text {
+            margin-top: 0px;
+            font-size: 1rem;
+            color: #4a5568;
+        }
+        .containe {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            background: #fff;
+            color: #003865;
+            padding: 0.5rem 1rem;
+            border-radius: 1.2rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 2px solid #86efac;
+            gap: 0.5rem;
+
+
+        }
+       .containe:hover{
+          background-color: #f0fdf4;
+       }
+
+
+
+
+        /* chat-bot */
+
+        .car-chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            transform: translateY(1000px);
+            transition: transform 0.3s ease-in-out;
+            width: 90%;
+            max-width: 600px;
+            height: 80vh;
+            max-height: 800px;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            z-index: 1000;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .car-chatbot-container.active {
+            transform: translateY(0);
+        }
+
+        .car-chatbot-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .car-chatbot-header h1{
+             color: #003865;
+        }
+
+        .car-chatbot-messages {
+            margin-bottom: 1rem;
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            background-color: #f7fafc;
+        }
+        .car-chatbot-message {
+            display: flex;
+            margin-bottom: 0.75rem;
+        }
+        .car-chatbot-message-content {
+            padding: 0.75rem 1rem;
+            border-radius: 1.3rem;
+            max-width: 85%;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        .car-chatbot-message.user .car-chatbot-message-content {
+            background-color: #e0f7fa;
+            color: #003865;
+            margin-left: auto;
+            border-top-right-radius: 0.25rem;
+        }
+        .car-chatbot-message.bot .car-chatbot-message-content {
+            background-color: #f0f4c3;
+            color: #003865;
+            margin-right: auto;
+            border-top-left-radius: 0.25rem;
+        }
+        .car-chatbot-input-area {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .car-chatbot-input-area input {
+            flex: 1;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+            outline: none;
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+        .car-chatbot-input-area input:focus {
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+        }
+
+        .car-chatbot-input-area button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            background-color: #4299e1;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+        .car-chatbot-input-area button:hover {
+            background-color: #3182ce;
+        }
+
+        .car-chatbot-input-area button:disabled{
+            background-color: #a0aec0;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        #car-chatbot-loading-indicator {
+            display: none;
+            margin: 1rem auto;
+            border-radius: 50%;
+            width: 2rem;
+            height: 2rem;
+            border: 0.3rem solid rgba(66, 153, 225, 0.3);
+            border-top: 0.3rem solid #4299e1;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .car-chatbot-suggestion-box {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: #edf2f7;
+            border: 1px solid #e2e8f0;
+        }
+
+        .car-chatbot-suggestion-box p {
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+            color: #4a5568;
+            font-size: 1rem;
+        }
+
+        .car-chatbot-suggestion-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .car-chatbot-suggestion-list li {
+            background-color: #f56565;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 0.875rem;
+            white-space: nowrap;
+        }
+
+        .car-chatbot-suggestion-list li:hover {
+            background-color: #c53030;
+        }
+        .car-chatbot-icon{
+            width: 1rem;
+            height: 1rem;
+        }
+
+        #car-chatbot-toggle-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1001;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            background-color: #4299e1;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        #car-chatbot-toggle-button:hover {
+            background-color: #3182ce;
+             transform: translateY(-2px);
+        }
+
+    </style>
+</head>
+<body>
+
+    <video id="background-video" autoplay loop muted>
+        <source src="https://videos.pexels.com/video-files/11676133/11676133-uhd_2560_1440_24fps.mp4">
+    </video>
+
+    <div class="navbar">
+        <div style="font-size: 1rem; padding: 0.75rem 1.5rem; padding-left: 20px;">
+            <a href="#" class="active">HOME</a>
+            <a href="/about">SERVICES</a>
+            <a href="/about">RECORDS</a>
+            <a href="#">CONTACT</a>
+        </div>
+        <div class="profile">
+            <img src="https://i.pinimg.com/736x/c5/94/96/c5949627262b8098970838894f57c94e.jpg" alt="Profile Picture">
+            <a href="/profile">PROFILE</a>
+        </div>
+    </div>
+
+    <div>
+        <div id=containerrr>
+            What are you looking for?
+            <div id=flip>
+              <div><div>ENGINE?</div></div>
+              <div><div>BRAKE?</div></div>
+              <div><div>TYRE?</div></div>
+            </div>
+            All at one place !
+          </div>
+          <style>
+            @import url('https://fonts.googleapis.com/css?family=Roboto:700');
+
+            #containerrr {
+              color: #b6fc03;
+              text-shadow: 2px 2px;
+              text-transform: uppercase;
+              font-size: 2.25rem;
+              font-weight: bold;
+              padding-top: 1.25rem;
+              position: relative;
+              width: 100%;
+              bottom: 45%;
+              display: block;
+              margin-top: 20px;
+              text-align: center;
+            }
+
+            #flip {
+              height: 3.125rem;
+              overflow: hidden;
+            }
+
+            #flip > div > div {
+              color:#fff;
+              padding: 0.25rem 0.75rem;
+              height: 2.8125rem;
+              margin-bottom: 2.8125rem;
+              display: inline-block;
+            }
+
+            #flip div:first-child {
+              animation: show 5s linear infinite;
+            }
+
+            #flip div div {background:#efe81f;
+            }
+            #flip div:first-child div {
+              background:#4ec7f3;
+            }
+            #flip div:last-child div {
+              background:#DC143C;
+            }
+
+            @keyframes show {
+              0% {margin-top:-16.875rem;}
+              5% {margin-top:-11.25rem;}
+              33% {margin-top:-11.25rem;}
+              38% {margin-top:-5.625rem;}
+              66% {margin-top:-5.625rem;}
+              71% {margin-top:0px;}
+              99.99% {margin-top:0px;}
+              100% {margin-top:-16.875rem;}
+            }
+
+          </style>
+    </div>
+
+    <div class="container">
+
+        <div class="search-bar">
+            <select>
+                <option disabled selected>Choose Car</option>
+                <option value="car1">Car 1</option>
+                <option value="car2">Car 2</option>
+                <option value="car3">Car 3</option>
+                <option value="car4">Car 4</option>
+                <option value="car5">Car 5</option>
+            </select>
+            <input type="text" placeholder="Search your problem...">
+            <input type="submit" value="Search">
+        </div>
+
+        <div class="key-components">
+            <div class="component">
+                <h2><a href="/engine">Engine Repair</a></h2>
+                <p>Expert advice on fixing engine problems.</p>
+            </div>
+            <div class="component">
+                <h2><a href="/brake">Brake Systems</a></h2>
+                <p>Learn how to maintain and repair your brakes.</p>
+            </div>
+            <div class="component">
+                <h2><ahref="/trans">Transmission</a></h2>
+                <p>Tips on keeping your transmission running smoothly.</p>
+            </div>
+
+        </div>
+
+        <div class="key-components">
+            <div class="component">
+                <h2><a href="/tyre">Tyre Assistant</a></h2>
+                <p>All the Tyre Assisting Aid with easy solutions.</p>
+            </div>
+            <div class="component">
+                <h2><a href="">Coming Soon</a></h2>
+                <p></p>
+            </div>
+            <div class="component">
+                <h2><a href="">Coming Soon</a></h2>
+                <p></p>
+            </div>
+        </div>
+    </div>
+
+     <div class="containe">
+        <div class="toggle-switch" onclick="toggleMode()">
+            <div class="toggle-button"></div>
+        </div>
+        <div class="text">Light mode</div>
+    </div>
+
+    <script>
+    function toggleMode() {
+            document.body.classList.toggle("dark-mode");
+            const textElement = document.querySelector(".text");
+            if (document.body.classList.contains("dark-mode")) {
+                textElement.textContent = "  Dark mode";
+            } else {
+                textElement.textContent = "  Light mode";
+            }
+        }
+
+
+    </script>
+
+
+    <script>
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+        });
+    </script>
+
+
+    <footer>
+        <div class="footer-section">
+            <h2>About Us</h2>
+            <p>We provide top-notch car maintenance and repair advice.</p>
+        </div>
+        <div class="footer-section">
+            <h2>Contact</h2>
+            <p>Reach out to us with your questions. We're here to help!</p>
+        </div>
+        <div class="footer-section">
+            <h2>Help</h2>
+            <p>Visit our help section for FAQs, tutorials, and guides.</p>
+        </div>
+    </footer>
+
+
+
+    <button id="car-chatbot-toggle-button">
+        <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/message-circle.svg" alt="Chatbot" class="car-chatbot-icon">
+        Chatbot
+    </button>
+
+    <div class="car-chatbot-container" id="car-chatbot-container">
+        <header class="car-chatbot-header">
+            <h1>CarChatBot</h1>
+            <p class="text-gray-600">Your Virtual Car Assistant</p>
+        </header>
+        <div class="car-chatbot-messages" id="car-chatbot-messages">
+            </div>
+        <div class="car-chatbot-input-area">
+            <input type="text" id="car-chatbot-user-input" placeholder="Enter your car problem...">
+            <button id="car-chatbot-send-button" disabled>
+                <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/send.svg" alt="Send" class="car-chatbot-icon">
+                Send
+            </button>
+        </div>
+        <div id="car-chatbot-loading-indicator"></div>
+        <div class="car-chatbot-suggestion-box" id="car-chatbot-suggestion-box">
+             <p>Here are some common car problems:</p>
+                <ul class="car-chatbot-suggestion-list" id="car-chatbot-suggestion-list">
+                    </ul>
+        </div>
+    </div>
+
+    <script>
+        const chatMessages = document.getElementById('car-chatbot-messages');
+        const userInput = document.getElementById('car-chatbot-user-input');
+        const sendButton = document.getElementById('car-chatbot-send-button');
+        const loadingIndicator = document.getElementById('car-chatbot-loading-indicator');
+        const suggestionList = document.getElementById('car-chatbot-suggestion-list');
+        const suggestionBox = document.getElementById('car-chatbot-suggestion-box');
+        const chatbotContainer = document.getElementById('car-chatbot-container');
+        const chatbotToggleButton = document.getElementById('car-chatbot-toggle-button');
+
+
+        // Sample car problems and solutions (Knowledge Base)
+        const knowledgeBase = {
+            "engine won't start": "Check the battery, starter motor, and fuel supply.",
+            "flat tire": "Replace the tire with the spare tire.  Consider using a tire repair kit.  Visit a service station.",
+            "overheating": "Check coolant level, radiator, and water pump. Stop the car immediately to avoid damage.",
+            "brakes not working": "Check brake fluid level and brake pads.  This is an emergency, seek professional help immediately!",
+            "car battery dead": "Jump-start the battery or replace it.",
+            "check engine light on": "This could be many issues.  Check your car's computer with an OBD-II scanner.",
+            "low tire pressure": "Inflate your tires to the recommended pressure.",
+            "squealing brakes": "This often indicates worn brake pads.  Have them inspected.",
+            "car shakes when driving": "Could be due to unbalanced tires, wheel alignment, or suspension issues.",
+            "smoke from engine": "Stop the car immediately, this could indicate a serious problem like a coolant leak or electrical fire.",
+            "transmission problems": "Difficulty shifting gears can indicate a transmission issue.  Get it checked by a mechanic.",
+            "steering wheel hard to turn": "Check power steering fluid.  Could also be a problem with the power steering pump.",
+            "exhaust smoking": "Blue smoke indicates burning oil, white smoke could be a coolant leak, black smoke could be a fuel mixture problem.",
+            "engine stalls frequently": "Could be due to faulty spark plugs, fuel filter, or other fuel system issues.",
+            "AC not working": "Check refrigerant levels, compressor, and fuses.",
+        };
+
+        const commonProblems = [
+            "engine won't start",
+            "flat tire",
+            "overheating",
+            "brakes not working",
+            "car battery dead",
+            "check engine light on",
+            "low tire pressure",
+            "squealing brakes",
+        ];
+
+        function populateSuggestions() {
+            commonProblems.forEach(problem => {
+                const listItem = document.createElement('li');
+                listItem.textContent = problem;
+                listItem.addEventListener('click', () => {
+                    userInput.value = problem;
+                    handleInputChange();
+                });
+                suggestionList.appendChild(listItem);
+            });
+        }
+
+        function getBotResponse(userInputText) {
+            const lowerCaseInput = userInputText.toLowerCase();
+            let response = "I'm sorry, I don't have information on that problem.  Please try rephrasing, or consult a mechanic.";
+
+            for (const problem in knowledgeBase) {
+                if (lowerCaseInput.includes(problem)) {
+                    response = knowledgeBase[problem];
+                    break;
+                }
+            }
+            return response;
+        }
+
+        function addMessage(sender, text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('car-chatbot-message', sender);
+            const messageContentDiv = document.createElement('div');
+            messageContentDiv.classList.add('car-chatbot-message-content');
+            messageContentDiv.textContent = text;
+            messageDiv.appendChild(messageContentDiv);
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function handleInputChange() {
+            sendButton.disabled = !userInput.value.trim();
+        }
+
+        function sendMessage() {
+            const userText = userInput.value;
+            if (!userText.trim()) return;
+
+            addMessage('user', userText);
+            userInput.value = '';
+            sendButton.disabled = true;
+            loadingIndicator.style.display = 'block';
+            suggestionBox.style.display = 'none';
+
+            setTimeout(() => {
+                const botResponse = getBotResponse(userText);
+                addMessage('bot', botResponse);
+                loadingIndicator.style.display = 'none';
+                suggestionBox.style.display = 'block';
+            }, 1500);
+        }
+
+        userInput.addEventListener('input', handleInputChange);
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' && !sendButton.disabled) {
+                sendMessage();
+            }
+        });
+
+        chatbotToggleButton.addEventListener('click', () => {
+            chatbotContainer.classList.toggle('active');
+            if (chatbotContainer.classList.contains('active')) {
+                 chatbotToggleButton.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/x-circle.svg" alt="Close" class="car-chatbot-icon"> Close`;
+            } else {
+                chatbotToggleButton.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/message-circle.svg" alt="Chatbot" class="car-chatbot-icon"> Chatbot`;
+            }
+        });
+
+        window.onload = () => {
+            addMessage('bot', "Hello! I'm CarChatBot, your virtual car assistant.  What problem are you experiencing?");
+            populateSuggestions();
+        };
+    </script>
+
+
+
+
+<script>
+    // Search Functionality
+    function searchProblems() {
+        const input = document.getElementById("searchInput").value.toLowerCase();
+        const cards = document.querySelectorAll(".card");
+
+        cards.forEach(card => {
+            const cardText = card.querySelector("p").textContent.toLowerCase();
+            if (cardText.includes(input)) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    }
+
+    function optionClicked(option) {
+        document.querySelectorAll(".popup").forEach(popup => popup.style.display = "none");
+        const popup = document.getElementById(`popup${option}`);
+        if (popup) {
+            popup.style.display = "block";
+            document.getElementById("overlay").style.display = "block";
+        }
+    }
+
+    function closePopup() {
+        document.querySelectorAll(".popup").forEach(popup => popup.style.display = "none");
+        document.getElementById("overlay").style.display = "none";
+    }
+
+    function openHelp() {
+        const helpPopup = document.getElementById("helpPopup");
+        helpPopup.style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+    }
+</script>
+
+
+</body>
+</html>
+ -->
+
+
+
+
+
+<!--  new code  -->
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
