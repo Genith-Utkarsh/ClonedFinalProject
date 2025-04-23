@@ -300,20 +300,34 @@
         /* chat-bot */
 
         	
-        body {
+       body {
             font-family: 'Poppins', sans-serif;
         }
         .car-chatbot-container {
-            max-width: 600px;
-            margin: 2rem auto;
+            /* Removed max-width, margin, added fixed positioning and transform */
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            transform: translateY(1000px); /* Start hidden below the viewport */
+            transition: transform 0.3s ease-in-out; /* Smooth transition */
+            width: 300px; /* Minimal width */
+            height: 400px; /* Minimal height */
             padding: 1rem;
             border-radius: 0.75rem;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             background-color: white;
+            z-index: 1000; /* Ensure it's above other elements */
+            overflow: hidden; /* Hide overflowing content during transition */
+            border: 1px solid #e2e8f0;
         }
+
+        .car-chatbot-container.active {
+            transform: translateY(0); /* Slide up into view */
+        }
+
         .car-chatbot-header {
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
         .car-chatbot-header h1{
              color: #003865; /* Darker blue, more professional */
@@ -321,7 +335,7 @@
 
         .car-chatbot-messages {
             margin-bottom: 1rem;
-            height: 300px;
+            height: 250px; /* Adjusted height */
             overflow-y: auto;
             padding: 0.5rem;
             border-radius: 0.5rem;
@@ -447,6 +461,27 @@
             height: 1rem;
         }
 
+        #car-chatbot-toggle-button {
+            position: fixed; /* Fix button to bottom right */
+            bottom: 20px;
+            right: 20px;
+            z-index: 1001; /* Sit on top of everything */
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            background-color: #4299e1;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        #car-chatbot-toggle-button:hover {
+            background-color: #3182ce;
+        }
 
     </style>
 </head>
@@ -679,28 +714,15 @@ body {
     <!-- --------------------------------------------Chat Bot---------------------------------------------------------- -->
 
 
-    <!-- Chatbot Button  -->
-<!-- <button class="chat-button" onclick="toggleChat()">💬</button>
 
-<div class="chat-window" id="chatWindow" style="display: none;">
-    <div class="chat-header">Car Repair Assistant</div>
-    <div class="chat-messages" id="chatMessages">
-        <div class="bot-message">Hello! How can I assist you with your car today?</div>
-        <div class="bot-message">
-            <button onclick="displayBrakeInfo()">Brake</button>
-            <button onclick="displayTransmissionInfo()">Transmission</button>
-            <button onclick="displayEngineInfo()">Engine</button>
-            <button onclick="displayTyreInfo()">Tyre</button>
-            <button onclick="displayans1()">What is recommended tyre pressure?</button>
-        </div>
-    </div>
-    <div class="chat-input">
-        <input type="text" id="chatInput" placeholder="Type your message...">
-        <button onclick="sendMessage()">Send</button>
-    </div>
-</div> -->
 
-    <div class="car-chatbot-container">
+
+    <button id="car-chatbot-toggle-button">
+        <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/message-circle.svg" alt="Chatbot" class="car-chatbot-icon">
+        Chatbot
+    </button>
+
+    <div class="car-chatbot-container" id="car-chatbot-container">
         <header class="car-chatbot-header">
             <h1>CarChatBot</h1>
             <p class="text-gray-600">Your Virtual Car Assistant</p>
@@ -729,6 +751,8 @@ body {
         const loadingIndicator = document.getElementById('car-chatbot-loading-indicator');
         const suggestionList = document.getElementById('car-chatbot-suggestion-list');
         const suggestionBox = document.getElementById('car-chatbot-suggestion-box');
+        const chatbotContainer = document.getElementById('car-chatbot-container');
+        const chatbotToggleButton = document.getElementById('car-chatbot-toggle-button');
 
 
         // Sample car problems and solutions (Knowledge Base)
@@ -827,12 +851,47 @@ body {
             }
         });
 
+        chatbotToggleButton.addEventListener('click', () => {
+            chatbotContainer.classList.toggle('active');
+            if (chatbotContainer.classList.contains('active')) {
+                 //chatbotToggleButton.textContent = "Close Chatbot";
+                 chatbotToggleButton.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/x-circle.svg" alt="Close" class="car-chatbot-icon"> Close`;
+            } else {
+                //chatbotToggleButton.textContent = "Open Chatbot";
+                chatbotToggleButton.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/message-circle.svg" alt="Chatbot" class="car-chatbot-icon"> Chatbot`;
+            }
+        });
+
         window.onload = () => {
             addMessage('bot', "Hello! I'm CarChatBot, your virtual car assistant.  What problem are you experiencing?");
             populateSuggestions();
         };
     </script>
 
+
+    <!-- Chatbot Button  -->
+<!-- <button class="chat-button" onclick="toggleChat()">💬</button>
+
+<div class="chat-window" id="chatWindow" style="display: none;">
+    <div class="chat-header">Car Repair Assistant</div>
+    <div class="chat-messages" id="chatMessages">
+        <div class="bot-message">Hello! How can I assist you with your car today?</div>
+        <div class="bot-message">
+            <button onclick="displayBrakeInfo()">Brake</button>
+            <button onclick="displayTransmissionInfo()">Transmission</button>
+            <button onclick="displayEngineInfo()">Engine</button>
+            <button onclick="displayTyreInfo()">Tyre</button>
+            <button onclick="displayans1()">What is recommended tyre pressure?</button>
+        </div>
+    </div>
+    <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Type your message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div> -->
+
+
+<!-- 
 <script>
     function toggleChat() {
         const chatWindow = document.getElementById("chatWindow");
@@ -895,7 +954,7 @@ body {
 
         messages.scrollTop = messages.scrollHeight;
     }
-</script>
+</script> -->
 
 
 <script>
@@ -946,6 +1005,4 @@ body {
 
     
 
-</body>
-</html>
- --> 
+<
