@@ -13,7 +13,9 @@
   <style>
     body {
       font-family: 'Roboto', sans-serif;
-      background: linear-gradient(135deg, #ffffff, #ffffff);
+      background: 
+        linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)),
+        url('https://images.unsplash.com/photo-1503376780353-7e6692767b70') center/cover no-repeat fixed;
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -22,46 +24,56 @@
     }
     .card {
       width: 100%;
-      max-width: 550px;
-      background-color: #fff; /* Form background set to white */
+      max-width: 600px;
+      background-color: #fff;
       border: none;
       border-radius: 20px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .card-header {
-      background: #4CAF50;
+      background: linear-gradient(90deg, #43cea2, #185a9d);
       color: #fff;
-      border-top-left-radius: 20px;
-      border-top-right-radius: 20px;
       text-align: center;
-      font-size: 1.5rem;
-      padding: 1rem;
+      font-size: 1.7rem;
+      padding: 1.2rem;
     }
     .input-group-text {
       background: #fff;
       border: none;
-      color: #4CAF50;
+      color: #185a9d;
       font-size: 1.2rem;
-      border-top-left-radius: 20px;
-      border-bottom-left-radius: 20px;
     }
     .form-control, .custom-select {
       border-left: 0;
       border-radius: 0 20px 20px 0;
+      box-shadow: none !important;
     }
     .form-group {
-      margin-bottom: 1.2rem;
+      margin-bottom: 1.5rem;
     }
     .btn-custom {
-      background: #4CAF50;
+      background: #43cea2;
       color: #fff;
       border: none;
+      border-radius: 30px;
+      padding: 0.75rem 1.5rem;
+      font-weight: 500;
       transition: background 0.3s;
-      border-radius: 20px;
-      padding: 0.6rem;
     }
     .btn-custom:hover {
-      background: #388E3C;
+      background: #2ebfa5;
+    }
+    .form-helper {
+      font-size: 0.85rem;
+      color: #888;
+      margin-top: -10px;
+      margin-bottom: 15px;
     }
   </style>
 </head>
@@ -72,39 +84,43 @@
       <form id="userForm">
         <!-- Name Field -->
         <div class="form-group">
+          <label for="name">Full Name</label>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
                 <i class="fas fa-user"></i>
               </span>
             </div>
-            <input type="text" id="name" class="form-control" placeholder="Enter your name" required />
+            <input type="text" id="name" class="form-control" placeholder="Enter your full name" required />
           </div>
         </div>
         <!-- Mobile Field -->
         <div class="form-group">
+          <label for="mobile">Mobile Number</label>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
                 <i class="fas fa-phone"></i>
               </span>
             </div>
-            <input type="text" id="mobile" class="form-control" placeholder="Enter your mobile number" required />
+            <input type="tel" id="mobile" class="form-control" placeholder="e.g., +1234567890" required />
           </div>
         </div>
         <!-- Email Field -->
         <div class="form-group">
+          <label for="email">Email Address</label>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
                 <i class="fas fa-envelope"></i>
               </span>
             </div>
-            <input type="email" id="email" class="form-control" placeholder="Enter your email" required />
+            <input type="email" id="email" class="form-control" placeholder="your@email.com" required />
           </div>
         </div>
         <!-- Car Model Field -->
         <div class="form-group">
+          <label for="carModel">Car Model</label>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
@@ -123,6 +139,7 @@
         </div>
         <!-- Car Type Field -->
         <div class="form-group">
+          <label for="carType">Car Type</label>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
@@ -141,6 +158,7 @@
         </div>
         <!-- Region Field -->
         <div class="form-group">
+          <label for="region">Region</label>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
@@ -152,6 +170,7 @@
         </div>
         <!-- City Field -->
         <div class="form-group">
+          <label for="city">City</label>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
@@ -172,7 +191,6 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
     import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
 
-    // Your Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyB6AUhDTbiY9j-Ji6dvkeQPJHL6Ft5PnNo",
       authDomain: "profilev1-5297f.firebaseapp.com",
@@ -182,11 +200,9 @@
       appId: "1:124553004439:web:63ba5a87d1a09f0d5d70d2"
     };
 
-    // Initialize Firebase and get Database instance
     const appFirebase = initializeApp(firebaseConfig);
     const database = getDatabase(appFirebase);
 
-    // Handle form submission
     document.getElementById("userForm").addEventListener("submit", function (e) {
       e.preventDefault();
 
@@ -198,18 +214,17 @@
       const region = document.getElementById("region").value;
       const city = document.getElementById("city").value;
 
-      // Create a new entry in the "users" collection
       const usersRef = ref(database, "users");
       const newUserRef = push(usersRef);
 
       set(newUserRef, {
-        name: name,
-        mobile: mobile,
-        email: email,
-        carModel: carModel,
-        carType: carType,
-        region: region,
-        city: city
+        name,
+        mobile,
+        email,
+        carModel,
+        carType,
+        region,
+        city
       })
       .then(() => {
         alert("User info submitted successfully");
