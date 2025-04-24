@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Appointment Scheduler</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f4f7fa;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .appointments, .new-appointment, .calendar {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    .appointments ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .appointments li {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .appointments li:last-child {
+      border-bottom: none;
+    }
+
+    .new-appointment form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .new-appointment input, .new-appointment button {
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .new-appointment button {
+      background: #2ecc71;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .new-appointment button:hover {
+      background: #27ae60;
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+      text-align: center;
+    }
+
+    .calendar div {
+      padding: 10px;
+      background: #ecf0f1;
+      border-radius: 6px;
+    }
+
+    .calendar .day-name {
+      font-weight: bold;
+      background: #bdc3c7;
+    }
+
+    .calendar .today {
+      background: #3498db;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📅 Appointment Scheduler</h1>
+
+    <div class="appointments">
+      <h2>Existing Appointments</h2>
+      <ul>
+        <li>✅ Dr. Patel - 25 April 2025, 10:00 AM</li>
+        <li>✅ Meeting with Client - 26 April 2025, 2:00 PM</li>
+        <!-- Add more here -->
+      </ul>
+    </div>
+
+    <div class="new-appointment">
+      <h2>Schedule New Appointment</h2>
+      <form>
+        <input type="text" placeholder="Appointment Title" required />
+        <input type="date" required />
+        <input type="time" required />
+        <button type="submit">Add Appointment</button>
+      </form>
+    </div>
+
+    <div class="calendar">
+      <div class="day-name">Sun</div>
+      <div class="day-name">Mon</div>
+      <div class="day-name">Tue</div>
+      <div class="day-name">Wed</div>
+      <div class="day-name">Thu</div>
+      <div class="day-name">Fri</div>
+      <div class="day-name">Sat</div>
+      
+      <!-- Example static calendar for a month -->
+      <div></div><div></div><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div>
+      <div>6</div><div>7</div><div>8</div><div class="today">9</div><div>10</div><div>11</div><div>12</div>
+      <!-- ...continue for the rest of the month -->
+    </div>
+  </div>
+</body>
+</html>
