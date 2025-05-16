@@ -33,6 +33,12 @@ def tyre_page():
     return render_template("tyre.html")
 
 
+# records Records
+
+app.route("/records")
+def tyre_page():
+    return render_template("records.html")
+
     #Profile page
 @app.route("/profile")
 def profile_page():
