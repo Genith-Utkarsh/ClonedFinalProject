@@ -742,3 +742,595 @@ function previewImage() {
 
 </body>
 </html>
+
+<!-- 
+updated code -->
+
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Repair Help</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="https://i.pinimg.com/736x/c5/94/96/c5949627262b8098970838894f57c94e.jpg" onerror="this.href='https://placehold.co/32x32/4CAF50/FFFFFF?text=CRH'">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overscroll-behavior-y: none; /* Prevents pull-to-refresh issues on mobile with fixed elements */
+        }
+
+        #background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -10; /* Ensure it's behind everything */
+            opacity: 0.6; /* Slightly more visible but still subtle */
+        }
+
+        .content-wrapper { /* New wrapper for main content to prevent overlap with fixed footer/header */
+            padding-bottom: 120px; /* Adjust based on footer height */
+            padding-top: 80px; /* Adjust based on header height */
+        }
+
+        .card select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%234CAF50%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right .7em top 50%;
+            background-size: .65em auto;
+            padding-right: 2.5em; /* Make space for arrow */
+        }
+        .chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+        .chat-messages::-webkit-scrollbar-thumb {
+            background-color: #4CAF50; /* scrollbar color */
+            border-radius: 4px;
+        }
+        .chat-messages::-webkit-scrollbar-track {
+            background-color: #e0e0e0; /* scrollbar track color */
+        }
+        .loader {
+            border: 4px solid #f3f3f3; /* Light grey */
+            border-top: 4px solid #4CAF50; /* Green */
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Ensure popups are visible and centered */
+        .popup-active {
+            display: flex !important; /* Use flex to help center */
+            align-items: center;
+            justify-content: center;
+            opacity: 1 !important;
+            transform: translate(-50%, -50%) scale(1) !important;
+        }
+        .popup-inactive {
+            opacity: 0 !important;
+            transform: translate(-50%, -50%) scale(0.95) !important;
+            pointer-events: none;
+        }
+         .chat-window-active {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+            bottom: 100px; /* Adjust based on your floating button positions */
+            left: 20px;
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            .chat-window-active {
+                bottom: 128px; /* md:bottom-32 */
+                left: 32px; /* md:left-8 */
+            }
+        }
+        .chat-window-inactive {
+            opacity: 0 !important;
+            transform: scale(0.95) !important;
+            pointer-events: none;
+        }
+
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <video id="background-video" autoplay loop muted playsinline poster="https://placehold.co/1920x1080/333333/FFFFFF?text=Loading+Background...">
+        <source src="https://videos.pexels.com/video-files/5514359/5514359-uhd_2560_1440_24fps.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <header class="bg-gray-900 bg-opacity-80 backdrop-blur-md text-white p-4 shadow-lg fixed top-0 left-0 right-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight">Car Repair Assistance</h1>
+            </div>
+    </header>
+
+    <div class="content-wrapper">
+        <main class="container mx-auto p-4 md:p-6">
+            <div class="text-center mb-8 md:mb-12 bg-white bg-opacity-75 backdrop-blur-sm p-6 rounded-lg shadow-xl">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-green-700 mb-2">TRANSMISSION TROUBLES?</h1>
+                <p class="text-gray-700 text-base sm:text-lg md:text-xl">You're in the right place! Find solutions to common transmission problems.</p>
+            </div>
+
+            <div class="mb-8 md:mb-12 max-w-2xl mx-auto bg-white bg-opacity-75 backdrop-blur-sm p-4 rounded-lg shadow-lg">
+                <div class="flex flex-col sm:flex-row items-center gap-3">
+                    <input type="text" id="searchInput" placeholder="Search problem (e.g., 'slipping', 'leak')" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 focus:border-transparent transition-shadow">
+                    <button onclick="searchProblems()" class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-150 ease-in-out transform hover:scale-105">
+                        Search
+                    </button>
+                </div>
+            </div>
+
+            <div id="cardsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <div class="card bg-white bg-opacity-80 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl sm:text-2xl font-semibold text-green-700 mb-1">1. Fluid Leak</h3>
+                        <p class="text-gray-600 mb-4 text-sm">Red/brown fluid puddles under car.</p>
+                    </div>
+                    <select onchange="optionClicked(this.value, this)" class="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm">
+                        <option value="" selected disabled>Select Potential Cause</option>
+                        <option value="A">Damaged Seals</option>
+                        <option value="B">Loose Connections</option>
+                        <option value="C">Corrosion</option>
+                    </select>
+                </div>
+                <div class="card bg-white bg-opacity-80 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl sm:text-2xl font-semibold text-green-700 mb-1">2. Slipping</h3>
+                        <p class="text-gray-600 mb-4 text-sm">Engine revs, car doesn't accelerate.</p>
+                    </div>
+                    <select onchange="optionClicked(this.value, this)" class="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm">
+                        <option value="" selected disabled>Select Potential Cause</option>
+                        <option value="D">Worn Clutches</option>
+                        <option value="E">Faulty Solenoids</option>
+                        <option value="F">Low Fluid Levels (Slipping)</option>
+                    </select>
+                </div>
+                <div class="card bg-white bg-opacity-80 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl sm:text-2xl font-semibold text-green-700 mb-1">3. Delayed Engagement</h3>
+                        <p class="text-gray-600 mb-4 text-sm">Pause when shifting to D or R.</p>
+                    </div>
+                    <select onchange="optionClicked(this.value, this)" class="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm">
+                        <option value="" selected disabled>Select Potential Cause</option>
+                        <option value="G">Low Fluid Pressure</option>
+                        <option value="H">Dirty Transmission Filter</option>
+                        <option value="I">Faulty TCM</option>
+                    </select>
+                </div>
+                <div class="card bg-white bg-opacity-80 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl sm:text-2xl font-semibold text-green-700 mb-1">4. Harsh Shifting</h3>
+                        <p class="text-gray-600 mb-4 text-sm">Jerking/clunking during shifts.</p>
+                    </div>
+                    <select onchange="optionClicked(this.value, this)" class="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm">
+                        <option value="" selected disabled>Select Potential Cause</option>
+                        <option value="J">Worn Transmission Bands</option>
+                        <option value="K">Improper Fluid Type</option>
+                        <option value="L">Dirty Transmission Components</option>
+                    </select>
+                </div>
+                <div class="card bg-white bg-opacity-80 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl sm:text-2xl font-semibold text-green-700 mb-1">5. Overheating</h3>
+                        <p class="text-gray-600 mb-4 text-sm">Burning smell or warning light.</p>
+                    </div>
+                    <select onchange="optionClicked(this.value, this)" class="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm">
+                        <option value="" selected disabled>Select Potential Cause</option>
+                        <option value="M">Low Fluid Levels (Overheating)</option>
+                        <option value="N">Blocked Cooling Lines</option>
+                        <option value="O">Faulty Cooling Fan</option>
+                    </select>
+                </div>
+                <div class="card bg-white bg-opacity-80 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl sm:text-2xl font-semibold text-green-700 mb-1">6. Unusual Noises</h3>
+                        <p class="text-gray-600 mb-4 text-sm">Whining, buzzing, clunking.</p>
+                    </div>
+                    <select onchange="optionClicked(this.value, this)" class="w-full p-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm">
+                        <option value="" selected disabled>Select Potential Cause</option>
+                        <option value="P">Worn Bearings</option>
+                        <option value="Q">Loose Components</option>
+                        <option value="R">Lack of Lubrication</option>
+                    </select>
+                </div>
+                 <div id="noResultsMessage" class="hidden col-span-1 sm:col-span-2 lg:col-span-3 text-center py-10 bg-white bg-opacity-75 backdrop-blur-sm rounded-lg shadow-lg">
+                    <img src="https://placehold.co/100x100/E0E0E0/757575?text=:(" alt="No results" class="mx-auto mb-4 rounded-lg" onerror="this.src='https://placehold.co/100x100/E0E0E0/757575?text=Error'; this.alt='Error loading image'">
+                    <p class="text-xl text-gray-600">No matching problems found. Try a different search term or ask our AI assistant!</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="bg-gray-800 bg-opacity-90 backdrop-blur-md text-gray-300 py-8 md:py-10 fixed bottom-0 left-0 right-0 z-40">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+                <div>
+                    <h3 class="text-base lg:text-lg font-semibold text-white mb-3">About Us</h3>
+                    <p class="text-xs lg:text-sm">Committed to helping you solve car problems efficiently.</p>
+                </div>
+                <div>
+                    <h3 class="text-base lg:text-lg font-semibold text-white mb-3">Quick Help</h3>
+                    <p class="text-xs lg:text-sm">Browse FAQs or use our AI assistant for instant support.</p>
+                    <button onclick="window.open('https://query-fire-base-v1.vercel.app/', '_blank')" class="mt-2 text-xs lg:text-sm text-green-400 hover:text-green-300 transition-colors">Advanced Query (External)</button>
+                </div>
+                <div>
+                    <h3 class="text-base lg:text-lg font-semibold text-white mb-3">Contact</h3>
+                    <p class="text-xs lg:text-sm">Email: support@carrepairhelp.com</p>
+                    <p class="text-xs lg:text-sm">Phone: +123 456 7890</p>
+                </div>
+            </div>
+            <div class="mt-6 md:mt-8 border-t border-gray-700 pt-5 md:pt-6 text-center text-xs lg:text-sm">
+                <p>&copy; <span id="currentYear"></span> Car Repair Assistance. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-[100] hidden" onclick="closeAllPopups()"></div>
+
+    <div id="solutionPopup" class="fixed top-1/2 left-1/2 w-11/12 max-w-lg p-5 sm:p-6 rounded-xl shadow-2xl z-[101] bg-white transition-all duration-300 ease-out popup-inactive">
+        <div class="flex justify-between items-center mb-4">
+            <h2 id="popupTitle" class="text-lg sm:text-xl md:text-2xl font-semibold text-green-700">Solution Details</h2>
+            <button onclick="closeSolutionPopup()" class="text-gray-500 hover:text-gray-800 text-2xl sm:text-3xl">&times;</button>
+        </div>
+        <p id="popupDescription" class="text-gray-700 mb-3 text-sm sm:text-base"></p>
+        <p id="popupSolution" class="text-gray-700 font-medium text-sm sm:text-base"></p>
+        <button onclick="closeSolutionPopup()" class="mt-6 w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2.5 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-150 ease-in-out">
+            Close
+        </button>
+    </div>
+
+    <button onclick="openHelpPopup()" title="Get Help" class="fixed bottom-[calc(6rem+0.5rem)] sm:bottom-[calc(6rem+0.75rem)] md:bottom-[calc(7rem+1rem)] right-5 md:right-8 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-xl transition-all duration-150 ease-in-out transform hover:scale-110 z-50 aspect-square flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 sm:w-7 sm:h-7">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+        </svg>
+    </button>
+
+    <div id="helpPopup" class="fixed top-1/2 left-1/2 w-11/12 max-w-md p-5 sm:p-6 rounded-xl shadow-2xl z-[101] bg-white transition-all duration-300 ease-out popup-inactive">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg sm:text-xl font-semibold text-blue-700">Need More Help?</h2>
+            <button onclick="closeHelpPopup()" class="text-gray-500 hover:text-gray-800 text-2xl sm:text-3xl">&times;</button>
+        </div>
+        <p class="text-gray-700 mb-2 text-sm sm:text-base">Contact our support team for additional assistance or use our AI Chatbot.</p>
+        <p class="text-gray-700 text-sm sm:text-base"><span class="font-medium">Email:</span> support@carrepairhelp.com</p>
+        <p class="text-gray-700 mb-4 text-sm sm:text-base"><span class="font-medium">Phone:</span> +123 456 7890</p>
+        <button onclick="closeHelpPopup()" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-150 ease-in-out">
+            Got it!
+        </button>
+    </div>
+
+    <button onclick="toggleChat()" title="AI Chat Assistant" class="fixed bottom-5 sm:bottom-6 md:bottom-8 left-5 md:left-8 bg-green-600 hover:bg-green-700 text-white p-3 rounded-full shadow-xl transition-all duration-150 ease-in-out transform hover:scale-110 z-50 aspect-square flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 sm:w-7 sm:h-7">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
+        </svg>
+    </button>
+
+    <div id="chatWindow" class="fixed w-11/12 max-w-md h-[60vh] max-h-[450px] sm:max-h-[500px] bg-white rounded-xl shadow-2xl z-[100] flex flex-col transition-all duration-300 ease-out chat-window-inactive">
+        <div class="chat-header bg-green-600 text-white p-3 sm:p-4 rounded-t-xl flex justify-between items-center">
+            <h3 class="font-semibold text-base sm:text-lg">Car AI Assistant</h3>
+            <button onclick="toggleChat()" class="text-green-100 hover:text-white text-xl sm:text-2xl">&times;</button>
+        </div>
+        <div id="chatMessages" class="chat-messages flex-grow p-3 sm:p-4 overflow-y-auto space-y-3 bg-gray-50">
+            <div class="bot-message bg-green-100 text-green-800 p-2.5 sm:p-3 rounded-lg rounded-bl-none max-w-[85%] self-start text-xs sm:text-sm">
+                Hello! How can I assist you with your car today? Ask a question or upload an image of the issue.
+            </div>
+        </div>
+        <div id="chatLoading" class="p-3 sm:p-4 text-center hidden bg-gray-50">
+            <div class="loader"></div> <span class="ml-2 text-gray-600 text-sm">AI is thinking...</span>
+        </div>
+        <div class="chat-input p-2 sm:p-3 border-t border-gray-200 bg-white rounded-b-xl">
+            <div class="flex items-center gap-2">
+                <input type="text" id="chatInput" placeholder="Type your message..." class="flex-grow px-3 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm" onkeydown="if(event.key==='Enter' && !event.shiftKey) { event.preventDefault(); sendMessage(); }">
+                <label for="chatFileInput" title="Upload Image" class="cursor-pointer p-2 sm:p-2.5 text-green-600 hover:text-green-700 transition-colors rounded-full hover:bg-green-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 sm:w-6 sm:h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                    </svg>
+                    <input type="file" id="chatFileInput" accept="image/*" onchange="previewImageAndSend()" class="hidden">
+                </label>
+                <button onclick="sendMessage()" title="Send Message" class="p-2 sm:p-2.5 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 sm:w-6 sm:h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // Solution data (maps option value to details)
+    const solutions = {
+        'A': { title: "Damaged Seals", description: "Worn-out or damaged seals can cause fluid leaks.", solution: "Inspect and Replace Seals: Regularly inspect seals and replace them if damaged." },
+        'B': { title: "Loose Connections", description: "Loose or improperly tightened connections can lead to leaks.", solution: "Tighten Connections: Ensure all connections are properly tightened." },
+        'C': { title: "Corrosion", description: "Corrosion on transmission components can cause leaks.", solution: "Clean and Protect Components: Clean corroded parts and apply protective coatings." },
+        'D': { title: "Worn Clutches", description: "Clutches can wear out over time, causing slipping.", solution: "Replace Clutches: Replace worn clutches as needed." },
+        'E': { title: "Faulty Solenoids", description: "Defective solenoids can lead to improper gear engagement.", solution: "Repair or Replace Solenoids: Fix or replace faulty solenoids." },
+        'F': { title: "Low Fluid Levels (Slipping)", description: "Insufficient transmission fluid can cause slipping.", solution: "Refill Transmission Fluid: Maintain proper fluid levels and top up if necessary." },
+        'G': { title: "Low Fluid Pressure", description: "Low fluid pressure can cause delays in gear engagement.", solution: "Check and Adjust Fluid Pressure: Ensure proper fluid pressure and adjust if needed." },
+        'H': { title: "Dirty Transmission Filter", description: "A clogged filter can restrict fluid flow.", solution: "Replace Transmission Filter: Regularly replace the transmission filter." },
+        'I': { title: "Faulty TCM", description: "A malfunctioning Transmission Control Module (TCM) can cause delays.", solution: "Diagnose and Repair TCM: Use diagnostic tools to identify and fix TCM issues." },
+        'J': { title: "Worn Transmission Bands", description: "Worn bands can cause harsh shifting.", solution: "Replace Transmission Bands: Replace worn bands as needed." },
+        'K': { title: "Improper Fluid Type", description: "Using the wrong type of transmission fluid can lead to harsh shifts.", solution: "Use Correct Fluid Type: Ensure the correct fluid type is used according to your vehicle's manual." },
+        'L': { title: "Dirty Transmission Components", description: "Dirt and debris can cause rough shifting.", solution: "Clean Transmission Components: Regularly clean and maintain transmission components." },
+        'M': { title: "Low Fluid Levels (Overheating)", description: "Low fluid levels can cause overheating.", solution: "Maintain Fluid Levels: Regularly check and maintain fluid levels. Address any leaks." },
+        'N': { title: "Blocked Cooling Lines", description: "Blocked cooling lines can prevent proper cooling.", solution: "Clean Cooling Lines: Ensure cooling lines are clear and unobstructed. Flush if necessary." },
+        'O': { title: "Faulty Cooling Fan", description: "A malfunctioning cooling fan can lead to overheating.", solution: "Repair or Replace Cooling Fan: Fix or replace a faulty cooling fan or its related components." },
+        'P': { title: "Worn Bearings", description: "Worn bearings can cause unusual noises (whining, grinding).", solution: "Replace Worn Bearings: This often requires transmission disassembly and professional help." },
+        'Q': { title: "Loose Components", description: "Loose or damaged internal/external components can create noise.", solution: "Tighten or Replace Components: Inspect for loose bolts, mounts, or damaged parts." },
+        'R': { title: "Lack of Lubrication", description: "Insufficient lubrication due to low fluid or old fluid can lead to noise.", solution: "Lubricate Components: Ensure proper fluid level and quality. Change fluid if old or contaminated." }
+    };
+
+    const overlay = document.getElementById('overlay');
+    const solutionPopup = document.getElementById('solutionPopup');
+    const helpPopup = document.getElementById('helpPopup');
+    const chatWindow = document.getElementById('chatWindow');
+
+    function openSolutionPopup(optionValue) {
+        const data = solutions[optionValue];
+        if (data) {
+            document.getElementById('popupTitle').textContent = data.title;
+            document.getElementById('popupDescription').textContent = data.description;
+            document.getElementById('popupSolution').textContent = data.solution;
+            overlay.classList.remove('hidden');
+            solutionPopup.classList.remove('popup-inactive');
+            solutionPopup.classList.add('popup-active');
+        }
+    }
+
+    function closeSolutionPopup() {
+        overlay.classList.add('hidden');
+        solutionPopup.classList.add('popup-inactive');
+        solutionPopup.classList.remove('popup-active');
+    }
+
+    function openHelpPopup() {
+        overlay.classList.remove('hidden');
+        helpPopup.classList.remove('popup-inactive');
+        helpPopup.classList.add('popup-active');
+         // Ensure chat is closed if help is opened
+        if (chatWindow.classList.contains('chat-window-active')) {
+            toggleChat(false); // Close chat without toggling overlay
+        }
+    }
+
+    function closeHelpPopup() {
+        overlay.classList.add('hidden');
+        helpPopup.classList.add('popup-inactive');
+        helpPopup.classList.remove('popup-active');
+    }
+    
+    function closeAllPopups() {
+        closeSolutionPopup();
+        closeHelpPopup();
+        // If chat is also a popup that uses the overlay, close it too
+        if (chatWindow.classList.contains('chat-window-active')) {
+             toggleChat(false); // Close chat without toggling overlay
+        }
+    }
+
+
+    function optionClicked(value, selectElement) {
+        openSolutionPopup(value);
+        // Reset select to default "Select Potential Cause" after a selection
+        // This improves UX as the user clearly sees their choice in the popup
+        // and the select is ready for another interaction if needed.
+        if(selectElement) {
+            selectElement.selectedIndex = 0;
+        }
+    }
+
+    function searchProblems() {
+        const input = document.getElementById('searchInput').value.toLowerCase().trim();
+        const cards = document.querySelectorAll('#cardsContainer .card');
+        const noResultsMessage = document.getElementById('noResultsMessage');
+        let resultsFound = false;
+
+        cards.forEach(card => {
+            const cardProblemText = card.querySelector('h3').textContent.toLowerCase();
+            const cardDescriptionText = card.querySelector('p').textContent.toLowerCase();
+            // Also check option texts within the select for a more comprehensive search
+            const optionTexts = Array.from(card.querySelectorAll('select option')).map(opt => opt.textContent.toLowerCase());
+            
+            const isMatch = cardProblemText.includes(input) || 
+                            cardDescriptionText.includes(input) || 
+                            optionTexts.some(optText => optText.includes(input));
+
+            if (isMatch) {
+                card.style.display = 'flex'; // Assuming cards are flex containers
+                resultsFound = true;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        if (resultsFound) {
+            noResultsMessage.classList.add('hidden');
+        } else {
+            noResultsMessage.classList.remove('hidden');
+        }
+    }
+
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // --- Chatbot Functionality ---
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const chatFileInput = document.getElementById('chatFileInput');
+    const chatLoading = document.getElementById('chatLoading');
+    const apiKey = ""; // Provided by environment
+
+    function toggleChat(manageOverlay = true) {
+        const isActive = chatWindow.classList.contains('chat-window-active');
+        if (isActive) {
+            chatWindow.classList.remove('chat-window-active');
+            chatWindow.classList.add('chat-window-inactive');
+            if (manageOverlay) overlay.classList.add('hidden');
+        } else {
+            chatWindow.classList.remove('chat-window-inactive');
+            chatWindow.classList.add('chat-window-active');
+            if (manageOverlay) {
+                overlay.classList.remove('hidden');
+                // Ensure other popups are closed if chat is opened
+                if (helpPopup.classList.contains('popup-active')) closeHelpPopup();
+                if (solutionPopup.classList.contains('popup-active')) closeSolutionPopup();
+            }
+            chatInput.focus();
+        }
+    }
+
+
+    function appendMessage(text, type, imageUrl = null) {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add(type === 'user' ? 'user-message' : 'bot-message', 'p-2.5', 'sm:p-3', 'rounded-lg', 'max-w-[85%]', 'text-xs', 'sm:text-sm');
+        if (type === 'user') {
+            messageElement.classList.add('bg-blue-500', 'text-white', 'rounded-br-none', 'self-end');
+        } else {
+            messageElement.classList.add('bg-green-100', 'text-green-800', 'rounded-bl-none', 'self-start');
+        }
+
+        if (imageUrl) {
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.alt = type === 'user' ? "Uploaded image" : "Bot image response";
+            img.className = "chat-image max-w-[200px] rounded-md mt-1";
+            if (text) { // If there's text with the image
+                 const textElement = document.createElement('p');
+                 textElement.textContent = text;
+                 messageElement.appendChild(textElement);
+            }
+            messageElement.appendChild(img);
+        } else {
+            messageElement.textContent = text;
+        }
+        
+        chatMessages.appendChild(messageElement);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    async function getGeminiResponse(prompt, base64ImageData = null) {
+        chatLoading.classList.remove('hidden');
+        let chatHistory = [];
+        
+        const userParts = [{ text: prompt }];
+        if (base64ImageData) {
+            userParts.push({
+                inlineData: {
+                    mimeType: "image/png", // Assuming PNG, adjust if other types are allowed
+                    data: base64ImageData
+                }
+            });
+        }
+        chatHistory.push({ role: "user", parts: userParts });
+
+        const payload = { contents: chatHistory };
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error("API Error:", errorData);
+                throw new Error(`API request failed with status ${response.status}: ${errorData.error?.message || 'Unknown error'}`);
+            }
+
+            const result = await response.json();
+            
+            if (result.candidates && result.candidates.length > 0 &&
+                result.candidates[0].content && result.candidates[0].content.parts &&
+                result.candidates[0].content.parts.length > 0) {
+                return result.candidates[0].content.parts[0].text;
+            } else {
+                console.error("Unexpected API response structure:", result);
+                return "Sorry, I couldn't get a proper response. The structure was unexpected.";
+            }
+        } catch (error) {
+            console.error("Error calling Gemini API:", error);
+            return `Sorry, I encountered an error: ${error.message}. Please try again.`;
+        } finally {
+            chatLoading.classList.add('hidden');
+        }
+    }
+
+    async function sendMessage() {
+        const userText = chatInput.value.trim();
+        if (!userText) return;
+
+        appendMessage(userText, 'user');
+        chatInput.value = "";
+        
+        const botResponseText = await getGeminiResponse(userText);
+        appendMessage(botResponseText, 'bot');
+    }
+
+    async function previewImageAndSend() {
+        const file = chatFileInput.files[0];
+        if (!file) return;
+
+        // Validate file type (basic client-side check)
+        if (!file.type.startsWith('image/')) {
+            appendMessage("Please upload a valid image file (e.g., PNG, JPG).", 'bot');
+            chatFileInput.value = ""; // Clear the input
+            return;
+        }
+
+        // Validate file size (e.g., limit to 4MB, as per Gemini API typical limits for inline data)
+        const maxSizeMB = 3.8; 
+        if (file.size > maxSizeMB * 1024 * 1024) {
+            appendMessage(`Image too large. Please upload an image smaller than ${maxSizeMB}MB.`, 'bot');
+            chatFileInput.value = "";
+            return;
+        }
+
+
+        const reader = new FileReader();
+        reader.onload = async function(event) {
+            const imageUrl = event.target.result;
+            appendMessage("Image to analyze:", 'user', imageUrl); // Show image in chat
+
+            const base64ImageData = imageUrl.split(',')[1]; // Get base64 part
+            const prompt = "Analyze this image related to a car problem and provide potential issues or advice. If it's not car related, say so.";
+            
+            const botResponseText = await getGeminiResponse(prompt, base64ImageData);
+            appendMessage(botResponseText, 'bot');
+        }
+        reader.onerror = function() {
+            appendMessage("Error reading file.", 'bot');
+            console.error("FileReader error:", reader.error);
+        }
+        reader.readAsDataURL(file);
+        chatFileInput.value = ""; // Clear the input after processing
+    }
+
+    // Close popups when clicking outside on the overlay
+    overlay.addEventListener('click', () => {
+       closeAllPopups();
+    });
+    
+    // Close popups with Escape key
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            closeAllPopups();
+        }
+    });
+
+</script>
+</body>
+</html> -->
+
