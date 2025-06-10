@@ -8,7 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         /* Custom styles not easily done with Tailwind */
@@ -18,11 +20,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
+            padding: 0; /* Adjusted for full-width content */
             margin: 0;
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
 
-        /* Background Video Styles (kept as requested) */
+        /* Background Video Styles */
         #background-video {
             position: fixed;
             top: 0;
@@ -34,7 +37,7 @@
             opacity: 0.9;
         }
 
-        /* Popup and Overlay Styles (kept from previous version) */
+        /* Popup and Overlay Styles (kept from previous version with minor adjustments) */
         .popup {
             display: none;
             position: fixed;
@@ -42,15 +45,16 @@
             top: 50%;
             transform: translate(-50%, -50%);
             background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            padding: 25px; /* Slightly more padding */
+            border-radius: 12px; /* More rounded */
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.25); /* Enhanced shadow */
             z-index: 1000;
-            max-width: 90%;
-            max-height: 80%;
+            max-width: 95%; /* Increased max-width for better mobile display */
+            max-height: 90%; /* Increased max-height */
             overflow-y: auto;
             text-align: center;
             border: none;
+            transition: all 0.3s ease-in-out; /* Smooth transition */
         }
 
         .overlay {
@@ -60,23 +64,23 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.7); /* Darker overlay */
             z-index: 999;
         }
 
         .popup .close {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 15px;
+            right: 15px;
             cursor: pointer;
-            color: #888;
-            font-size: 24px;
+            color: #aaa; /* Lighter close button */
+            font-size: 28px; /* Larger close button */
             font-weight: bold;
             transition: color 0.3s ease;
         }
 
         .popup .close:hover {
-            color: #555;
+            color: #777;
         }
 
         .popup img {
@@ -84,6 +88,7 @@
             height: auto;
             margin-bottom: 15px;
             border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for images */
         }
 
         /* Help Button Styles (kept from previous version) */
@@ -293,7 +298,7 @@
             z-index: 1001;
             padding: 0.75rem 1.5rem;
             border-radius: 0.5rem;
-            background-color: #4299e1; /* Blue */
+            background-color: #1C4E80; /* Dark imperial blue for consistency */
             color: white;
             font-weight: 500;
             cursor: pointer;
@@ -306,7 +311,7 @@
         }
 
         #car-chatbot-toggle-button:hover {
-            background-color: #3182ce; /* Darker blue */
+            background-color: #1a446e; /* Darker imperial blue */
              transform: scale(1.05); /* Slightly enlarge on hover */
         }
 
@@ -344,39 +349,67 @@
              }
         }
 
+        /* Custom scrollbar for main page */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
 
     </style>
 </head>
-<body>
+<body class="bg-gray-100 flex flex-col min-h-screen">
     <video id="background-video" autoplay loop muted>
         <source src="https://videos.pexels.com/video-files/3752531/3752531-hd_1920_1080_24fps.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
-    <header class="w-full text-center py-4 text-green-500 text-4xl font-bold relative z-10">
-        <h1>Car Repair Assistance</h1>
-    </header>
+    <!-- Navbar -->
+    <nav class="w-full bg-[#1C4E80] p-4 shadow-xl relative z-10">
+        <div class="container mx-auto flex flex-wrap items-center justify-between">
+            <h1 class="text-white text-3xl font-bold rounded-lg p-2">Car Repair Assistance</h1>
+            <!-- Example navigation links (can be expanded) -->
+            <div class="hidden md:flex space-x-6">
+                <a href="#" class="text-white hover:text-blue-200 transition duration-300">Home</a>
+                <a href="#" class="text-white hover:text-blue-200 transition duration-300">Services</a>
+                <a href="#" class="text-white hover:text-blue-200 transition duration-300">Contact</a>
+            </div>
+            <!-- Mobile nav toggle (if more links were present) -->
+            <button class="md:hidden text-white focus:outline-none">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+    </nav>
 
-    <div class="content max-w-4xl w-full text-center mt-8 relative z-10">
-        <h1 class="text-5xl font-extrabold text-green-700 mb-4 hover:text-teal-700 transition duration-300">ENGINES</h1>
-        <p class="text-white font-bold text-lg mb-8">ANY PROBLEMS WITH THE ENGINE? YOU ARE AT THE RIGHT PLACE!</p>
+    <main class="content max-w-4xl w-full text-center mt-8 relative z-10 p-4 sm:p-0">
+        <h1 class="text-5xl font-extrabold text-[#1C4E80] mb-4 hover:text-[#0C2A4F] transition duration-300">ENGINES</h1>
+        <p class="text-white font-bold text-lg mb-8 bg-black bg-opacity-40 p-2 rounded-md inline-block">ANY PROBLEMS WITH THE ENGINE? YOU ARE AT THE RIGHT PLACE!</p>
 
-        <div class="search-bar flex justify-center mb-12">
+        <div class="search-bar flex flex-col sm:flex-row justify-center mb-12">
             <input type="text" id="searchInput" placeholder="Search your problem..."
-                   class="p-3 text-lg border border-gray-300 rounded-l-lg w-full max-w-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                   class="p-3 text-lg border border-gray-300 rounded-lg sm:rounded-l-lg sm:rounded-r-none w-full sm:max-w-md focus:outline-none focus:ring-2 focus:ring-[#1C4E80] mb-4 sm:mb-0">
             <button onclick="searchProblems()"
-                    class="p-3 text-lg bg-green-600 text-white border-none rounded-r-lg cursor-pointer hover:bg-green-700 transition duration-300">
+                    class="p-3 text-lg bg-[#1C4E80] text-white border-none rounded-lg sm:rounded-r-lg sm:rounded-l-none cursor-pointer hover:bg-[#0C2A4F] transition duration-300">
                 Search
             </button>
         </div>
-    </div>
+    </main>
 
-    <div class="cards-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 justify-center relative z-10 pb-20">
+    <section class="cards-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 justify-center relative z-10 pb-20 px-4">
         <div class="card bg-white p-6 rounded-xl shadow-lg text-center cursor-pointer transition transform hover:translate-y-[-5px] hover:shadow-xl">
-            <h3 class="text-3xl font-semibold text-green-800 mb-3">1</h3>
-            <p class="text-gray-700 text-lg mb-4 hover:text-teal-600 transition duration-300">ENGINE MISSFIRING</p>
+            <h3 class="text-3xl font-semibold text-[#1C4E80] mb-3">1</h3>
+            <p class="text-gray-700 text-lg mb-4 hover:text-blue-600 transition duration-300">ENGINE MISSFIRING</p>
             <select onchange="optionClicked(this.value)"
-                    class="w-full p-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-green-500">
+                    class="w-full p-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-[#1C4E80]">
                 <option value="" selected disabled>Select Option</option>
                 <option value="A">ROUGH IDILING OR RUNNING</option>
                 <option value="B">REDUCE FUEL EFFICIENCY</option>
@@ -385,10 +418,10 @@
         </div>
 
         <div class="card bg-white p-6 rounded-xl shadow-lg text-center cursor-pointer transition transform hover:translate-y-[-5px] hover:shadow-xl">
-            <h3 class="text-3xl font-semibold text-green-800 mb-3">2</h3>
-            <p class="text-gray-700 text-lg mb-4 hover:text-teal-600 transition duration-300">REGULAR MAINTENANCE TIP</p>
+            <h3 class="text-3xl font-semibold text-[#1C4E80] mb-3">2</h3>
+            <p class="text-gray-700 text-lg mb-4 hover:text-blue-600 transition duration-300">REGULAR MAINTENANCE TIP</p>
             <select onchange="optionClicked(this.value)"
-                    class="w-full p-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-green-500">
+                    class="w-full p-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-[#1C4E80]">
                 <option value="" selected disabled>Select Option</option>
                 <option value="D">CHECK OIL THROUGH METER</option>
                 <option value="E">OVERHEATING</option>
@@ -397,10 +430,10 @@
         </div>
 
         <div class="card bg-white p-6 rounded-xl shadow-lg text-center cursor-pointer transition transform hover:translate-y-[-5px] hover:shadow-xl">
-            <h3 class="text-3xl font-semibold text-green-800 mb-3">3</h3>
-            <p class="text-gray-700 text-lg mb-4 hover:text-teal-600 transition duration-300">ENGINE OVERHEATING</p>
+            <h3 class="text-3xl font-semibold text-[#1C4E80] mb-3">3</h3>
+            <p class="text-gray-700 text-lg mb-4 hover:text-blue-600 transition duration-300">ENGINE OVERHEATING</p>
             <select onchange="optionClicked(this.value)"
-                    class="w-full p-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-green-500">
+                    class="w-full p-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-[#1C4E80]">
                 <option value="" selected disabled>Select Option</option>
                 <option value="G">TEMPERATURE GAUGE RISING ABOVE NORMAL</option>
                 <option value="H">Steam coming from the hood</option>
@@ -409,10 +442,10 @@
         </div>
 
         <div class="card bg-white p-6 rounded-xl shadow-lg text-center cursor-pointer transition transform hover:translate-y-[-5px] hover:shadow-xl">
-            <h3 class="text-3xl font-semibold text-green-800 mb-3">4</h3>
-            <p class="text-gray-700 text-lg mb-4 hover:text-teal-600 transition duration-300">OIL LEAKS</p>
+            <h3 class="text-3xl font-semibold text-[#1C4E80] mb-3">4</h3>
+            <p class="text-gray-700 text-lg mb-4 hover:text-blue-600 transition duration-300">OIL LEAKS</p>
             <select onchange="optionClicked(this.value)"
-                    class="w-full p-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-green-500">
+                    class="w-full p-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-[#1C4E80]">
                 <option value="" selected disabled>Select Option</option>
                 <option value="J">Oil spots under the car.</option>
                 <option value="K">Burning oil smell</option>
@@ -421,10 +454,10 @@
         </div>
 
         <div class="card bg-white p-6 rounded-xl shadow-lg text-center cursor-pointer transition transform hover:translate-y-[-5px] hover:shadow-xl">
-            <h3 class="text-3xl font-semibold text-green-800 mb-3">5</h3>
-            <p class="text-gray-700 text-lg mb-4 hover:text-teal-600 transition duration-300">FAULTY ALTERNATOR</p>
+            <h3 class="text-3xl font-semibold text-[#1C4E80] mb-3">5</h3>
+            <p class="text-gray-700 text-lg mb-4 hover:text-blue-600 transition duration-300">FAULTY ALTERNATOR</p>
             <select onchange="optionClicked(this.value)"
-                    class="w-full p-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-green-500">
+                    class="w-full p-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-[#1C4E80]">
                 <option value="" selected disabled>Select Option</option>
                 <option value="M">Car won’t start or starts with difficulty.</option>
                 <option value="N">Battery warning light on the dashboard.</option>
@@ -433,19 +466,19 @@
         </div>
 
         <div class="card bg-white p-6 rounded-xl shadow-lg text-center cursor-pointer transition transform hover:translate-y-[-5px] hover:shadow-xl">
-            <h3 class="text-3xl font-semibold text-green-800 mb-3">6</h3>
-            <p class="text-gray-700 text-lg mb-4 hover:text-teal-600 transition duration-300">COOLANT LEAKS</p>
+            <h3 class="text-3xl font-semibold text-[#1C4E80] mb-3">6</h3>
+            <p class="text-gray-700 text-lg mb-4 hover:text-blue-600 transition duration-300">COOLANT LEAKS</p>
             <select onchange="optionClicked(this.value)"
-                    class="w-full p-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-green-500">
+                    class="w-full p-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-[#1C4E80]">
                 <option value="" selected disabled>Select Option</option>
                 <option value="P">Radiator Leak</option>
                 <option value="Q">Hose Leak</option>
                 <option value="R">Regular Maintenance Tips for Coolant System:</option>
             </select>
         </div>
-    </div>
+    </section>
 
-    <footer class="w-full bg-gray-800 text-white py-8 mt-12 relative z-10">
+    <footer class="w-full bg-[#1C4E80] text-white py-8 mt-12 relative z-10 shadow-inner">
         <div class="container mx-auto flex flex-col md:flex-row justify-around text-center md:text-left px-4">
             <div class="footer-section mb-6 md:mb-0 md:w-1/3 px-4">
                 <h3 class="text-xl font-semibold mb-3 text-gray-200">About Us</h3>
@@ -467,168 +500,178 @@
 
     <div class="overlay" id="overlay" onclick="closePopup()"></div>
 
+    <!-- Popups with added images and updated styling -->
     <div class="popup" id="popupA">
         <span class="close" onclick="closePopup()">&times;</span>
-        <h2 class="text-2xl font-bold mb-4 text-green-700">CHECK AND REPLACE SPARK PLUGS:</h2>
-        <img src="https://placehold.co/600x400/e9e9eb/333?text=Spark+Plugs+Step+1" alt="Spark Plugs Step 1">
-        <img src="https://placehold.co/600x400/d3d3d3/333?text=Spark+Plugs+Step+2" alt="Spark Plugs Step 2">
-        <img src="https://placehold.co/600x400/e9e9eb/333?text=Spark+Plugs+Step+3" alt="Spark Plugs Step 3">
-        <img src="https://placehold.co/600x400/d3d3d3/333?text=Spark+Plugs+Step+4" alt="Spark Plugs Step 4">
-        <img src="https://placehold.co/600x400/e9e9eb/333?text=Spark+Plugs+Step+5" alt="Spark Plugs Step 5">
-        <img src="https://placehold.co/600x400/d3d3d3/333?text=Spark+Plugs+Step+6" alt="Spark Plugs Step 6">
-        <p class="text-gray-700 mt-4">Inspect the spark plugs for wear and tear. Replace any faulty spark plugs.</p>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">CHECK AND REPLACE SPARK PLUGS:</h2>
+        <p class="text-gray-700 mt-4 mb-2">Inspect the spark plugs for wear and tear. Replace any faulty spark plugs.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Spark+Plug+Inspection" alt="Spark Plug Inspection">
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Spark+Plug+Removal" alt="Spark Plug Removal">
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=New+Spark+Plug" alt="New Spark Plug">
     </div>
 
     <div class="popup" id="popupB">
         <span class="close" onclick="closePopup()">&times;</span>
-        <h2 class="text-2xl font-bold mb-4 text-green-700">Inspect Ignition Coils:</h2>
-        <p class="text-gray-700 mb-2">1. Maintain Your Vehicle Regularly Regular maintenance keeps your engine tuned and improves car mileage.</p>
-        <img src="https://placehold.co/600x400/e9e9eb/333?text=Fuel+Efficiency+Tip+1" alt="Fuel Efficiency Tip 1">
-        <p class="text-gray-700 mb-2">2. Drive at the Best Speed Driving speed is essential when it comes to ways to save fuel</p>
-        <img src="https://placehold.co/600x400/d3d3d3/333?text=Fuel+Efficiency+Tip+2" alt="Fuel Efficiency Tip 2">
-        <p class="text-gray-700 mb-2">3. Turn Off Engine when Idle</p>
-        <img src="https://placehold.co/600x400/e9e9eb/333?text=Fuel+Efficiency+Tip+3" alt="Fuel Efficiency Tip 3">
-        <p class="text-gray-700 mb-2">4. Use Quality Fuel & Lubricants</p>
-        <img src="https://placehold.co/600x400/d3d3d3/333?text=Fuel+Efficiency+Tip+4" alt="Fuel Efficiency Tip 4">
-        <p class="text-gray-700 mb-2">5. Reduce Excess Weight</p>
-        <img src="https://placehold.co/600x400/e9e9eb/333?text=Fuel+Efficiency+Tip+5" alt="Fuel Efficiency Tip 5">
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Inspect Ignition Coils / Improve Fuel Efficiency:</h2>
+        <p class="text-gray-700 mb-2">1. Maintain Your Vehicle Regularly: Regular maintenance keeps your engine tuned and improves car mileage.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Regular+Maintenance" alt="Regular Maintenance">
+        <p class="text-gray-700 mb-2">2. Drive at the Best Speed: Driving speed is essential when it comes to ways to save fuel.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Optimal+Driving+Speed" alt="Optimal Driving Speed">
+        <p class="text-gray-700 mb-2">3. Turn Off Engine when Idle: Avoid unnecessary idling to save fuel.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Turn+Off+Engine" alt="Turn Off Engine">
+        <p class="text-gray-700 mb-2">4. Use Quality Fuel & Lubricants: Good quality fuel and lubricants improve engine efficiency.</p>
+        <img src="https://placehold.co/600x400/BAF0BA/000000?text=Quality+Fuel" alt="Quality Fuel">
+        <p class="text-gray-700 mb-2">5. Reduce Excess Weight: Lighter vehicles are more fuel-efficient.</p>
+        <img src="https://placehold.co/600x400/FFDDC1/000000?text=Reduce+Weight" alt="Reduce Weight">
         <p class="text-gray-700 mt-4">Check for damaged or malfunctioning ignition coils. Replace any defective ignition coils.</p>
     </div>
 
     <div class="popup" id="popupC">
         <span class="close" onclick="closePopup()">&times;</span>
-        <h2 class="text-2xl font-bold mb-4 text-green-700">Clean or Replace Fuel Injectors:</h2>
-        <p class="text-gray-700">Use a fuel injector cleaner to remove any build-up. If cleaning doesn't help, consider replacing the faulty fuel injectors.</p>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Clean or Replace Fuel Injectors:</h2>
+        <p class="text-gray-700 mb-2">Use a fuel injector cleaner to remove any build-up. If cleaning doesn't help, consider replacing the faulty fuel injectors.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Fuel+Injector+Cleaning" alt="Fuel Injector Cleaning">
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Fuel+Injector+Replacement" alt="Fuel Injector Replacement">
     </div>
 
     <div class="popup" id="popupD">
         <span class="close" onclick="closePopup()">&times;</span>
-        <h2 class="text-2xl font-bold mb-4 text-green-700">Change the engine oil and filter:</h2>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Change the engine oil and filter:</h2>
         <p class="text-gray-700 mb-2">Step 1 – Let the engine cool. When the engine runs, the metal surface of the car’s engine gets extremely hot.</p>
-        <img src="https://placehold.co/600x400/e9e9eb/333?text=Check+Oil+Step+1" alt="Check Oil Step 1">
-        <img src="https://placehold.co/600x400/d3d3d3/333?text=Check+Oil+Step+2" alt="Check Oil Step 2">
-        <img src="https://placehold.co/600x400/e9e9eb/333?text=Check+Oil+Step+3" alt="Check Oil Step 3">
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Engine+Cooling" alt="Engine Cooling">
         <p class="text-gray-700 mb-2">Step 2 – Pull out and clean the oil dipstick. The Engine oil level is measured with a dipstick.</p>
-        <img src="https://placehold.co/600x400/d3d3d3/333?text=Check+Oil+Step+4" alt="Check Oil Step 4">
-        <p class="text-gray-700 mb-2">Step 3- Check the oil film on the dipstick</p>
-        <img src="https://placehold.co/600x400/e9e9eb/333?text=Check+Oil+Step+5" alt="Check Oil Step 5">
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Oil+Dipstick+Check" alt="Oil Dipstick Check">
+        <p class="text-gray-700 mb-2">Step 3- Check the oil film on the dipstick.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Oil+Film+Check" alt="Oil Film Check">
         <p class="text-gray-700 mb-2">Step 4 – Top up the engine oil and repeat the process.</p>
-        <img src="https://placehold.co/600x400/d3d3d3/333?text=Check+Oil+Step+6" alt="Check Oil Step 6">
+        <img src="https://placehold.co/600x400/BAF0BA/000000?text=Top+Up+Oil" alt="Top Up Oil">
         <p class="text-gray-700 mt-4 font-bold">USE THE CORRECT TYPE OF GRADE OIL FOR YOUR VEHICLE RECOMMENDED BY THE MECHANIC</p>
     </div>
 
     <div class="popup" id="popupE">
         <span class="close" onclick="closePopup()">&times;</span>
-        <h2 class="text-2xl font-bold mb-4 text-green-700">Check Coolant Levels for Overheating:</h2>
-        <p class="text-gray-700 mb-2">1. Turn Off the Air Conditioning: If your engine is overheating, turn off the air conditioning to reduce the load on the engine</p>
-        <img src="https://placehold.co/600x400/e9e9eb/333?text=Overheating+Tip+1" alt="Overheating Tip 1">
-        <p class="text-gray-700 mb-2">Pull Over and Turn Off the Engine: Safely pull over to the side of the road and turn off the engine. Let the engine cool down before attempting any further inspection</p>
-        <img src="https://placehold.co/600x400/d3d3d3/333?text=Overheating+Tip+2" alt="Overheating Tip 2">
-        <p class="text-gray-700 mb-2">3. Check Coolant Levels: Once the engine has cooled, check the coolant level in the radiator or coolant reservoir. If it's low, top it off with the appropriate coolant mixture</p>
-        <img src="https://placehold.co/600x400/e9e9eb/333?text=Overheating+Tip+3" alt="Overheating Tip 3">
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Check Coolant Levels for Overheating:</h2>
+        <p class="text-gray-700 mb-2">1. Turn Off the Air Conditioning: If your engine is overheating, turn off the air conditioning to reduce the load on the engine.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Turn+Off+AC" alt="Turn Off AC">
+        <p class="text-gray-700 mb-2">2. Pull Over and Turn Off the Engine: Safely pull over to the side of the road and turn off the engine. Let the engine cool down before attempting any further inspection.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Pull+Over+Engine+Off" alt="Pull Over Engine Off">
+        <p class="text-gray-700 mb-2">3. Check Coolant Levels: Once the engine has cooled, check the coolant level in the radiator or coolant reservoir. If it's low, top it off with the appropriate coolant mixture.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Check+Coolant+Level" alt="Check Coolant Level">
         <p class="text-gray-700 mb-2">4. Inspect for Leaks: Look for any visible leaks in the cooling system, including hoses, the radiator, and the water pump. Leaks can cause a loss of coolant and lead to overheating.</p>
-        <img src="https://placehold.co/600x400/d3d3d3/333?text=Overheating+Tip+4" alt="Overheating Tip 4">
-        <p class="text-gray-700 mb-2">Check the Radiator Cap: Ensure the radiator cap is properly sealed and not damaged. A faulty radiator cap can cause coolant to escape or not maintain the correct pressure.</p>
-        <img src="https://placehold.co/600x400/e9e9eb/333?text=Overheating+Tip+5" alt="Overheating Tip 5">
-        <p class="text-gray-700 mb-2">6. Bleed the Cooling System: Air pockets in the cooling system can cause overheating. Bleed the system to remove any trapped air</p>
-        <img src="https://placehold.co/600x400/d3d3d3/333?text=Overheating+Tip+6" alt="Overheating Tip 6">
-        <p class="text-gray-700 mb-2">7. Inspect the Thermostat: A stuck thermostat can prevent coolant from circulating properly. Check if the thermostat is opening and closing correctly</p>
-        <img src="https://placehold.co/600x400/e9e9eb/333?text=Overheating+Tip+7" alt="Overheating Tip 7">
-        <p class="text-gray-700 mb-2">8. Check the Cooling Fans: Ensure the cooling fans are working properly. Test the fans and check the fuses and relays for the fan circuit</p>
-        <img src="https://placehold.co/600x400/d3d3d3/333?text=Overheating+Tip+8" alt="Overheating Tip 8">
-        <p class="text-gray-700 mb-2">9. Inspect the Water Pump: A failing water pump can lead to overheating. Check for any signs of wear or damage</p>
-        <img src="https://placehold.co/600x400/e9e9eb/333?text=Overheating+Tip+9" alt="Overheating Tip 9">
+        <img src="https://placehold.co/600x400/BAF0BA/000000?text=Inspect+for+Leaks" alt="Inspect for Leaks">
+        <p class="text-gray-700 mb-2">5. Check the Radiator Cap: Ensure the radiator cap is properly sealed and not damaged. A faulty radiator cap can cause coolant to escape or not maintain the correct pressure.</p>
+        <img src="https://placehold.co/600x400/FFDDC1/000000?text=Check+Radiator+Cap" alt="Check Radiator Cap">
+        <p class="text-gray-700 mb-2">6. Bleed the Cooling System: Air pockets in the cooling system can cause overheating. Bleed the system to remove any trapped air.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Bleed+Cooling+System" alt="Bleed Cooling System">
+        <p class="text-700 mb-2">7. Inspect the Thermostat: A stuck thermostat can prevent coolant from circulating properly. Check if the thermostat is opening and closing correctly.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Inspect+Thermostat" alt="Inspect Thermostat">
+        <p class="text-gray-700 mb-2">8. Check the Cooling Fans: Ensure the cooling fans are working properly. Test the fans and check the fuses and relays for the fan circuit.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Check+Cooling+Fans" alt="Check Cooling Fans">
+        <p class="text-gray-700 mb-2">9. Inspect the Water Pump: A failing water pump can lead to overheating. Check for any signs of wear or damage.</p>
+        <img src="https://placehold.co/600x400/BAF0BA/000000?text=Inspect+Water+Pump" alt="Inspect Water Pump">
         <p class="text-gray-700 mt-4">Regularly check the coolant level and top it up if needed. Use the correct type of coolant specified by the manufacturer. Inspect Radiator and Hoses: Check for any leaks or damage to the radiator and hoses. Clean the radiator fins to ensure proper airflow.</p>
     </div>
 
     <div class="popup" id="popupF">
         <span class="close" onclick="closePopup()">&times;</span>
-        <h2 class="text-2xl font-bold mb-4 text-green-700">Regular Battery Inspection:</h2>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Regular Battery Inspection:</h2>
         <p class="text-gray-700 mb-2">1. Regular Inspection: Check your battery regularly for any signs of corrosion, leaks, or damage. Look at the terminals and cables for any signs of corrosion or loose connections.</p>
-        <img src="https://placehold.co/600x400/e9e9eb/333?text=Battery+Tip+1" alt="Battery Tip 1">
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Battery+Inspection" alt="Battery Inspection">
         <p class="text-gray-700 mb-2">2. Clean the Battery Terminals: Corrosion can build up on the battery terminals, affecting performance. Clean them with a mixture of baking soda and water, using a brush to scrub away any buildup.</p>
-        <img src="https://placehold.co/600x400/d3d3d3/333?text=Battery+Tip+2" alt="Battery Tip 2">
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Clean+Terminals" alt="Clean Terminals">
         <p class="text-gray-700 mb-2">3. Secure the Battery: Make sure the battery is properly secured in its tray. A loose battery can vibrate and cause internal damage or short circuits.</p>
-        <img src="https://placehold.co/600x400/e9e9eb/333?text=Battery+Tip+3" alt="Battery Tip 3">
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Secure+Battery" alt="Secure Battery">
         <p class="text-gray-700 mb-2">4. Keep the Battery Charged: If you don't drive your car often, consider using a trickle charger to keep the battery charged. Short trips can also prevent the battery from fully charging, so try to drive longer distances occasionally.</p>
-        <img src="https://placehold.co/600x400/d3d3d3/333?text=Battery+Tip+4" alt="Battery Tip 4">
+        <img src="https://placehold.co/600x400/BAF0BA/000000?text=Keep+Charged" alt="Keep Charged">
         <p class="text-gray-700 mb-2">5. Check the Electrolyte Level: For batteries that are not maintenance-free, check the electrolyte level and top it off with distilled water if necessary. Make sure not to overfill.</p>
-        <img src="https://placehold.co/600x400/e9e9eb/333?text=Battery+Tip+5" alt="Battery Tip 5">
+        <img src="https://placehold.co/600x400/FFDDC1/000000?text=Check+Electrolyte" alt="Check Electrolyte">
         <p class="text-gray-700 mb-2">6. Test the Battery: Have your battery tested periodically, especially before winter or long trips. Most auto parts stores offer free battery testing.</p>
-        <img src="https://placehold.co/600x400/d3d3d3/333?text=Battery+Tip+6" alt="Battery Tip 6">
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Test+Battery" alt="Test Battery">
         <p class="text-gray-700 mt-4">Check the battery terminals and cables for corrosion and clean them if necessary. Ensure the battery is securely mounted and connections are tight. Test Battery Voltage: Use a multimeter to check the battery voltage regularly. A fully charged battery should read around 12.6 volts.</p>
     </div>
 
     <div class="popup" id="popupG">
         <span class="close" onclick="closePopup()">&times;</span>
-        <h2 class="text-2xl font-bold mb-4 text-green-700">Check Coolant Levels:</h2>
-        <p class="text-gray-700">Ensure the coolant reservoir is filled to the appropriate level. Refill with the correct coolant type if necessary.</p>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Check Coolant Levels:</h2>
+        <p class="text-gray-700 mb-2">Ensure the coolant reservoir is filled to the appropriate level. Refill with the correct coolant type if necessary.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Check+Coolant+Levels" alt="Check Coolant Levels">
     </div>
 
     <div class="popup" id="popupH">
         <span class="close" onclick="closePopup()">&times;</span>
-        <h2 class="text-2xl font-bold mb-4 text-green-700">Inspect the Thermostat:</h2>
-        <p class="text-gray-700">Check if the thermostat is opening and closing properly. Replace the thermostat if it's faulty.</p>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Inspect the Thermostat:</h2>
+        <p class="text-gray-700 mb-2">Check if the thermostat is opening and closing properly. Replace the thermostat if it's faulty.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Thermostat+Inspection" alt="Thermostat Inspection">
     </div>
 
     <div class="popup" id="popupI">
         <span class="close" onclick="closePopup()">&times;</span>
-        <h2 class="text-2xl font-bold mb-4 text-green-700">Radiator Maintenance:</h2>
-        <p class="text-gray-700">Clean the radiator fins to remove any debris or dirt. Check for any blockages in the radiator and flush it if needed.</p>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Radiator Maintenance:</h2>
+        <p class="text-gray-700 mb-2">Clean the radiator fins to remove any debris or dirt. Check for any blockages in the radiator and flush it if needed.</p>
+        <img src="https://placehold.co/600x400/BAF0BA/000000?text=Radiator+Cleaning" alt="Radiator Cleaning">
     </div>
 
     <div class="popup" id="popupJ">
         <span class="close" onclick="closePopup()">&times;</span>
-        <h2 class="text-2xl font-bold mb-4 text-green-700">Regular Oil Changes:</h2>
-        <p class="text-gray-700">Change the engine oil and filter according to the manufacturer’s recommended intervals. Use the correct type and grade of oil for your vehicle.</p>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Regular Oil Changes:</h2>
+        <p class="text-gray-700 mb-2">Change the engine oil and filter according to the manufacturer’s recommended intervals. Use the correct type and grade of oil for your vehicle.</p>
+        <img src="https://placehold.co/600x400/FFDDC1/000000?text=Oil+Change" alt="Oil Change">
     </div>
 
     <div class="popup" id="popupK">
         <span class="close" onclick="closePopup()">&times;</span>
-        <h2 class="text-2xl font-bold mb-4 text-green-700">Inspect for Leaks:</h2>
-        <p class="text-gray-700">Regularly check for any signs of oil leaks around the engine. Inspect the gaskets and seals for wear and replace them if necessary.</p>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Inspect for Leaks:</h2>
+        <p class="text-gray-700 mb-2">Regularly check for any signs of oil leaks around the engine. Inspect the gaskets and seals for wear and replace them if necessary.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Oil+Leak+Inspection" alt="Oil Leak Inspection">
     </div>
 
     <div class="popup" id="popupL">
         <span class="close" onclick="closePopup()">&times;</span>
-        <h2 class="text-2xl font-bold mb-4 text-green-700">Tighten Oil Pan Bolts:</h2>
-        <p class="text-gray-700">Ensure the oil pan bolts are properly tightened to prevent leaks.</p>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Tighten Oil Pan Bolts:</h2>
+        <p class="text-gray-700 mb-2">Ensure the oil pan bolts are properly tightened to prevent leaks.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Tighten+Oil+Pan+Bolts" alt="Tighten Oil Pan Bolts">
     </div>
 
     <div class="popup" id="popupM">
         <span class="close" onclick="closePopup()">&times;</span>
-        <h2 class="text-2xl font-bold mb-4 text-green-700">Inspect Alternator Belt:</h2>
-        <p class="text-gray-700">Ensure the alternator belt is not loose, worn, or broken. Replace it if necessary to ensure proper function.</p>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Inspect Alternator Belt:</h2>
+        <p class="text-gray-700 mb-2">Ensure the alternator belt is not loose, worn, or broken. Replace it if necessary to ensure proper function.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Alternator+Belt+Check" alt="Alternator Belt Check">
     </div>
 
     <div class="popup" id="popupN">
         <span class="close" onclick="closePopup()">&times;</span>
-        <h2 class="text-2xl font-bold mb-4 text-green-700">Test Alternator Output:</h2>
-        <p class="text-gray-700">Use a voltmeter to check the alternator's output voltage. It should be around 13.8 to 14.2 volts when the engine is running. If the output is outside this range, the alternator may need to be repaired or replaced.</p>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Test Alternator Output:</h2>
+        <p class="text-gray-700 mb-2">Use a voltmeter to check the alternator's output voltage. It should be around 13.8 to 14.2 volts when the engine is running. If the output is outside this range, the alternator may need to be repaired or replaced.</p>
+        <img src="https://placehold.co/600x400/BAF0BA/000000?text=Alternator+Output+Test" alt="Alternator Output Test">
     </div>
 
     <div class="popup" id="popupO">
         <span class="close" onclick="closePopup()">&times;</span>
-        <h2 class="text-2xl font-bold mb-4 text-green-700">Check Battery Health:</h2>
-        <p class="text-gray-700">Test the battery to ensure it’s still in good condition. Sometimes, a faulty alternator can damage the battery, which would also need to be replaced.</p>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Check Battery Health:</h2>
+        <p class="text-gray-700 mb-2">Test the battery to ensure it’s still in good condition. Sometimes, a faulty alternator can damage the battery, which would also need to be replaced.</p>
+        <img src="https://placehold.co/600x400/FFDDC1/000000?text=Battery+Health+Check" alt="Battery Health Check">
     </div>
 
     <div class="popup" id="popupP">
         <span class="close" onclick="closePopup()">&times;</span>
-        <h2 class="text-2xl font-bold mb-4 text-green-700">Inspect Radiator for Leaks:</h2>
-        <p class="text-gray-700">Check the radiator for any visible signs of leaks, corrosion, or physical damage. If the damage is minor, consider using a radiator leak sealant as a temporary fix. Replace Radiator: If the radiator is significantly damaged or corroded, it may need to be replaced entirely. Ensure the new radiator is properly installed and filled with the correct type of coolant. Maintain Coolant Levels: Regularly check and maintain the coolant levels in the reservoir to prevent overheating.</p>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Inspect Radiator for Leaks:</h2>
+        <p class="text-gray-700 mb-2">Check the radiator for any visible signs of leaks, corrosion, or physical damage. If the damage is minor, consider using a radiator leak sealant as a temporary fix. Replace Radiator: If the radiator is significantly damaged or corroded, it may need to be replaced entirely. Ensure the new radiator is properly installed and filled with the correct type of coolant. Maintain Coolant Levels: Regularly check and maintain the coolant levels in the reservoir to prevent overheating.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Radiator+Leak+Inspection" alt="Radiator Leak Inspection">
     </div>
 
     <div class="popup" id="popupQ">
         <span class="close" onclick="closePopup()">&times;</span>
-        <h2 class="text-2xl font-bold mb-4 text-green-700">Inspect and Tighten Hoses:</h2>
-        <p class="text-gray-700">Check all coolant hoses for signs of wear, cracking, or swelling. Ensure all hose clamps are tight and secure. Replace Damaged Hoses: If any hoses are found to be damaged, replace them with new ones. Use high-quality hoses and clamps to ensure a secure fit. Regular Hose Maintenance: Periodically inspect hoses for signs of wear and replace them as part of routine maintenance to prevent future leaks.</p>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Inspect and Tighten Hoses:</h2>
+        <p class="text-gray-700 mb-2">Check all coolant hoses for signs of wear, cracking, or swelling. Ensure all hose clamps are tight and secure. Replace Damaged Hoses: If any hoses are found to be damaged, replace them with new ones. Use high-quality hoses and clamps to ensure a secure fit. Regular Hose Maintenance: Periodically inspect hoses for signs of wear and replace them as part of routine maintenance to prevent future leaks.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Coolant+Hose+Check" alt="Coolant Hose Check">
     </div>
 
     <div class="popup" id="popupR">
         <span class="close" onclick="closePopup()">&times;</span>
-        <h2 class="text-2xl font-bold mb-4 text-green-700">Regular Coolant Checks:</h2>
-        <p class="text-gray-700">Frequently check the coolant levels and top up if necessary with the correct type of coolant. Flush Coolant System: Periodically flush the coolant system to remove any debris or contaminants that could cause blockages or corrosion. Monitor Temperature Gauge: Keep an eye on the temperature gauge to catch any signs of overheating early and address them promptly.</p>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Regular Coolant Checks:</h2>
+        <p class="text-gray-700 mb-2">Frequently check the coolant levels and top up if necessary with the correct type of coolant. Flush Coolant System: Periodically flush the coolant system to remove any debris or contaminants that could cause blockages or corrosion. Monitor Temperature Gauge: Keep an eye on the temperature gauge to catch any signs of overheating early and address them promptly.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Coolant+Checks" alt="Coolant Checks">
     </div>
 
     <button id="car-chatbot-toggle-button">
@@ -643,12 +686,17 @@
         </header>
         <div class="car-chatbot-messages" id="car-chatbot-messages">
             </div>
-        <div class="car-chatbot-input-area">
-            <input type="text" id="car-chatbot-user-input" placeholder="Enter your car problem...">
-            <button id="car-chatbot-send-button" disabled>
-                <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/send.svg" alt="Send" class="car-chatbot-icon">
-                Send
-            </button>
+        <div class="car-chatbot-input-area flex-col">
+            <input type="text" id="car-chatbot-user-input" placeholder="Ask about a car problem or maintenance...">
+            <div class="flex w-full justify-between gap-2 mt-2">
+                <button id="car-chatbot-send-button" class="flex-grow" disabled>
+                    <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/send.svg" alt="Send" class="car-chatbot-icon">
+                    Send
+                </button>
+                <button id="car-chatbot-generate-tips-button" class="flex-grow bg-purple-600 hover:bg-purple-700 transition duration-300">
+                    ✨ Get Maintenance Tips
+                </button>
+            </div>
         </div>
         <div id="car-chatbot-loading-indicator"></div>
         <div class="car-chatbot-suggestion-box" id="car-chatbot-suggestion-box">
@@ -664,7 +712,7 @@
     <script>
         // --- Existing Website Script (modified) ---
 
-        // Popup functionality (kept from previous version)
+        // Popup functionality
         function optionClicked(option) {
             document.querySelectorAll(".popup").forEach(popup => popup.style.display = "none");
             const popup = document.getElementById(`popup${option}`);
@@ -679,14 +727,13 @@
             document.getElementById("overlay").style.display = "none";
         }
 
-        // Search Functionality (kept from previous version)
+        // Search Functionality
         function searchProblems() {
             const input = document.getElementById("searchInput").value.toLowerCase();
             const cards = document.querySelectorAll(".card");
 
             cards.forEach(card => {
                 const cardText = card.querySelector("p").textContent.toLowerCase();
-                // Also check the options in the select dropdown
                 const selectOptions = Array.from(card.querySelectorAll("select option")).map(option => option.textContent.toLowerCase());
                 const optionsMatch = selectOptions.some(optionText => optionText.includes(input));
 
@@ -698,12 +745,7 @@
             });
         }
 
-        // Function to handle the help button click (already provided)
-        function openHelpPage() {
-            window.location.href = 'https://query-fire-base-v1.vercel.app/';
-        }
-
-        // Add event listener for Enter key in search input (kept from previous version)
+        // Add event listener for Enter key in search input
         document.getElementById("searchInput").addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
                 event.preventDefault(); // Prevent default form submission
@@ -712,7 +754,7 @@
         });
 
 
-        // --- New Chatbot Script ---
+        // --- New Chatbot Script (with Gemini API Integration) ---
 
         const chatMessages = document.getElementById('car-chatbot-messages');
         const userInput = document.getElementById('car-chatbot-user-input');
@@ -722,27 +764,10 @@
         const suggestionBox = document.getElementById('car-chatbot-suggestion-box');
         const chatbotContainer = document.getElementById('car-chatbot-container');
         const chatbotToggleButton = document.getElementById('car-chatbot-toggle-button');
+        const generateTipsButton = document.getElementById('car-chatbot-generate-tips-button'); // New button
 
 
-        // Sample car problems and solutions (Knowledge Base)
-        const knowledgeBase = {
-            "engine won't start": "Check the battery, starter motor, and fuel supply.",
-            "flat tire": "Replace the tire with the spare tire. Consider using a tire repair kit. Visit a service station.",
-            "overheating": "Check coolant level, radiator, and water pump. Stop the car immediately to avoid damage.",
-            "brakes not working": "Check brake fluid level and brake pads. This is an emergency, seek professional help immediately!",
-            "car battery dead": "Jump-start the battery or replace it.",
-            "check engine light on": "This could be many issues. Check your car's computer with an OBD-II scanner.",
-            "low tire pressure": "Inflate your tires to the recommended pressure.",
-            "squealing brakes": "This often indicates worn brake pads. Have them inspected.",
-            "car shakes when driving": "Could be due to unbalanced tires, wheel alignment, or suspension issues.",
-            "smoke from engine": "Stop the car immediately, this could indicate a serious problem like a coolant leak or electrical fire.",
-            "transmission problems": "Difficulty shifting gears can indicate a transmission issue. Get it checked by a mechanic.",
-            "steering wheel hard to turn": "Check power steering fluid. Could also be a problem with the power steering pump.",
-            "exhaust smoking": "Blue smoke indicates burning oil, white smoke could be a coolant leak, black smoke could be a fuel mixture problem.",
-            "engine stalls frequently": "Could be due to faulty spark plugs, fuel filter, or other fuel system issues.",
-            "AC not working": "Check refrigerant levels, compressor, and fuses.",
-        };
-
+        // Common problems for initial suggestions
         const commonProblems = [
             "engine won't start",
             "flat tire",
@@ -767,17 +792,64 @@
             });
         }
 
-        function getBotResponse(userInputText) {
-            const lowerCaseInput = userInputText.toLowerCase();
-            let response = "I'm sorry, I don't have information on that problem. Please try rephrasing, or consult a mechanic.";
+        async function getGeminiResponse(prompt) {
+            loadingIndicator.style.display = 'block';
+            sendButton.disabled = true;
+            userInput.disabled = true;
+            generateTipsButton.disabled = true;
+            suggestionBox.style.display = 'none'; // Hide suggestions while loading
 
-            for (const problem in knowledgeBase) {
-                if (lowerCaseInput.includes(problem)) {
-                    response = knowledgeBase[problem];
-                    break;
+            try {
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+                // API key will be automatically provided by the Canvas environment if left empty
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    return result.candidates[0].content.parts[0].text;
+                } else {
+                    return "Sorry, I couldn't get a response from the AI. Please try again or rephrase your question.";
                 }
+            } catch (error) {
+                console.error("Error calling Gemini API:", error);
+                return "An error occurred while connecting to the AI. Please check your internet connection.";
+            } finally {
+                loadingIndicator.style.display = 'none';
+                sendButton.disabled = false;
+                userInput.disabled = false;
+                generateTipsButton.disabled = false;
+                suggestionBox.style.display = 'block'; // Show suggestions again
             }
-            return response;
+        }
+
+        async function sendMessage() {
+            const userText = userInput.value;
+            if (!userText.trim()) return;
+
+            addMessage('user', userText);
+            userInput.value = '';
+            handleInputChange(); // Disable send button immediately
+
+            const botResponse = await getGeminiResponse(`Provide detailed car repair advice for the following problem: ${userText}`);
+            addMessage('bot', botResponse);
+        }
+
+        async function generateMaintenanceTips() {
+            addMessage('user', "Generate some car maintenance tips.");
+            const prompt = "Generate 5 practical and concise car maintenance tips for a general audience. Include tips on fluid checks, tire care, and regular servicing.";
+            const botResponse = await getGeminiResponse(prompt);
+            addMessage('bot', botResponse);
         }
 
         function addMessage(sender, text) {
@@ -795,26 +867,7 @@
             sendButton.disabled = !userInput.value.trim();
         }
 
-        function sendMessage() {
-            const userText = userInput.value;
-            if (!userText.trim()) return;
-
-            addMessage('user', userText);
-            userInput.value = '';
-            sendButton.disabled = true;
-            loadingIndicator.style.display = 'block';
-            suggestionBox.style.display = 'none'; // Hide suggestions while loading
-
-            // Simulate a delay for the bot response
-            setTimeout(() => {
-                const botResponse = getBotResponse(userText);
-                addMessage('bot', botResponse);
-                loadingIndicator.style.display = 'none';
-                suggestionBox.style.display = 'block'; // Show suggestions again
-            }, 1500); // 1.5 second delay
-        }
-
-        // Event Listeners for the new chatbot
+        // Event Listeners for the chatbot
         userInput.addEventListener('input', handleInputChange);
         sendButton.addEventListener('click', sendMessage);
         userInput.addEventListener('keydown', (event) => {
@@ -822,6 +875,8 @@
                 sendMessage();
             }
         });
+
+        generateTipsButton.addEventListener('click', generateMaintenanceTips); // Event listener for the new button
 
         chatbotToggleButton.addEventListener('click', () => {
             chatbotContainer.classList.toggle('active');
@@ -839,8 +894,6 @@
             addMessage('bot', "Hello! I'm CarChatBot, your virtual car assistant. What problem are you experiencing?");
             populateSuggestions(); // Populate initial suggestions
         };
-
     </script>
-
 </body>
 </html>
