@@ -6,16 +6,22 @@
     <title>Car Repair Help - Transmission</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    <!-- Lucide icons for chatbot toggle and send -->
     <link rel="shortcut icon" href="https://i.pinimg.com/736x/c5/94/96/c5949627262b8098970838894f57c94e.jpg" onerror="this.href='https://placehold.co/32x32/1C4E80/FFFFFF?text=TR'">
     <style>
-        /* General body styling and font */
+        /* General body styling for sticky footer */
         body {
             font-family: 'Inter', sans-serif;
-            overscroll-behavior-y: none; /* Prevents pull-to-refresh issues on mobile with fixed elements */
-            background-color: #f3f4f6; /* Light gray background */
+            background-color: #f3f4f6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
+        /* Main content should grow to fill available space */
+        .main-content {
+            flex-grow: 1;
+        }
+        
         /* Background Video */
         #background-video {
             position: fixed;
@@ -24,14 +30,8 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            z-index: -10; /* Ensure it's behind everything */
-            opacity: 0.6; /* Slightly more visible but still subtle */
-        }
-
-        /* Wrapper for main content to prevent overlap with fixed footer/header */
-        .content-wrapper {
-            padding-bottom: 120px; /* Adjust based on footer height */
-            padding-top: 80px; /* Adjust based on header height */
+            z-index: -10;
+            opacity: 0.6;
         }
 
         /* Custom select arrow */
@@ -43,36 +43,9 @@
             background-repeat: no-repeat;
             background-position: right .7em top 50%;
             background-size: .65em auto;
-            padding-right: 2.5em; /* Make space for arrow */
+            padding-right: 2.5em;
         }
-
-        /* Scrollbar styles for chat messages */
-        .chat-messages::-webkit-scrollbar {
-            width: 8px;
-        }
-        .chat-messages::-webkit-scrollbar-thumb {
-            background-color: #1C4E80; /* Dark imperial blue scrollbar */
-            border-radius: 4px;
-        }
-        .chat-messages::-webkit-scrollbar-track {
-            background-color: #e0e0e0;
-        }
-
-        /* Loader animation */
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #1C4E80; /* Dark imperial blue loader */
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-            display: inline-block;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
+        
         /* Popup visibility and centering */
         .popup-active {
             display: flex !important;
@@ -87,7 +60,7 @@
             pointer-events: none;
         }
 
-        /* --- Chatbot Specific Styles (matching screenshot) --- */
+        /* --- Chatbot Styles (from engine.html) --- */
         .car-chatbot-container {
             position: fixed;
             bottom: 20px;
@@ -107,7 +80,7 @@
             border: 1px solid #e2e8f0;
             display: flex;
             flex-direction: column;
-            font-family: 'Poppins', sans-serif; /* Use Poppins for chatbot */
+            font-family: 'Poppins', sans-serif;
         }
 
         .car-chatbot-container.active {
@@ -117,20 +90,15 @@
         .car-chatbot-header {
             text-align: center;
             margin-bottom: 1.5rem;
-            flex-shrink: 0; /* Prevent header from shrinking */
-            background-color: #1C4E80; /* Dark Imperial Blue for consistency */
-            color: white;
-            padding: 1rem;
-            border-radius: 0.75rem 0.75rem 0 0;
-            margin: -1rem -1rem 1.5rem -1rem; /* Adjust to cover padding */
+            flex-shrink: 0;
         }
         .car-chatbot-header h1{
-            color: white; /* Header text white */
+            color: #003865;
             font-size: 1.6rem;
             font-weight: 600;
         }
          .car-chatbot-header p{
-            color: #d1d5db; /* Lighter gray for subtitle */
+            color: #4a5568;
             font-size: 0.95rem;
          }
 
@@ -140,7 +108,7 @@
             overflow-y: auto;
             padding: 0.5rem;
             border-radius: 0.5rem;
-            background-color: #f7fafc; /* Light gray background as per screenshot */
+            background-color: #f7fafc;
             display: flex;
             flex-direction: column;
             gap: 0.75rem;
@@ -156,29 +124,25 @@
             font-size: 0.95rem;
             line-height: 1.4;
         }
-        /* Bot Message Background: Light yellow/green from screenshot */
-        .car-chatbot-message.bot .car-chatbot-message-content {
-            background-color: #f0f4c3; /* Light yellow from engine.html screenshot */
-            color: #003865; /* Dark blue from engine.html screenshot */
-            margin-right: auto;
-        }
-        /* User Message Background: Light blue from screenshot */
         .car-chatbot-message.user .car-chatbot-message-content {
-            background-color: #e0f2fe; /* Light blue from engine.html screenshot */
-            color: #003865; /* Dark blue from engine.html screenshot */
+            background-color: #e0f2fe;
+            color: #003865;
             margin-left: auto;
         }
-
+        .car-chatbot-message.bot .car-chatbot-message-content {
+            background-color: #f0f4c3;
+            color: #003865;
+            margin-right: auto;
+        }
         .car-chatbot-input-area {
             display: flex;
-            align-items: center;
+            flex-direction: column; /* To stack input and buttons */
             gap: 0.5rem;
             flex-shrink: 0;
-            flex-direction: column; /* Changed to column for buttons below input */
         }
         .car-chatbot-input-area input {
             flex: 1;
-            width: 100%; /* Full width for input */
+            width: 100%;
             padding: 0.75rem;
             border-radius: 0.5rem;
             border: 1px solid #e2e8f0;
@@ -192,17 +156,16 @@
         }
 
         .car-chatbot-input-area .button-group {
-            display: flex;
-            width: 100%;
-            justify-content: space-between;
-            gap: 0.5rem;
-            margin-top: 0.5rem; /* Space between input and buttons */
+             display: flex;
+             width: 100%;
+             justify-content: space-between;
+             gap: 0.5rem;
         }
 
         .car-chatbot-input-area button {
             padding: 0.75rem 1.5rem;
             border-radius: 0.5rem;
-            background-color: #4299e1; /* Blue for send button as per screenshot */
+            background-color: #4299e1;
             color: white;
             font-weight: 500;
             cursor: pointer;
@@ -210,26 +173,26 @@
             border: none;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
-            justify-content: center; /* Center content in buttons */
-            flex-grow: 1; /* Allow buttons to grow */
+            flex-grow: 1;
         }
         .car-chatbot-input-area button:hover {
-            background-color: #3182ce; /* Darker blue */
+            background-color: #3182ce;
         }
+
         .car-chatbot-input-area button:disabled{
             background-color: #a0aec0;
             cursor: not-allowed;
             opacity: 0.6;
         }
-        .car-chatbot-input-area button.maintenance-tips-button { /* Specific style for maintenance button */
-            background-color: #9333ea; /* Purple as seen in engine.html example */
-            color: white;
+        
+        .car-chatbot-input-area .maintenance-tips-button {
+            background-color: #9333ea; /* Purple from example */
         }
-        .car-chatbot-input-area button.maintenance-tips-button:hover {
-            background-color: #7e22ce;
+        .car-chatbot-input-area .maintenance-tips-button:hover {
+             background-color: #7e22ce;
         }
-
 
         #car-chatbot-loading-indicator {
             display: none;
@@ -243,11 +206,16 @@
              flex-shrink: 0;
         }
 
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         .car-chatbot-suggestion-box {
             margin-top: 1rem;
             padding: 0.75rem;
             border-radius: 0.5rem;
-            background-color: #edf2f7; /* Light gray as per screenshot */
+            background-color: #edf2f7;
             border: 1px solid #e2e8f0;
              flex-shrink: 0;
         }
@@ -255,7 +223,7 @@
         .car-chatbot-suggestion-box p {
             margin-bottom: 0.5rem;
             font-weight: 500;
-            color: #4a5568; /* Darker gray */
+            color: #4a5568;
             font-size: 0.95rem;
         }
 
@@ -268,9 +236,8 @@
             margin: 0;
         }
 
-        /* Suggestion Button Background: Red from screenshot */
         .car-chatbot-suggestion-list li {
-            background-color: #f56565; /* Red from engine.html screenshot */
+            background-color: #f56565;
             color: white;
             padding: 0.5rem 1rem;
             border-radius: 1rem;
@@ -281,7 +248,7 @@
         }
 
         .car-chatbot-suggestion-list li:hover {
-            background-color: #c53030; /* Darker red */
+            background-color: #c53030;
         }
         .car-chatbot-icon{
             width: 1.2rem;
@@ -295,7 +262,7 @@
             z-index: 1001;
             padding: 0.75rem 1.5rem;
             border-radius: 0.5rem;
-            background-color: #1C4E80; /* Dark imperial blue for consistency */
+            background-color: #1C4E80;
             color: white;
             font-weight: 500;
             cursor: pointer;
@@ -320,7 +287,7 @@
                 right: 2.5%;
                 bottom: 10px;
                 max-width: none;
-                height: 75vh;
+                height: 80vh; /* Adjusted height for mobile */
             }
              #car-chatbot-toggle-button {
                 left: 10px;
@@ -345,11 +312,11 @@
                  padding: 0.6rem 1rem;
              }
         }
-        /* End Chatbot Specific Styles */
+        /* End Chatbot Styles */
 
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="text-gray-800">
 
     <video id="background-video" autoplay loop muted playsinline poster="https://placehold.co/1920x1080/333333/FFFFFF?text=Loading+Background...">
         <source src="https://videos.pexels.com/video-files/5514359/5514359-uhd_2560_1440_24fps.mp4" type="video/mp4">
@@ -357,15 +324,16 @@
     </video>
 
     <!-- Header (Navbar) - Changed to Dark Imperial Blue -->
-    <header class="bg-[#1C4E80] text-white p-4 shadow-lg fixed top-0 left-0 right-0 z-50">
+    <header class="bg-[#1C4E80] text-white p-4 shadow-lg sticky top-0 z-50">
         <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight">Car Repair Assistance</h1>
-            </div>
+        </div>
     </header>
-
-    <div class="content-wrapper">
+    
+    <!-- Main content area that will grow -->
+    <div class="main-content">
         <main class="container mx-auto p-4 md:p-6">
-            <div class="text-center mb-8 md:mb-12 bg-white bg-opacity-75 backdrop-blur-sm p-6 rounded-lg shadow-xl">
+            <div class="text-center mb-8 md:mb-12 bg-white bg-opacity-75 backdrop-blur-sm p-6 rounded-lg shadow-xl mt-4">
                 <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1C4E80] mb-2">TRANSMISSION TROUBLES?</h1>
                 <p class="text-gray-700 text-base sm:text-lg md:text-xl">You're in the right place! Find solutions to common transmission problems.</p>
             </div>
@@ -380,6 +348,7 @@
             </div>
 
             <div id="cardsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <!-- Cards remain the same as in the original trans.html -->
                 <div class="card bg-white bg-opacity-80 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6 flex flex-col justify-between">
                     <div>
                         <h3 class="text-xl sm:text-2xl font-semibold text-[#1C4E80] mb-1">1. Fluid Leak</h3>
@@ -460,8 +429,8 @@
         </main>
     </div>
 
-    <!-- Footer - Changed to Dark Imperial Blue -->
-    <footer class="bg-[#1C4E80] text-gray-300 py-8 md:py-10 fixed bottom-0 left-0 right-0 z-40">
+    <!-- Footer - No longer fixed -->
+    <footer class="bg-[#1C4E80] text-gray-300 py-8 md:py-10 z-40 mt-auto">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
                 <div>
@@ -487,7 +456,7 @@
 
     <div id="overlay" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-[100] hidden" onclick="closeAllPopups()"></div>
 
-    <!-- Solution Popup with Image Placeholder -->
+    <!-- Solution Popup -->
     <div id="solutionPopup" class="fixed top-1/2 left-1/2 w-11/12 max-w-lg p-5 sm:p-6 rounded-xl shadow-2xl z-[101] bg-white transition-all duration-300 ease-out popup-inactive">
         <div class="flex justify-between items-center mb-4">
             <h2 id="popupTitle" class="text-lg sm:text-xl md:text-2xl font-semibold text-[#1C4E80]">Solution Details</h2>
@@ -495,22 +464,19 @@
         </div>
         <p id="popupDescription" class="text-gray-700 mb-3 text-sm sm:text-base"></p>
         <p id="popupSolution" class="text-gray-700 font-medium text-sm sm:text-base mb-4"></p>
-        <!-- Image container for solution popup -->
-        <div id="popupImageContainer" class="flex flex-wrap justify-center gap-4 mb-4">
-            <!-- Images will be dynamically added here -->
-        </div>
+        <div id="popupImageContainer" class="flex flex-wrap justify-center gap-4 mb-4"></div>
         <button onclick="closeSolutionPopup()" class="mt-6 w-full bg-[#1C4E80] hover:bg-blue-800 text-white font-semibold py-2.5 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-150 ease-in-out">
             Close
         </button>
     </div>
 
     <!-- Help Button -->
-    <button onclick="openHelpPopup()" title="Get Help" class="fixed bottom-[calc(6rem+0.5rem)] sm:bottom-[calc(6rem+0.75rem)] md:bottom-[calc(7rem+1rem)] right-5 md:right-8 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-xl transition-all duration-150 ease-in-out transform hover:scale-110 z-50 aspect-square flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 sm:w-7 sm:h-7">
+    <button onclick="openHelpPopup()" title="Get Help" class="fixed bottom-24 right-5 md:right-8 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-xl transition-all duration-150 ease-in-out transform hover:scale-110 z-50 flex items-center justify-center w-14 h-14">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
         </svg>
     </button>
-
+    
     <!-- Help Popup -->
     <div id="helpPopup" class="fixed top-1/2 left-1/2 w-11/12 max-w-md p-5 sm:p-6 rounded-xl shadow-2xl z-[101] bg-white transition-all duration-300 ease-out popup-inactive">
         <div class="flex justify-between items-center mb-4">
@@ -526,7 +492,7 @@
     </div>
 
     <!-- Chatbot Toggle Button -->
-    <button id="car-chatbot-toggle-button" title="AI Chat Assistant">
+    <button id="car-chatbot-toggle-button">
         <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/message-circle.svg" alt="Chatbot" class="car-chatbot-icon">
         Chatbot
     </button>
@@ -535,12 +501,11 @@
     <div class="car-chatbot-container" id="car-chatbot-container">
         <header class="car-chatbot-header">
             <h1>CarChatBot</h1>
-            <p class="text-gray-600">Your Virtual Car Assistant</p>
+            <p>Your Virtual Car Assistant</p>
         </header>
-        <div class="car-chatbot-messages" id="car-chatbot-messages">
-            </div>
+        <div class="car-chatbot-messages" id="car-chatbot-messages"></div>
         <div class="car-chatbot-input-area">
-            <input type="text" id="car-chatbot-user-input" placeholder="Enter your car problem..." onkeydown="if(event.key==='Enter' && !sendButton.disabled) { sendMessage(); }">
+            <input type="text" id="car-chatbot-user-input" placeholder="Ask about a car problem...">
             <div class="button-group">
                 <button id="car-chatbot-send-button" disabled>
                     <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/send.svg" alt="Send" class="car-chatbot-icon">
@@ -552,218 +517,39 @@
             </div>
         </div>
         <div id="car-chatbot-loading-indicator"></div>
-        <div class="car-chatbot-suggestion-box">
-            <p>Here are some common car problems:</p>
-            <ul class="car-chatbot-suggestion-list" id="car-chatbot-suggestion-list">
-                <li id="car-chatbot-advanced-diagnosis-suggestion">✨ Advanced Diagnosis</li>
-                </ul>
+        <div class="car-chatbot-suggestion-box" id="car-chatbot-suggestion-box">
+            <p>Common transmission problems:</p>
+            <ul class="car-chatbot-suggestion-list" id="car-chatbot-suggestion-list"></ul>
         </div>
     </div>
 
 <script>
-    // Solution data (maps option value to details)
+    // Solution data remains the same
     const solutions = {
-        'A': {
-            title: "Damaged Seals",
-            description: "Worn-out or damaged seals can cause fluid leaks.",
-            solution: "Inspect and Replace Seals: Regularly inspect seals and replace them if damaged.",
-            images: [
-                "https://placehold.co/400x250/AEC6CF/000000?text=Inspect+Seals",
-                "https://placehold.co/400x250/CDB8DF/000000?text=Replace+Seals"
-            ]
-        },
-        'B': {
-            title: "Loose Connections",
-            description: "Loose or improperly tightened connections can lead to leaks.",
-            solution: "Tighten Connections: Ensure all connections are properly tightened.",
-            images: [
-                "https://placehold.co/400x250/ADD8E6/000000?text=Check+Connections",
-                "https://placehold.co/400x250/BAF0BA/000000?text=Tighten+Bolt"
-            ]
-        },
-        'C': {
-            title: "Corrosion",
-            description: "Corrosion on transmission components can cause leaks.",
-            solution: "Clean and Protect Components: Clean corroded parts and apply protective coatings.",
-            images: [
-                "https://placehold.co/400x250/FFDDC1/000000?text=Remove+Corrosion",
-                "https://placehold.co/400x250/AEC6CF/000000?text=Apply+Protection"
-            ]
-        },
-        'D': {
-            title: "Worn Clutches",
-            description: "Clutches can wear out over time, causing slipping.",
-            solution: "Replace Clutches: Replace worn clutches as needed.",
-            images: [
-                "https://placehold.co/400x250/CDB8DF/000000?text=Worn+Clutch",
-                "https://placehold.co/400x250/ADD8E6/000000?text=New+Clutch+Plate"
-            ]
-        },
-        'E': {
-            title: "Faulty Solenoids",
-            description: "Defective solenoids can lead to improper gear engagement.",
-            solution: "Repair or Replace Solenoids: Fix or replace faulty solenoids.",
-            images: [
-                "https://placehold.co/400x250/BAF0BA/000000?text=Inspect+Solenoid",
-                "https://placehold.co/400x250/FFDDC1/000000?text=Solenoid+Replacement"
-            ]
-        },
-        'F': {
-            title: "Low Fluid Levels (Slipping)",
-            description: "Insufficient transmission fluid can cause slipping.",
-            solution: "Refill Transmission Fluid: Maintain proper fluid levels and top up if necessary.",
-            images: [
-                "https://placehold.co/400x250/AEC6CF/000000?text=Check+Fluid+Level",
-                "https://placehold.co/400x250/CDB8DF/000000?text=Add+Fluid"
-            ]
-        },
-        'G': {
-            title: "Low Fluid Pressure",
-            description: "Low fluid pressure can cause delays in gear engagement.",
-            solution: "Check and Adjust Fluid Pressure: Ensure proper fluid pressure and adjust if needed.",
-            images: [
-                "https://placehold.co/400x250/ADD8E6/000000?text=Fluid+Pressure+Check",
-                "https://placehold.co/400x250/BAF0BA/000000?text=Adjust+Pressure"
-            ]
-        },
-        'H': {
-            title: "Dirty Transmission Filter",
-            description: "A clogged filter can restrict fluid flow.",
-            solution: "Replace Transmission Filter: Regularly replace the transmission filter.",
-            images: [
-                "https://placehold.co/400x250/FFDDC1/000000?text=Dirty+Filter",
-                "https://placehold.co/400x250/AEC6CF/000000?text=New+Filter"
-            ]
-        },
-        'I': {
-            title: "Faulty TCM",
-            description: "A malfunctioning Transmission Control Module (TCM) can cause delays.",
-            solution: "Diagnose and Repair TCM: Use diagnostic tools to identify and fix TCM issues.",
-            images: [
-                "https://placehold.co/400x250/CDB8DF/000000?text=Diagnose+TCM",
-                "https://placehold.co/400x250/ADD8E6/000000?text=Repair+TCM"
-            ]
-        },
-        'J': {
-            title: "Worn Transmission Bands",
-            description: "Worn bands can cause harsh shifting.",
-            solution: "Replace Transmission Bands: Replace worn bands as needed.",
-            images: [
-                "https://placehold.co/400x250/BAF0BA/000000?text=Worn+Band",
-                "https://placehold.co/400x250/FFDDC1/000000?text=Replace+Band"
-            ]
-        },
-        'K': {
-            title: "Improper Fluid Type",
-            description: "Using the wrong type of transmission fluid can lead to harsh shifts.",
-            solution: "Use Correct Fluid Type: Ensure the correct fluid type is used according to your vehicle's manual.",
-            images: [
-                "https://placehold.co/400x250/AEC6CF/000000?text=Correct+Fluid",
-                "https://placehold.co/400x250/CDB8DF/000000?text=Fluid+Specs"
-            ]
-        },
-        'L': {
-            title: "Dirty Transmission Components",
-            description: "Dirt and debris can cause rough shifting.",
-            solution: "Clean Transmission Components: Regularly clean and maintain transmission components.",
-            images: [
-                "https://placehold.co/400x250/ADD8E6/000000?text=Clean+Components",
-                "https://placehold.co/400x250/BAF0BA/000000?text=Maintenance"
-            ]
-        },
-        'M': {
-            title: "Low Fluid Levels (Overheating)",
-            description: "Low fluid levels can cause overheating.",
-            solution: "Maintain Fluid Levels: Regularly check and maintain fluid levels. Address any leaks.",
-            images: [
-                "https://placehold.co/400x250/FFDDC1/000000?text=Fluid+Level",
-                "https://placehold.co/400x250/AEC6CF/000000?text=Check+for+Leaks"
-            ]
-        },
-        'N': {
-            title: "Blocked Cooling Lines",
-            description: "Blocked cooling lines can prevent proper cooling.",
-            solution: "Clean Cooling Lines: Ensure cooling lines are clear and unobstructed. Flush if necessary.",
-            images: [
-                "https://placehold.co/400x250/CDB8DF/000000?text=Clear+Lines",
-                "https://placehold.co/400x250/ADD8E6/000000?text=Flush+Cooling"
-            ]
-        },
-        'O': {
-            title: "Faulty Cooling Fan",
-            description: "A malfunctioning cooling fan can lead to overheating.",
-            solution: "Repair or Replace Cooling Fan: Fix or replace a faulty cooling fan or its related components.",
-            images: [
-                "https://placehold.co/400x250/BAF0BA/000000?text=Inspect+Cooling+Fan",
-                "https://placehold.co/400x250/FFDDC1/000000?text=Replace+Fan"
-            ]
-        },
-        'P': {
-            title: "Worn Bearings",
-            description: "Worn bearings can cause unusual noises (whining, grinding).",
-            solution: "Replace Worn Bearings: This often requires transmission disassembly and professional help.",
-            images: [
-                "https://placehold.co/400x250/AEC6CF/000000?text=Worn+Bearing",
-                "https://placehold.co/400x250/CDB8DF/000000?text=Bearing+Replacement"
-            ]
-        },
-        'Q': {
-            title: "Loose Components",
-            description: "Loose or damaged internal/external components can create noise.",
-            solution: "Tighten or Replace Components: Inspect for loose bolts, mounts, or damaged parts.",
-            images: [
-                "https://placehold.co/400x250/ADD8E6/000000?text=Check+Loose+Parts",
-                "https://placehold.co/400x250/BAF0BA/000000?text=Tighten+Components"
-            ]
-        },
-        'R': {
-            title: "Lack of Lubrication",
-            description: "Insufficient lubrication due to low fluid or old fluid can lead to noise.",
-            solution: "Lubricate Components: Ensure proper fluid level and quality. Change fluid if old or contaminated.",
-            images: [
-                "https://placehold.co/400x250/FFDDC1/000000?text=Check+Lubrication",
-                "https://placehold.co/400x250/AEC6CF/000000?text=Add+Lubricant"
-            ]
-        }
+        'A':{title:"Damaged Seals",description:"Worn-out or damaged seals can cause fluid leaks.",solution:"Inspect and Replace Seals: Regularly inspect seals and replace them if damaged.",images:["https://placehold.co/400x250/AEC6CF/000000?text=Inspect+Seals","https://placehold.co/400x250/CDB8DF/000000?text=Replace+Seals"]},
+        'B':{title:"Loose Connections",description:"Loose or improperly tightened connections can lead to leaks.",solution:"Tighten Connections: Ensure all connections are properly tightened.",images:["https://placehold.co/400x250/ADD8E6/000000?text=Check+Connections","https://placehold.co/400x250/BAF0BA/000000?text=Tighten+Bolt"]},
+        'C':{title:"Corrosion",description:"Corrosion on transmission components can cause leaks.",solution:"Clean and Protect Components: Clean corroded parts and apply protective coatings.",images:["https://placehold.co/400x250/FFDDC1/000000?text=Remove+Corrosion","https://placehold.co/400x250/AEC6CF/000000?text=Apply+Protection"]},
+        'D':{title:"Worn Clutches",description:"Clutches can wear out over time, causing slipping.",solution:"Replace Clutches: Replace worn clutches as needed.",images:["https://placehold.co/400x250/CDB8DF/000000?text=Worn+Clutch","https://placehold.co/400x250/ADD8E6/000000?text=New+Clutch+Plate"]},
+        'E':{title:"Faulty Solenoids",description:"Defective solenoids can lead to improper gear engagement.",solution:"Repair or Replace Solenoids: Fix or replace faulty solenoids.",images:["https://placehold.co/400x250/BAF0BA/000000?text=Inspect+Solenoid","https://placehold.co/400x250/FFDDC1/000000?text=Solenoid+Replacement"]},
+        'F':{title:"Low Fluid Levels (Slipping)",description:"Insufficient transmission fluid can cause slipping.",solution:"Refill Transmission Fluid: Maintain proper fluid levels and top up if necessary.",images:["https://placehold.co/400x250/AEC6CF/000000?text=Check+Fluid+Level","https://placehold.co/400x250/CDB8DF/000000?text=Add+Fluid"]},
+        'G':{title:"Low Fluid Pressure",description:"Low fluid pressure can cause delays in gear engagement.",solution:"Check and Adjust Fluid Pressure: Ensure proper fluid pressure and adjust if needed.",images:["https://placehold.co/400x250/ADD8E6/000000?text=Fluid+Pressure+Check","https://placehold.co/400x250/BAF0BA/000000?text=Adjust+Pressure"]},
+        'H':{title:"Dirty Transmission Filter",description:"A clogged filter can restrict fluid flow.",solution:"Replace Transmission Filter: Regularly replace the transmission filter.",images:["https://placehold.co/400x250/FFDDC1/000000?text=Dirty+Filter","https://placehold.co/400x250/AEC6CF/000000?text=New+Filter"]},
+        'I':{title:"Faulty TCM",description:"A malfunctioning Transmission Control Module (TCM) can cause delays.",solution:"Diagnose and Repair TCM: Use diagnostic tools to identify and fix TCM issues.",images:["https://placehold.co/400x250/CDB8DF/000000?text=Diagnose+TCM","https://placehold.co/400x250/ADD8E6/000000?text=Repair+TCM"]},
+        'J':{title:"Worn Transmission Bands",description:"Worn bands can cause harsh shifting.",solution:"Replace Transmission Bands: Replace worn bands as needed.",images:["https://placehold.co/400x250/BAF0BA/000000?text=Worn+Band","https://placehold.co/400x250/FFDDC1/000000?text=Replace+Band"]},
+        'K':{title:"Improper Fluid Type",description:"Using the wrong type of transmission fluid can lead to harsh shifts.",solution:"Use Correct Fluid Type: Ensure the correct fluid type is used according to your vehicle's manual.",images:["https://placehold.co/400x250/AEC6CF/000000?text=Correct+Fluid","https://placehold.co/400x250/CDB8DF/000000?text=Fluid+Specs"]},
+        'L':{title:"Dirty Transmission Components",description:"Dirt and debris can cause rough shifting.",solution:"Clean Transmission Components: Regularly clean and maintain transmission components.",images:["https://placehold.co/400x250/ADD8E6/000000?text=Clean+Components","https://placehold.co/400x250/BAF0BA/000000?text=Maintenance"]},
+        'M':{title:"Low Fluid Levels (Overheating)",description:"Low fluid levels can cause overheating.",solution:"Maintain Fluid Levels: Regularly check and maintain fluid levels. Address any leaks.",images:["https://placehold.co/400x250/FFDDC1/000000?text=Fluid+Level","https://placehold.co/400x250/AEC6CF/000000?text=Check+for+Leaks"]},
+        'N':{title:"Blocked Cooling Lines",description:"Blocked cooling lines can prevent proper cooling.",solution:"Clean Cooling Lines: Ensure cooling lines are clear and unobstructed. Flush if necessary.",images:["https://placehold.co/400x250/CDB8DF/000000?text=Clear+Lines","https://placehold.co/400x250/ADD8E6/000000?text=Flush+Cooling"]},
+        'O':{title:"Faulty Cooling Fan",description:"A malfunctioning cooling fan can lead to overheating.",solution:"Repair or Replace Cooling Fan: Fix or replace a faulty cooling fan or its related components.",images:["https://placehold.co/400x250/BAF0BA/000000?text=Inspect+Cooling+Fan","https://placehold.co/400x250/FFDDC1/000000?text=Replace+Fan"]},
+        'P':{title:"Worn Bearings",description:"Worn bearings can cause unusual noises (whining, grinding).",solution:"Replace Worn Bearings: This often requires transmission disassembly and professional help.",images:["https://placehold.co/400x250/AEC6CF/000000?text=Worn+Bearing","https://placehold.co/400x250/CDB8DF/000000?text=Bearing+Replacement"]},
+        'Q':{title:"Loose Components",description:"Loose or damaged internal/external components can create noise.",solution:"Tighten or Replace Components: Inspect for loose bolts, mounts, or damaged parts.",images:["https://placehold.co/400x250/ADD8E6/000000?text=Check+Loose+Parts","https://placehold.co/400x250/BAF0BA/000000?text=Tighten+Components"]},
+        'R':{title:"Lack of Lubrication",description:"Insufficient lubrication due to low fluid or old fluid can lead to noise.",solution:"Lubricate Components: Ensure proper fluid level and quality. Change fluid if old or contaminated.",images:["https://placehold.co/400x250/FFDDC1/000000?text=Check+Lubrication","https://placehold.co/400x250/AEC6CF/000000?text=Add+Lubricant"]}
     };
 
+    // --- Page interaction script ---
     const overlay = document.getElementById('overlay');
     const solutionPopup = document.getElementById('solutionPopup');
     const helpPopup = document.getElementById('helpPopup');
-
-    // These variables will be declared inside window.onload
-    let chatMessages, userInput, sendButton, loadingIndicator, suggestionList, suggestionBox, chatbotContainer, chatbotToggleButton, generateTipsButton, chatFileInput;
-
-    const apiKey = ""; // Provided by environment
-
-    // Common problems for initial suggestions (Transmission specific)
-    const commonProblems = [
-        "transmission fluid leak",
-        "transmission slipping",
-        "delayed gear engagement",
-        "harsh gear shifting",
-        "transmission overheating",
-        "unusual noises from transmission",
-    ];
-
-    function populateSuggestions() {
-        if (!suggestionList) return; // Add null check for robustness
-        suggestionList.innerHTML = ''; // Clear old suggestions
-        commonProblems.forEach(problem => {
-            const listItem = document.createElement('li');
-            listItem.textContent = problem;
-            listItem.addEventListener('click', () => {
-                if (userInput) userInput.value = problem; // Add null check
-                handleInputChange(); // Enable send button
-            });
-            suggestionList.appendChild(listItem);
-        });
-        // Add the new Advanced Diagnosis suggestion
-        const advancedDiagnosisSuggestion = document.createElement('li');
-        advancedDiagnosisSuggestion.textContent = '✨ Advanced Diagnosis';
-        advancedDiagnosisSuggestion.addEventListener('click', startAdvancedDiagnosis);
-        suggestionList.appendChild(advancedDiagnosisSuggestion);
-    }
 
     function openSolutionPopup(optionValue) {
         const data = solutions[optionValue];
@@ -774,15 +560,13 @@
             
             const imageContainer = document.getElementById('popupImageContainer');
             imageContainer.innerHTML = ''; // Clear previous images
-            if (data.images && data.images.length > 0) {
-                data.images.forEach(imageUrl => {
-                    const img = document.createElement('img');
-                    img.src = imageUrl;
-                    img.alt = `Solution image for ${data.title}`;
-                    img.className = "w-full md:w-1/2 lg:w-1/3 h-auto rounded-lg shadow-md"; // Responsive image sizing
-                    imageContainer.appendChild(img);
-                });
-            }
+            data.images.forEach(imageUrl => {
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.alt = `Solution for ${data.title}`;
+                img.className = "w-full sm:w-5/12 h-auto rounded-lg shadow-md";
+                imageContainer.appendChild(img);
+            });
 
             overlay.classList.remove('hidden');
             solutionPopup.classList.remove('popup-inactive');
@@ -794,17 +578,12 @@
         overlay.classList.add('hidden');
         solutionPopup.classList.add('popup-inactive');
         solutionPopup.classList.remove('popup-active');
-        document.getElementById('popupImageContainer').innerHTML = ''; // Clear images on close
     }
 
     function openHelpPopup() {
         overlay.classList.remove('hidden');
         helpPopup.classList.remove('popup-inactive');
         helpPopup.classList.add('popup-active');
-         // Ensure chat is closed if help is opened
-        if (chatbotContainer && chatbotContainer.classList.contains('active')) { // Add null check
-            toggleChat(false); // Close chat without toggling overlay
-        }
     }
 
     function closeHelpPopup() {
@@ -812,22 +591,17 @@
         helpPopup.classList.add('popup-inactive');
         helpPopup.classList.remove('popup-active');
     }
-    
+
     function closeAllPopups() {
         closeSolutionPopup();
         closeHelpPopup();
-        // If chat is also a popup that uses the overlay, close it too
-        if (chatbotContainer && chatbotContainer.classList.contains('active')) { // Add null check
-             toggleChat(false); // Close chat without toggling overlay
+        if (chatbotContainer.classList.contains('active')) {
+             toggleChatbot(false);
         }
     }
 
-
     function optionClicked(value, selectElement) {
         openSolutionPopup(value);
-        // Reset select to default "Select Potential Cause" after a selection
-        // This improves UX as the user clearly sees their choice in the popup
-        // and the select is ready for another interaction if needed.
         if(selectElement) {
             selectElement.selectedIndex = 0;
         }
@@ -840,53 +614,73 @@
         let resultsFound = false;
 
         cards.forEach(card => {
-            const cardProblemText = card.querySelector('h3').textContent.toLowerCase();
-            const cardDescriptionText = card.querySelector('p').textContent.toLowerCase();
-            // Also check option texts within the select for a more comprehensive search
-            const optionTexts = Array.from(card.querySelectorAll('select option')).map(opt => opt.textContent.toLowerCase());
-            
-            const isMatch = cardProblemText.includes(input) || 
-                            cardDescriptionText.includes(input) || 
-                            optionTexts.some(optText => optText.includes(input));
-
-            if (isMatch) {
-                card.style.display = 'flex'; // Assuming cards are flex containers
+            const cardTexts = (card.textContent || card.innerText).toLowerCase();
+            if (cardTexts.includes(input)) {
+                card.style.display = 'flex';
                 resultsFound = true;
             } else {
                 card.style.display = 'none';
             }
         });
 
-        if (resultsFound) {
-            noResultsMessage.classList.add('hidden');
-        } else {
-            noResultsMessage.classList.remove('hidden');
+        noResultsMessage.classList.toggle('hidden', resultsFound);
+    }
+    
+    document.getElementById('searchInput').addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            searchProblems();
         }
+    });
+
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // --- New Chatbot Script (from engine.html) ---
+    const chatMessages = document.getElementById('car-chatbot-messages');
+    const userInput = document.getElementById('car-chatbot-user-input');
+    const sendButton = document.getElementById('car-chatbot-send-button');
+    const loadingIndicator = document.getElementById('car-chatbot-loading-indicator');
+    const suggestionList = document.getElementById('car-chatbot-suggestion-list');
+    const suggestionBox = document.getElementById('car-chatbot-suggestion-box');
+    const chatbotContainer = document.getElementById('car-chatbot-container');
+    const chatbotToggleButton = document.getElementById('car-chatbot-toggle-button');
+    const generateTipsButton = document.getElementById('car-chatbot-generate-tips-button');
+
+    // Transmission-specific problems
+    const commonProblems = [
+        "transmission fluid leak",
+        "gear slipping",
+        "delayed engagement",
+        "harsh shifting",
+        "transmission overheating",
+        "whining noise",
+    ];
+
+    function populateSuggestions() {
+        suggestionList.innerHTML = '';
+        commonProblems.forEach(problem => {
+            const listItem = document.createElement('li');
+            listItem.textContent = problem;
+            listItem.addEventListener('click', () => {
+                userInput.value = problem;
+                handleInputChange();
+                sendMessage();
+            });
+            suggestionList.appendChild(listItem);
+        });
     }
 
-    // --- Chatbot Functionality (aligned with screenshot) ---
-    async function getGeminiResponse(prompt, base64ImageData = null) {
-        if (!loadingIndicator || !sendButton || !userInput || !generateTipsButton || !suggestionBox) return; // Add null checks
+    async function getGeminiResponse(prompt) {
         loadingIndicator.style.display = 'block';
         sendButton.disabled = true;
         userInput.disabled = true;
         generateTipsButton.disabled = true;
-        suggestionBox.style.display = 'none'; // Hide suggestions while loading
+        suggestionBox.style.display = 'none';
 
         try {
-            let chatHistory = [];
-            const userParts = [{ text: prompt }];
-            if (base64ImageData) {
-                userParts.push({
-                    inlineData: {
-                        mimeType: "image/png", // Assuming PNG, adjust if other types are allowed
-                        data: base64ImageData
-                    }
-                });
-            }
-            chatHistory.push({ role: "user", parts: userParts });
-
+            let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
             const payload = { contents: chatHistory };
+            const apiKey = ""; // API key is handled by the environment
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             const response = await fetch(apiUrl, {
@@ -896,192 +690,86 @@
             });
 
             const result = await response.json();
-            if (result.candidates && result.candidates.length > 0 &&
-                result.candidates[0].content && result.candidates[0].content.parts &&
-                result.candidates[0].content.parts.length > 0) {
+            if (result.candidates?.[0]?.content?.parts?.[0]) {
                 return result.candidates[0].content.parts[0].text;
             } else {
-                return "Sorry, I couldn't get a response from the AI. Please try again or rephrase your question.";
+                console.error("Unexpected API response structure:", result);
+                return "Sorry, I received an unusual response from the AI. Please try again.";
             }
         } catch (error) {
             console.error("Error calling Gemini API:", error);
-            return "An error occurred while connecting to the AI. Please check your internet connection.";
+            return "An error occurred while connecting to the AI. Please check the console for details.";
         } finally {
-            if (loadingIndicator) loadingIndicator.style.display = 'none'; // Add null check
-            if (sendButton) sendButton.disabled = false; // Add null check
-            if (userInput) userInput.disabled = false; // Add null check
-            if (generateTipsButton) generateTipsButton.disabled = false; // Add null check
-            // Only show suggestions again if chatbot is active
-            if (chatbotContainer && chatbotContainer.classList.contains('active')) { // Add null check
-                if (suggestionBox) suggestionBox.style.display = 'block'; // Add null check
-            }
+            loadingIndicator.style.display = 'none';
+            userInput.disabled = false;
+            generateTipsButton.disabled = false;
+            suggestionBox.style.display = 'block';
+            handleInputChange();
         }
     }
 
     async function sendMessage() {
-        if (!userInput) return; // Add null check
-        const userText = userInput.value;
-        if (!userText.trim()) return;
+        const userText = userInput.value.trim();
+        if (!userText) return;
 
-        appendMessage('user', userText);
+        addMessage('user', userText);
         userInput.value = '';
-        handleInputChange(); // Disable send button immediately
+        handleInputChange();
 
-        // This prompt will be used for all user inputs through the text field
         const botResponse = await getGeminiResponse(`Provide detailed car repair advice for the following transmission problem: ${userText}`);
-        appendMessage('bot', botResponse);
+        addMessage('bot', botResponse);
     }
 
     async function generateMaintenanceTips() {
-        appendMessage('user', "Generate some car maintenance tips.");
-        const prompt = "Generate 5 practical and concise car maintenance tips for a general audience, specifically related to car transmissions and general car health. Include tips on fluid checks, driving habits, and regular servicing.";
+        addMessage('user', "Generate some car maintenance tips.");
+        const prompt = "Generate 5 practical and concise maintenance tips for a car's transmission system. Include advice on fluid, driving habits, and regular checks.";
         const botResponse = await getGeminiResponse(prompt);
-        appendMessage('bot', botResponse);
+        addMessage('bot', botResponse);
     }
 
-    async function startAdvancedDiagnosis() {
-        // Simulate user clicking this option
-        appendMessage('user', "I need an advanced diagnosis.");
-        
-        const initialPrompt = "Act as a specialized car diagnostic assistant. I will describe my car's symptoms. Your first response should be to ask me to describe the symptoms clearly and comprehensively. Then, based on my description, you will ask clarifying questions or suggest initial troubleshooting steps, potential causes, and recommended actions. Be concise and practical.";
-        const botResponse = await getGeminiResponse(initialPrompt);
-        appendMessage('bot', botResponse);
-        // After initiating, if the chatbot usually hides suggestions, re-show them after a delay
-        setTimeout(() => {
-            if (chatbotContainer && chatbotContainer.classList.contains('active')) { // Add null check
-                if (suggestionBox) suggestionBox.style.display = 'block'; // Add null check
-            }
-        }, 1000); // 1 second delay
-    }
-
-    function appendMessage(sender, text, imageUrl = null) {
-        if (!chatMessages) return; // Add null check
+    function addMessage(sender, text) {
         const messageDiv = document.createElement('div');
         messageDiv.classList.add('car-chatbot-message', sender);
         const messageContentDiv = document.createElement('div');
         messageContentDiv.classList.add('car-chatbot-message-content');
-        
-        if (imageUrl) {
-            const img = document.createElement('img');
-            img.src = imageUrl;
-            img.alt = sender === 'user' ? "Uploaded image" : "Bot image response";
-            img.className = "chat-image max-w-[200px] rounded-md mt-1";
-            if (text) { // If there's text with the image
-                 const textElement = document.createElement('p');
-                 textElement.textContent = text;
-                 messageContentDiv.appendChild(textElement);
-            }
-            messageContentDiv.appendChild(img);
-        } else {
-            messageContentDiv.textContent = text;
-        }
-
+        // A simple way to format the text to look a bit better
+        messageContentDiv.innerHTML = text.replace(/\n/g, '<br>');
         messageDiv.appendChild(messageContentDiv);
         chatMessages.appendChild(messageDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
     function handleInputChange() {
-        if (sendButton && userInput) { // Add null checks
-            sendButton.disabled = !userInput.value.trim();
+        sendButton.disabled = !userInput.value.trim();
+    }
+    
+    function toggleChatbot(forceClose = null) {
+        const isActive = chatbotContainer.classList.contains('active');
+        const shouldBeActive = forceClose === null ? !isActive : false;
+
+        chatbotContainer.classList.toggle('active', shouldBeActive);
+        if (shouldBeActive) {
+            chatbotToggleButton.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/x-circle.svg" alt="Close" class="car-chatbot-icon"> Close`;
+        } else {
+            chatbotToggleButton.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/message-circle.svg" alt="Chatbot" class="car-chatbot-icon"> Chatbot`;
         }
     }
 
-    async function previewImageAndSend() {
-        if (!chatFileInput) return; // Add null check
-        const file = chatFileInput.files[0];
-        if (!file) return;
 
-        // Validate file type (basic client-side check)
-        if (!file.type.startsWith('image/')) {
-            appendMessage('bot', "Please upload a valid image file (e.g., PNG, JPG).");
-            chatFileInput.value = ""; // Clear the input
-            return;
+    // --- Event Listeners ---
+    userInput.addEventListener('input', handleInputChange);
+    sendButton.addEventListener('click', sendMessage);
+    userInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' && !sendButton.disabled) {
+            sendMessage();
         }
+    });
+    generateTipsButton.addEventListener('click', generateMaintenanceTips);
+    chatbotToggleButton.addEventListener('click', () => toggleChatbot());
 
-        // Validate file size (e.g., limit to 4MB, as per Gemini API typical limits for inline data)
-        const maxSizeMB = 3.8;
-        if (file.size > maxSizeMB * 1024 * 1024) {
-            appendMessage('bot', `Image too large. Please upload an image smaller than ${maxSizeMB}MB.`);
-            chatFileInput.value = "";
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = async function(event) {
-            const imageUrl = event.target.result;
-            appendMessage('user', "Image to analyze:", imageUrl); // Show image in chat
-
-            const base64ImageData = imageUrl.split(',')[1]; // Get base64 part
-            const prompt = "Analyze this image related to a car problem and provide potential issues or advice. If it's not car related, say so.";
-
-            const botResponseText = await getGeminiResponse(prompt, base64ImageData);
-            appendMessage('bot', botResponseText);
-        }
-        reader.onerror = function() {
-            appendMessage('bot', "Error reading file.");
-            console.error("FileReader error:", reader.error);
-        }
-        reader.readAsDataURL(file);
-        chatFileInput.value = ""; // Clear the input after processing
-    }
-
-    // Initialize the chatbot and attach event listeners on window load
-    window.onload = () => {
-        // Assign DOM elements here to ensure they are loaded
-        chatMessages = document.getElementById('car-chatbot-messages');
-        userInput = document.getElementById('car-chatbot-user-input');
-        sendButton = document.getElementById('car-chatbot-send-button');
-        loadingIndicator = document.getElementById('car-chatbot-loading-indicator');
-        suggestionList = document.getElementById('car-chatbot-suggestion-list');
-        suggestionBox = document.getElementById('car-chatbot-suggestion-box');
-        chatbotContainer = document.getElementById('car-chatbot-container');
-        chatbotToggleButton = document.getElementById('car-chatbot-toggle-button');
-        generateTipsButton = document.getElementById('car-chatbot-generate-tips-button');
-        chatFileInput = document.getElementById('chatFileInput');
-
-        // Event Listeners for the chatbot
-        if (userInput) userInput.addEventListener('input', handleInputChange);
-        if (sendButton) sendButton.addEventListener('click', sendMessage);
-        if (generateTipsButton) generateTipsButton.addEventListener('click', generateMaintenanceTips);
-        if (chatFileInput) chatFileInput.addEventListener('change', previewImageAndSend);
-        if (chatbotToggleButton) chatbotToggleButton.addEventListener('click', () => {
-            if (!chatbotContainer) return; // Additional check
-            chatbotContainer.classList.toggle('active');
-            if (chatbotContainer.classList.contains('active')) {
-                chatbotToggleButton.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/x-circle.svg" alt="Close" class="car-chatbot-icon"> Close`;
-                if (overlay) overlay.classList.remove('hidden'); // Add null check
-                closeHelpPopup();
-                closeSolutionPopup();
-                if (suggestionBox) suggestionBox.style.display = 'block'; // Add null check
-            } else {
-                chatbotToggleButton.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/message-circle.svg" alt="Chatbot" class="car-chatbot-icon"> Chatbot`;
-                if (overlay) overlay.classList.add('hidden'); // Add null check
-                if (suggestionBox) suggestionBox.style.display = 'none'; // Add null check
-            }
-        });
-
-        // Close popups when clicking outside on the overlay
-        if (overlay) overlay.addEventListener('click', () => { closeAllPopups(); }); // Add null check
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'Escape') {
-                closeAllPopups();
-            }
-        });
-
-        // Initial chatbot messages and suggestions
-        appendMessage('bot', "Hello! I'm CarChatBot, your virtual car assistant. What problem are you experiencing?");
-        populateSuggestions();
-        if (chatbotContainer && !chatbotContainer.classList.contains('active')) { // Add null check
-             if (suggestionBox) suggestionBox.style.display = 'none'; // Add null check
-        }
-
-        // Initialize current year in footer
-        const currentYearSpan = document.getElementById('currentYear');
-        if (currentYearSpan) {
-            currentYearSpan.textContent = new Date().getFullYear();
-        }
-    };
+    // Initialize chatbot on load
+    addMessage('bot', "Hello! I'm your virtual car assistant. What transmission problem are you experiencing?");
+    populateSuggestions();
 </script>
 </body>
 </html>
