@@ -61,6 +61,11 @@ def brake_page():
 def about_page():
     return render_template("about.html")
 
+    #battery page
+@app.route("/battery")
+def battery_page():
+    return render_template("battery.html")
+
 
 # Transmission page
 @app.route("/trans")
