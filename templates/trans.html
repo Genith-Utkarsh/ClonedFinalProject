@@ -46,7 +46,12 @@
             padding-right: 2.5em;
         }
         
-        /* Popup visibility and centering */
+        /* --- Improved Popup Styles --- */
+        #solutionPopup {
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
         .popup-active {
             display: flex !important;
             align-items: center;
@@ -58,6 +63,39 @@
             opacity: 0 !important;
             transform: translate(-50%, -50%) scale(0.95) !important;
             pointer-events: none;
+        }
+
+        .popup-step {
+            margin-bottom: 1.5rem;
+        }
+
+        .popup-step p {
+            margin-bottom: 0.75rem;
+            text-align: left;
+            color: #374151;
+        }
+
+        .popup-step img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Custom scrollbar for popup */
+        #solutionPopup::-webkit-scrollbar {
+            width: 8px;
+        }
+        #solutionPopup::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        #solutionPopup::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        #solutionPopup::-webkit-scrollbar-thumb:hover {
+            background: #555;
         }
 
         /* --- Chatbot Styles (from engine.html) --- */
@@ -348,7 +386,7 @@
             </div>
 
             <div id="cardsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                <!-- Cards remain the same as in the original trans.html -->
+                <!-- Cards remain the same -->
                 <div class="card bg-white bg-opacity-80 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6 flex flex-col justify-between">
                     <div>
                         <h3 class="text-xl sm:text-2xl font-semibold text-[#1C4E80] mb-1">1. Fluid Leak</h3>
@@ -429,7 +467,7 @@
         </main>
     </div>
 
-    <!-- Footer - No longer fixed -->
+    <!-- Footer -->
     <footer class="bg-[#1C4E80] text-gray-300 py-8 md:py-10 z-40 mt-auto">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
@@ -456,15 +494,18 @@
 
     <div id="overlay" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-[100] hidden" onclick="closeAllPopups()"></div>
 
-    <!-- Solution Popup -->
-    <div id="solutionPopup" class="fixed top-1/2 left-1/2 w-11/12 max-w-lg p-5 sm:p-6 rounded-xl shadow-2xl z-[101] bg-white transition-all duration-300 ease-out popup-inactive">
-        <div class="flex justify-between items-center mb-4">
-            <h2 id="popupTitle" class="text-lg sm:text-xl md:text-2xl font-semibold text-[#1C4E80]">Solution Details</h2>
-            <button onclick="closeSolutionPopup()" class="text-gray-500 hover:text-gray-800 text-2xl sm:text-3xl">&times;</button>
+    <!-- Redesigned Solution Popup -->
+    <div id="solutionPopup" class="fixed top-1/2 left-1/2 w-11/12 max-w-2xl p-5 sm:p-6 rounded-xl shadow-2xl z-[101] bg-white transition-all duration-300 ease-out popup-inactive">
+        <div class="flex justify-between items-center mb-4 pb-4 border-b">
+            <div>
+                <h2 id="popupTitle" class="text-xl md:text-2xl font-bold text-[#1C4E80]">Solution Details</h2>
+                <p id="popupDescription" class="text-sm text-gray-500 mt-1"></p>
+            </div>
+            <button onclick="closeSolutionPopup()" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
         </div>
-        <p id="popupDescription" class="text-gray-700 mb-3 text-sm sm:text-base"></p>
-        <p id="popupSolution" class="text-gray-700 font-medium text-sm sm:text-base mb-4"></p>
-        <div id="popupImageContainer" class="flex flex-wrap justify-center gap-4 mb-4"></div>
+        <div id="popupContentContainer" class="space-y-4">
+            <!-- JS will populate this with steps -->
+        </div>
         <button onclick="closeSolutionPopup()" class="mt-6 w-full bg-[#1C4E80] hover:bg-blue-800 text-white font-semibold py-2.5 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-150 ease-in-out">
             Close
         </button>
@@ -524,27 +565,71 @@
     </div>
 
 <script>
-    // Solution data remains the same
+    // --- NEW Step-by-Step Solution Data ---
     const solutions = {
-        'A':{title:"Damaged Seals",description:"Worn-out or damaged seals can cause fluid leaks.",solution:"Inspect and Replace Seals: Regularly inspect seals and replace them if damaged.",images:["https://placehold.co/400x250/AEC6CF/000000?text=Inspect+Seals","https://placehold.co/400x250/CDB8DF/000000?text=Replace+Seals"]},
-        'B':{title:"Loose Connections",description:"Loose or improperly tightened connections can lead to leaks.",solution:"Tighten Connections: Ensure all connections are properly tightened.",images:["https://placehold.co/400x250/ADD8E6/000000?text=Check+Connections","https://placehold.co/400x250/BAF0BA/000000?text=Tighten+Bolt"]},
-        'C':{title:"Corrosion",description:"Corrosion on transmission components can cause leaks.",solution:"Clean and Protect Components: Clean corroded parts and apply protective coatings.",images:["https://placehold.co/400x250/FFDDC1/000000?text=Remove+Corrosion","https://placehold.co/400x250/AEC6CF/000000?text=Apply+Protection"]},
-        'D':{title:"Worn Clutches",description:"Clutches can wear out over time, causing slipping.",solution:"Replace Clutches: Replace worn clutches as needed.",images:["https://placehold.co/400x250/CDB8DF/000000?text=Worn+Clutch","https://placehold.co/400x250/ADD8E6/000000?text=New+Clutch+Plate"]},
-        'E':{title:"Faulty Solenoids",description:"Defective solenoids can lead to improper gear engagement.",solution:"Repair or Replace Solenoids: Fix or replace faulty solenoids.",images:["https://placehold.co/400x250/BAF0BA/000000?text=Inspect+Solenoid","https://placehold.co/400x250/FFDDC1/000000?text=Solenoid+Replacement"]},
-        'F':{title:"Low Fluid Levels (Slipping)",description:"Insufficient transmission fluid can cause slipping.",solution:"Refill Transmission Fluid: Maintain proper fluid levels and top up if necessary.",images:["https://placehold.co/400x250/AEC6CF/000000?text=Check+Fluid+Level","https://placehold.co/400x250/CDB8DF/000000?text=Add+Fluid"]},
-        'G':{title:"Low Fluid Pressure",description:"Low fluid pressure can cause delays in gear engagement.",solution:"Check and Adjust Fluid Pressure: Ensure proper fluid pressure and adjust if needed.",images:["https://placehold.co/400x250/ADD8E6/000000?text=Fluid+Pressure+Check","https://placehold.co/400x250/BAF0BA/000000?text=Adjust+Pressure"]},
-        'H':{title:"Dirty Transmission Filter",description:"A clogged filter can restrict fluid flow.",solution:"Replace Transmission Filter: Regularly replace the transmission filter.",images:["https://placehold.co/400x250/FFDDC1/000000?text=Dirty+Filter","https://placehold.co/400x250/AEC6CF/000000?text=New+Filter"]},
-        'I':{title:"Faulty TCM",description:"A malfunctioning Transmission Control Module (TCM) can cause delays.",solution:"Diagnose and Repair TCM: Use diagnostic tools to identify and fix TCM issues.",images:["https://placehold.co/400x250/CDB8DF/000000?text=Diagnose+TCM","https://placehold.co/400x250/ADD8E6/000000?text=Repair+TCM"]},
-        'J':{title:"Worn Transmission Bands",description:"Worn bands can cause harsh shifting.",solution:"Replace Transmission Bands: Replace worn bands as needed.",images:["https://placehold.co/400x250/BAF0BA/000000?text=Worn+Band","https://placehold.co/400x250/FFDDC1/000000?text=Replace+Band"]},
-        'K':{title:"Improper Fluid Type",description:"Using the wrong type of transmission fluid can lead to harsh shifts.",solution:"Use Correct Fluid Type: Ensure the correct fluid type is used according to your vehicle's manual.",images:["https://placehold.co/400x250/AEC6CF/000000?text=Correct+Fluid","https://placehold.co/400x250/CDB8DF/000000?text=Fluid+Specs"]},
-        'L':{title:"Dirty Transmission Components",description:"Dirt and debris can cause rough shifting.",solution:"Clean Transmission Components: Regularly clean and maintain transmission components.",images:["https://placehold.co/400x250/ADD8E6/000000?text=Clean+Components","https://placehold.co/400x250/BAF0BA/000000?text=Maintenance"]},
-        'M':{title:"Low Fluid Levels (Overheating)",description:"Low fluid levels can cause overheating.",solution:"Maintain Fluid Levels: Regularly check and maintain fluid levels. Address any leaks.",images:["https://placehold.co/400x250/FFDDC1/000000?text=Fluid+Level","https://placehold.co/400x250/AEC6CF/000000?text=Check+for+Leaks"]},
-        'N':{title:"Blocked Cooling Lines",description:"Blocked cooling lines can prevent proper cooling.",solution:"Clean Cooling Lines: Ensure cooling lines are clear and unobstructed. Flush if necessary.",images:["https://placehold.co/400x250/CDB8DF/000000?text=Clear+Lines","https://placehold.co/400x250/ADD8E6/000000?text=Flush+Cooling"]},
-        'O':{title:"Faulty Cooling Fan",description:"A malfunctioning cooling fan can lead to overheating.",solution:"Repair or Replace Cooling Fan: Fix or replace a faulty cooling fan or its related components.",images:["https://placehold.co/400x250/BAF0BA/000000?text=Inspect+Cooling+Fan","https://placehold.co/400x250/FFDDC1/000000?text=Replace+Fan"]},
-        'P':{title:"Worn Bearings",description:"Worn bearings can cause unusual noises (whining, grinding).",solution:"Replace Worn Bearings: This often requires transmission disassembly and professional help.",images:["https://placehold.co/400x250/AEC6CF/000000?text=Worn+Bearing","https://placehold.co/400x250/CDB8DF/000000?text=Bearing+Replacement"]},
-        'Q':{title:"Loose Components",description:"Loose or damaged internal/external components can create noise.",solution:"Tighten or Replace Components: Inspect for loose bolts, mounts, or damaged parts.",images:["https://placehold.co/400x250/ADD8E6/000000?text=Check+Loose+Parts","https://placehold.co/400x250/BAF0BA/000000?text=Tighten+Components"]},
-        'R':{title:"Lack of Lubrication",description:"Insufficient lubrication due to low fluid or old fluid can lead to noise.",solution:"Lubricate Components: Ensure proper fluid level and quality. Change fluid if old or contaminated.",images:["https://placehold.co/400x250/FFDDC1/000000?text=Check+Lubrication","https://placehold.co/400x250/AEC6CF/000000?text=Add+Lubricant"]}
+        'A': {
+            title: "Fixing Leaks from Damaged Seals",
+            description: "Worn-out or damaged seals are a common cause of transmission fluid leaks.",
+            steps: [
+                { text: "<b>Step 1: Inspect Seals.</b> First, locate the transmission seals at the axles and driveshaft. Clean the area and look closely for any signs of cracking, hardening, or fluid seepage.", image: "https://placehold.co/600x400/AEC6CF/000000?text=1.+Inspect+Seals" },
+                { text: "<b>Step 2: Replacement is Key.</b> Damaged seals cannot be repaired; they must be replaced. This is often a job for a professional as it may require specialized tools to remove the old seal and press in a new one without damage.", image: "https://placehold.co/600x400/CDB8DF/000000?text=2.+Replace+Damaged+Seal" }
+            ]
+        },
+        'B': {
+            title: "Fixing Leaks from Loose Connections",
+            description: "Sometimes a leak is simply due to a loose pan, bolt, or cooler line.",
+            steps: [
+                { text: "<b>Step 1: Check Transmission Pan.</b> Inspect the bolts on the transmission fluid pan. Use a torque wrench to tighten them to the manufacturer's specified setting. Do not overtighten.", image: "https://placehold.co/600x400/ADD8E6/000000?text=1.+Check+Pan+Bolts" },
+                { text: "<b>Step 2: Inspect Cooler Lines.</b> Check the connections where the transmission cooler lines meet the radiator and the transmission. Carefully tighten any fittings that are loose.", image: "https://placehold.co/600x400/BAF0BA/000000?text=2.+Tighten+Cooler+Lines" }
+            ]
+        },
+        'C': {
+            title: "Fixing Leaks from Corrosion",
+            description: "Corrosion on the transmission pan or cooling lines can cause small holes and leaks.",
+            steps: [
+                { text: "<b>Step 1: Identify Corrosion.</b> Look for bubbling paint, rust, or white, chalky residue on metal parts. The transmission pan is a common place for rust to form.", image: "https://placehold.co/600x400/FFDDC1/000000?text=1.+Identify+Corrosion" },
+                { text: "<b>Step 2: Replace Corroded Parts.</b> If corrosion has created a hole, the part (like the pan or a cooler line) must be replaced. Sanding and patching is not a reliable long-term solution for pressurized systems.", image: "https://placehold.co/600x400/AEC6CF/000000?text=2.+Replace+Corroded+Pan" }
+            ]
+        },
+        'D': {
+            title: "Troubleshooting Worn Clutches",
+            description: "Worn clutches inside the transmission can't grip properly, causing slipping.",
+            steps: [
+                { text: "<b>Step 1: Confirm Symptoms.</b> Besides slipping, you might notice delayed or harsh shifting and dirty, burnt-smelling fluid. This is a strong indicator of internal wear.", image: "https://placehold.co/600x400/CDB8DF/000000?text=1.+Burnt+Fluid+Smell" },
+                { text: "<b>Step 2: Professional Repair Needed.</b> Replacing clutches is a major repair that requires completely disassembling the transmission. This job should be left to a professional transmission shop.", image: "https://placehold.co/600x400/ADD8E6/000000?text=2.+Professional+Repair" }
+            ]
+        },
+        'E': {
+            title: "Diagnosing Faulty Solenoids",
+            description: "Solenoids are electronic valves that control fluid flow. If one fails, it can cause various shifting problems.",
+            steps: [
+                { text: "<b>Step 1: Scan for Codes.</b> A faulty solenoid will usually trigger the Check Engine light and store a diagnostic trouble code (DTC). Use an OBD-II scanner to read the codes.", image: "https://placehold.co/600x400/BAF0BA/000000?text=1.+OBD-II+Scan" },
+                { text: "<b>Step 2: Locate and Replace.</b> Based on the code, a specific solenoid can be identified. They are often accessible by removing the transmission pan. Replace the faulty solenoid with a new one.", image: "https://placehold.co/600x400/FFDDC1/000000?text=2.+Replace+Solenoid" }
+            ]
+        },
+        'F': {
+            title: "Fixing Slipping from Low Fluid",
+            description: "The most common cause of slipping is low transmission fluid.",
+            steps: [
+                { text: "<b>Step 1: Check Fluid Level.</b> With the engine warm and running, and the car in Park or Neutral (check manual), pull the transmission dipstick. Wipe it, re-insert it fully, then pull it out again to check the level.", image: "https://placehold.co/600x400/AEC6CF/000000?text=1.+Check+Dipstick" },
+                { text: "<b>Step 2: Add Correct Fluid.</b> If low, add the specific type of transmission fluid recommended in your owner's manual. Add a little at a time, re-checking the level until it's full. Do not overfill. Also, find and fix the cause of the fluid loss.", image: "https://placehold.co/600x400/CDB8DF/000000?text=2.+Add+Correct+Fluid" }
+            ]
+        },
+        // Continue this detailed step-by-step pattern for G through R...
+        'G':{title:"Fixing Low Fluid Pressure",description:"Low pressure causes delays in gear engagement.",steps:[{text:"<b>Step 1: Check Fluid Level First.</b> Low fluid is the primary cause of low pressure. Ensure it's at the correct level before proceeding.",image:"https://placehold.co/600x400/ADD8E6/000000?text=1.+Check+Fluid+Again"},{text:"<b>Step 2: Check for Clogs.</b> A clogged transmission filter can also cause low pressure. If the fluid is old or dirty, replacing the filter is a good next step.",image:"https://placehold.co/600x400/BAF0BA/000000?text=2.+Inspect+Filter"}]},
+        'H':{title:"Replacing a Dirty Transmission Filter",description:"A clogged filter restricts fluid flow, causing shifting issues.",steps:[{text:"<b>Step 1: Drain Fluid and Remove Pan.</b> You'll need to drain the transmission fluid and remove the pan to access the filter.",image:"https://placehold.co/600x400/FFDDC1/000000?text=1.+Remove+Pan"},{text:"<b>Step 2: Replace Filter and Gasket.</b> Remove the old filter (it may be held by bolts or just a seal), install the new one, and replace the pan gasket before reinstalling the pan and refilling with fluid.",image:"https://placehold.co/600x400/AEC6CF/000000?text=2.+Install+New+Filter"}]},
+        'I':{title:"Diagnosing a Faulty TCM",description:"The Transmission Control Module (TCM) is the transmission's brain.",steps:[{text:"<b>Step 1: Check for Trouble Codes.</b> A faulty TCM will almost always generate error codes. An OBD-II scan is the first step.",image:"https://placehold.co/600x400/CDB8DF/000000?text=1.+Scan+for+TCM+Codes"},{text:"<b>Step 2: Professional Diagnosis.</b> TCM issues can be complex, involving software or internal hardware failure. This typically requires diagnosis and repair by a professional.",image:"https://placehold.co/600x400/ADD8E6/000000?text=2.+Professional+Help"}]},
+        'J':{title:"Addressing Worn Transmission Bands",description:"Bands help stop gears during shifts. Worn bands cause harshness.",steps:[{text:"<b>Step 1: Band Adjustment.</b> Some older transmissions have adjustable bands. This can be a temporary fix but is less common on modern cars.",image:"https://placehold.co/600x400/BAF0BA/000000?text=1.+Band+Adjustment+Screw"},{text:"<b>Step 2: Internal Repair Required.</b> Like clutches, replacing worn bands requires a full transmission teardown and should be done by a specialist.",image:"https://placehold.co/600x400/FFDDC1/000000?text=2.+Transmission+Teardown"}]},
+        'K':{title:"Using the Proper Fluid Type",description:"Using the wrong fluid can cause damage and harsh shifts.",steps:[{text:"<b>Step 1: Check Your Owner's Manual.</b> The manual specifies the exact type of fluid your transmission needs (e.g., ATF+4, Mercon V, Dexron VI).",image:"https://placehold.co/600x400/AEC6CF/000000?text=1.+Read+Owner%27s+Manual"},{text:"<b>Step 2: Drain and Refill.</b> If the wrong fluid is in the transmission, it should be completely drained (or flushed by a professional) and refilled with the correct type.",image:"https://placehold.co/600x400/CDB8DF/000000?text=2.+Fluid+Flush"}]},
+        'L':{title:"Cleaning Dirty Components",description:"Dirty fluid can cause valves and solenoids to stick.",steps:[{text:"<b>Step 1: Assess Fluid Condition.</b> Dark, dirty, or burnt-smelling fluid indicates a problem. It should be red or pink and mostly clear.",image:"https://placehold.co/600x400/ADD8E6/000000?text=1.+Assess+Fluid+Color"},{text:"<b>Step 2: Fluid and Filter Change.</b> The best way to clean internal components is to change the transmission fluid and filter. This removes contaminants and restores proper function.",image:"https://placehold.co/600x400/BAF0BA/000000?text=2.+Fluid+and+Filter+Change"}]},
+        'M':{title:"Fixing Overheating from Low Fluid",description:"Fluid both lubricates and cools the transmission.",steps:[{text:"<b>Step 1: Check Fluid When Hot.</b> An overheating warning is a sign to check fluid levels immediately (but safely). Low fluid is a likely culprit.",image:"https://placehold.co/600x400/FFDDC1/000000?text=1.+Check+Level+When+Hot"},{text:"<b>Step 2: Find and Fix the Leak.</b> Topping off the fluid is a temporary fix. You must find and repair the source of the leak to prevent recurrence.",image:"https://placehold.co/600x400/AEC6CF/000000?text=2.+Find+the+Leak"}]},
+        'N':{title:"Clearing Blocked Cooling Lines",description:"Blockages prevent fluid from reaching the cooler.",steps:[{text:"<b>Step 1: Locate Lines.</b> Find the two lines running from the transmission to the radiator. Check for any kinks or physical damage.",image:"https://placehold.co/600x400/CDB8DF/000000?text=1.+Locate+Cooling+Lines"},{text:"<b>Step 2: Professional Flush.</b> A professional power flush is the most effective way to clear internal blockages from the lines and the cooler itself.",image:"https://placehold.co/600x400/ADD8E6/000000?text=2.+Professional+Flush"}]},
+        'O':{title:"Diagnosing a Faulty Cooling Fan",description:"The fan cools the radiator, which also cools the transmission fluid.",steps:[{text:"<b>Step 1: Check Fan Operation.</b> Let the car idle until it reaches operating temperature. The cooling fan(s) should turn on. If not, there's a problem.",image:"https://placehold.co/600x400/BAF0BA/000000?text=1.+Watch+Fan+Operation"},{text:"<b>Step 2: Check Fuses and Relays.</b> Before replacing the fan motor, check the vehicle's fuse box for a blown fan fuse or a bad relay. These are common and inexpensive fixes.",image:"https://placehold.co/600x400/FFDDC1/000000?text=2.+Check+Fuse+Box"}]},
+        'P':{title:"Diagnosing Worn Bearings",description:"Worn bearings produce a whining or grinding noise that changes with engine speed.",steps:[{text:"<b>Step 1: Listen Carefully.</b> Try to determine if the noise is present in all gears or only specific ones. This can help a mechanic pinpoint the location.",image:"https://placehold.co/600x400/AEC6CF/000000?text=1.+Listen+for+Noise"},{text:"<b>Step 2: Seek Professional Help.</b> Bearing replacement requires a complete transmission rebuild and is not a DIY job.",image:"https://placehold.co/600x400/CDB8DF/000000?text=2.+Visit+Mechanic"}]},
+        'Q':{title:"Fixing Noises from Loose Components",description:"Clunking can be caused by loose mounts or other components.",steps:[{text:"<b>Step 1: Check Transmission Mounts.</b> Visually inspect the mounts that hold the transmission to the car's frame. Look for cracked rubber or excessive movement.",image:"https://placehold.co/600x400/ADD8E6/000000?text=1.+Inspect+Mounts"},{text:"<b>Step 2: Check Driveshaft/Axles.</b> Check for excessive play in the driveshaft U-joints or CV axles. A clunk when shifting into gear can be a sign of a bad U-joint.",image:"https://placehold.co/600x400/BAF0BA/000000?text=2.+Check+Driveshaft"}]},
+        'R':{title:"Fixing Noises from Lack of Lubrication",description:"A whining noise that gets louder as the car accelerates is a classic sign of low fluid.",steps:[{text:"<b>Step 1: Check Fluid Level Immediately.</b> This is the most critical first step. Stop driving if possible and check the fluid level.",image:"https://placehold.co/600x400/FFDDC1/000000?text=1.+Check+Fluid+Now"},{text:"<b>Step 2: Top Up and Inspect for Leaks.</b> Add the correct fluid type to bring it to the proper level. Then, thoroughly inspect the vehicle for the source of the leak.",image:"https://placehold.co/600x400/AEC6CF/000000?text=2.+Top+Up+and+Inspect"}]}
     };
+
 
     // --- Page interaction script ---
     const overlay = document.getElementById('overlay');
@@ -556,17 +641,27 @@
         if (data) {
             document.getElementById('popupTitle').textContent = data.title;
             document.getElementById('popupDescription').textContent = data.description;
-            document.getElementById('popupSolution').textContent = data.solution;
             
-            const imageContainer = document.getElementById('popupImageContainer');
-            imageContainer.innerHTML = ''; // Clear previous images
-            data.images.forEach(imageUrl => {
-                const img = document.createElement('img');
-                img.src = imageUrl;
-                img.alt = `Solution for ${data.title}`;
-                img.className = "w-full sm:w-5/12 h-auto rounded-lg shadow-md";
-                imageContainer.appendChild(img);
-            });
+            const contentContainer = document.getElementById('popupContentContainer');
+            contentContainer.innerHTML = ''; // Clear previous steps
+            
+            if (data.steps && data.steps.length > 0) {
+                data.steps.forEach(step => {
+                    const stepDiv = document.createElement('div');
+                    stepDiv.className = 'popup-step bg-gray-50 p-4 rounded-lg';
+
+                    const stepText = document.createElement('p');
+                    stepText.innerHTML = step.text; // Use innerHTML to render bold tags
+
+                    const stepImg = document.createElement('img');
+                    stepImg.src = step.image;
+                    stepImg.alt = step.text;
+
+                    stepDiv.appendChild(stepText);
+                    stepDiv.appendChild(stepImg);
+                    contentContainer.appendChild(stepDiv);
+                });
+            }
 
             overlay.classList.remove('hidden');
             solutionPopup.classList.remove('popup-inactive');
@@ -646,14 +741,9 @@
     const chatbotToggleButton = document.getElementById('car-chatbot-toggle-button');
     const generateTipsButton = document.getElementById('car-chatbot-generate-tips-button');
 
-    // Transmission-specific problems
     const commonProblems = [
-        "transmission fluid leak",
-        "gear slipping",
-        "delayed engagement",
-        "harsh shifting",
-        "transmission overheating",
-        "whining noise",
+        "transmission fluid leak", "gear slipping", "delayed engagement",
+        "harsh shifting", "transmission overheating", "whining noise",
     ];
 
     function populateSuggestions() {
@@ -732,7 +822,6 @@
         messageDiv.classList.add('car-chatbot-message', sender);
         const messageContentDiv = document.createElement('div');
         messageContentDiv.classList.add('car-chatbot-message-content');
-        // A simple way to format the text to look a bit better
         messageContentDiv.innerHTML = text.replace(/\n/g, '<br>');
         messageDiv.appendChild(messageContentDiv);
         chatMessages.appendChild(messageDiv);
@@ -745,7 +834,7 @@
     
     function toggleChatbot(forceClose = null) {
         const isActive = chatbotContainer.classList.contains('active');
-        const shouldBeActive = forceClose === null ? !isActive : false;
+        const shouldBeActive = forceClose === null ? !isActive : !forceClose;
 
         chatbotContainer.classList.toggle('active', shouldBeActive);
         if (shouldBeActive) {
