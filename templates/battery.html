@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://i.pinimg.com/736x/c5/94/96/c5949627262b8098970838894f57c94e.jpg"/>
+    <title>Car Repair Help - Battery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles not easily done with Tailwind */
+        body {
+            font-family: 'Inter', sans-serif; /* Using Inter as primary font */
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0; /* Adjusted for full-width content */
+            margin: 0;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            background-image: url('https://img.freepik.com/free-photo/view-car-battery_23-2150033190.jpg?size=626&ext=jpg&ga=GA1.1.1826414947.1712016000&semt=ais'); /* New battery-related background */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed; /* Keep background fixed */
+        }
+
+        /* Background Video Styles (if desired, currently using background-image) */
+        #background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.9;
+        }
+
+        /* Popup and Overlay Styles */
+        .popup {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.25);
+            z-index: 1000;
+            max-width: 95%;
+            max-height: 90%;
+            overflow-y: auto;
+            text-align: center;
+            border: none;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+        }
+
+        .popup .close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .popup .close:hover {
+            color: #777;
+        }
+
+        .popup img, .popup iframe {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: block; /* Ensure they take full width */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .popup iframe {
+            width: 100%; /* Ensure iframe is responsive */
+            height: 200px; /* Default height, can be adjusted or made dynamic */
+        }
+
+        /* Help Button Styles */
+        .help-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #28a745;
+            color: white;
+            padding: 15px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            z-index: 1010;
+        }
+
+        .help-button:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+
+        /* --- New Chatbot Styles --- */
+        .car-chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            transform: translateY(1000px);
+            transition: transform 0.3s ease-in-out;
+            width: 90%;
+            max-width: 450px;
+            height: 85vh;
+            max-height: 650px;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            z-index: 1000;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .car-chatbot-container.active {
+            transform: translateY(0);
+        }
+
+        .car-chatbot-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            flex-shrink: 0;
+        }
+        .car-chatbot-header h1{
+            color: #003865;
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+         .car-chatbot-header p{
+            color: #4a5568;
+            font-size: 0.95rem;
+         }
+
+        .car-chatbot-messages {
+            margin-bottom: 1rem;
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            background-color: #f7fafc;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .car-chatbot-message {
+            display: flex;
+        }
+        .car-chatbot-message-content {
+            padding: 0.75rem;
+            border-radius: 1.3rem;
+            max-width: 85%;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        .car-chatbot-message.user .car-chatbot-message-content {
+            background-color: #e0f2fe;
+            color: #003865;
+            margin-left: auto;
+        }
+        .car-chatbot-message.bot .car-chatbot-message-content {
+            background-color: #f0f4c3;
+            color: #003865;
+            margin-right: auto;
+        }
+        .car-chatbot-input-area {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+        .car-chatbot-input-area input {
+            flex: 1;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+            outline: none;
+            font-size: 1rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .car-chatbot-input-area input:focus {
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+        }
+
+        .car-chatbot-input-area button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            background-color: #4299e1;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .car-chatbot-input-area button:hover {
+            background-color: #3182ce;
+        }
+
+        .car-chatbot-input-area button:disabled{
+            background-color: #a0aec0;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        #car-chatbot-loading-indicator {
+            display: none;
+            margin: 1rem auto;
+            border-radius: 50%;
+            width: 2rem;
+            height: 2rem;
+            border: 0.3rem solid rgba(66, 153, 225, 0.3);
+            border-top: 0.3rem solid #4299e1;
+            animation: spin 1s linear infinite;
+             flex-shrink: 0;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .car-chatbot-suggestion-box {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            background-color: #edf2f7;
+            border: 1px solid #e2e8f0;
+             flex-shrink: 0;
+        }
+
+        .car-chatbot-suggestion-box p {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #4a5568;
+            font-size: 0.95rem;
+        }
+
+        .car-chatbot-suggestion-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .car-chatbot-suggestion-list li {
+            background-color: #f56565;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .car-chatbot-suggestion-list li:hover {
+            background-color: #c53030;
+        }
+        .car-chatbot-icon{
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+
+        #car-chatbot-toggle-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1001;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            background-color: #1C4E80; /* Dark imperial blue for consistency */
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        #car-chatbot-toggle-button:hover {
+            background-color: #1a446e;
+             transform: scale(1.05);
+        }
+
+        /* Responsive adjustments for chatbot */
+        @media (max-width: 600px) {
+            .car-chatbot-container {
+                width: 95%;
+                left: 2.5%;
+                right: 2.5%;
+                bottom: 10px;
+                max-width: none;
+                height: 75vh;
+            }
+             #car-chatbot-toggle-button {
+                left: 10px;
+                bottom: 10px;
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+             }
+             .car-chatbot-icon{
+                width: 1rem;
+                height: 1rem;
+             }
+             .car-chatbot-header h1 {
+                font-size: 1.4rem;
+             }
+             .car-chatbot-message-content,
+             .car-chatbot-input-area input,
+             .car-chatbot-suggestion-box p,
+             .car-chatbot-suggestion-list li {
+                 font-size: 0.9rem;
+             }
+             .car-chatbot-input-area button {
+                 padding: 0.6rem 1rem;
+             }
+        }
+
+        /* Custom scrollbar for main page */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <!-- Background Video (if you want to use it instead of the image, uncomment this) -->
+    <!-- <video id="background-video" autoplay loop muted>
+        <source src="https://videos.pexels.com/video-files/9031118/9031118-uhd_2560_1440_24fps.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video> -->
+
+    <!-- Navbar -->
+    <nav class="w-full bg-[#1C4E80] p-4 shadow-xl relative z-10">
+        <div class="container mx-auto flex flex-wrap items-center justify-between">
+            <h1 class="text-white text-3xl font-bold rounded-lg p-2">Car Repair Assistance</h1>
+            <!-- Example navigation links (can be expanded) -->
+            <div class="hidden md:flex space-x-6">
+                <a href="#" class="text-white hover:text-blue-200 transition duration-300">Home</a>
+                <a href="#" class="text-white hover:text-blue-200 transition duration-300">Services</a>
+                <a href="#" class="text-white hover:text-blue-200 transition duration-300">Contact</a>
+            </div>
+            <!-- Mobile nav toggle (if more links were present) -->
+            <button class="md:hidden text-white focus:outline-none">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="content max-w-4xl w-full text-center mt-8 relative z-10 p-4 sm:p-0">
+        <h1 class="text-5xl font-extrabold text-[#1C4E80] mb-4 hover:text-[#0C2A4F] transition duration-300">CAR BATTERY SYSTEMS</h1>
+        <p class="text-white font-bold text-lg mb-8 bg-black bg-opacity-40 p-2 rounded-md inline-block">LEARN HOW TO MAINTAIN AND REPAIR YOUR CAR BATTERY.</p>
+
+        <div class="search-bar flex flex-col sm:flex-row justify-center mb-12">
+            <input type="text" id="searchInput" placeholder="Search your problem..."
+                   class="p-3 text-lg border border-gray-300 rounded-lg sm:rounded-l-lg sm:rounded-r-none w-full sm:max-w-md focus:outline-none focus:ring-2 focus:ring-[#1C4E80] mb-4 sm:mb-0">
+            <button onclick="searchProblems()"
+                    class="p-3 text-lg bg-[#1C4E80] text-white border-none rounded-lg sm:rounded-r-lg sm:rounded-l-none cursor-pointer hover:bg-[#0C2A4F] transition duration-300">
+                Search
+            </button>
+        </div>
+    </main>
+
+    <section class="cards-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 justify-center relative z-10 pb-20 px-4">
+        <div class="card bg-white p-6 rounded-xl shadow-lg text-center cursor-pointer transition transform hover:translate-y-[-5px] hover:shadow-xl">
+            <h3 class="text-3xl font-semibold text-[#1C4E80] mb-3">1</h3>
+            <p class="text-gray-700 text-lg mb-4 hover:text-blue-600 transition duration-300">Car Won't Start / No Crank</p>
+            <select onchange="optionClicked(this.value)"
+                    class="w-full p-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-[#1C4E80]">
+                <option value="" selected disabled>Select Option</option>
+                <option value="A">Dead Battery</option>
+                <option value="B">Corroded Battery Terminals</option>
+                <option value="C">Faulty Starter Motor</option>
+            </select>
+        </div>
+        <div class="card bg-white p-6 rounded-xl shadow-lg text-center cursor-pointer transition transform hover:translate-y-[-5px] hover:shadow-xl">
+            <h3 class="text-3xl font-semibold text-[#1C4E80] mb-3">2</h3>
+            <p class="text-gray-700 text-lg mb-4 hover:text-blue-600 transition duration-300">Dim Headlights / Electrical Issues</p>
+            <select onchange="optionClicked(this.value)"
+                    class="w-full p-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-[#1C4E80]">
+                <option value="" selected disabled>Select Option</option>
+                <option value="D">Low Battery Charge</option>
+                <option value="E">Loose or Corroded Battery Cables</option>
+                <option value="F">Failing Alternator</option>
+            </select>
+        </div>
+        <div class="card bg-white p-6 rounded-xl shadow-lg text-center cursor-pointer transition transform hover:translate-y-[-5px] hover:shadow-xl">
+            <h3 class="text-3xl font-semibold text-[#1C4E80] mb-3">3</h3>
+            <p class="text-gray-700 text-lg mb-4 hover:text-blue-600 transition duration-300">Battery Warning Light On</p>
+            <select onchange="optionClicked(this.value)"
+                    class="w-full p-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-[#1C4E80]">
+                <option value="" selected disabled>Select Option</option>
+                <option value="G">Faulty Alternator</option>
+                <option value="H">Loose or Damaged Serpentine Belt</option>
+                <option value="I">Battery Cell Malfunction</option>
+            </select>
+        </div>
+        <div class="card bg-white p-6 rounded-xl shadow-lg text-center cursor-pointer transition transform hover:translate-y-[-5px] hover:shadow-xl">
+            <h3 class="text-3xl font-semibold text-[#1C4E80] mb-3">4</h3>
+            <p class="text-gray-700 text-lg mb-4 hover:text-blue-600 transition duration-300">Slow Engine Crank</p>
+            <select onchange="optionClicked(this.value)"
+                    class="w-full p-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-[#1C4E80]">
+                <option value="" selected disabled>Select Option</option>
+                <option value="J">Weak Battery</option>
+                <option value="K">High Resistance in Battery Cables</option>
+                <option value="L">Cold Weather Impact</option>
+            </select>
+        </div>
+        <div class="card bg-white p-6 rounded-xl shadow-lg text-center cursor-pointer transition transform hover:translate-y-[-5px] hover:shadow-xl">
+            <h3 class="text-3xl font-semibold text-[#1C4E80] mb-3">5</h3>
+            <p class="text-gray-700 text-lg mb-4 hover:text-blue-600 transition duration-300">Battery Leaking / Swelling</p>
+            <select onchange="optionClicked(this.value)"
+                    class="w-full p-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-[#1C4E80]">
+                <option value="" selected disabled>Select Option</option>
+                <option value="M">Overcharging</option>
+                <option value="N">Internal Short Circuit</option>
+                <option value="O">Physical Damage</option>
+            </select>
+        </div>
+        <div class="card bg-white p-6 rounded-xl shadow-lg text-center cursor-pointer transition transform hover:translate-y-[-5px] hover:shadow-xl">
+            <h3 class="text-3xl font-semibold text-[#1C4E80] mb-3">6</h3>
+            <p class="text-gray-700 text-lg mb-4 hover:text-blue-600 transition duration-300">Frequent Battery Replacement</p>
+            <select onchange="optionClicked(this.value)"
+                    class="w-full p-2 border border-gray-300 rounded-md text-base focus:outline-none focus:ring-2 focus:ring-[#1C4E80]">
+                <option value="" selected disabled>Select Option</option>
+                <option value="P">Parasitic Drain</option>
+                <option value="Q">Alternator Issues (Undercharging)</option>
+                <option value="R">Poor Battery Quality / Old Battery</option>
+            </select>
+        </div>
+    </section>
+
+    <footer class="w-full bg-[#1C4E80] text-white py-8 mt-12 relative z-10 shadow-inner">
+        <div class="container mx-auto flex flex-col md:flex-row justify-around text-center md:text-left px-4">
+            <div class="footer-section mb-6 md:mb-0 md:w-1/3 px-4">
+                <h3 class="text-xl font-semibold mb-3 text-gray-200">About Us</h3>
+                <p class="text-gray-400 text-sm">We are committed to helping you solve car-related problems efficiently and affordably.</p>
+            </div>
+            <div class="footer-section mb-6 md:mb-0 md:w-1/3 px-4">
+                <h3 class="text-xl font-semibold mb-3 text-gray-200">Help</h3>
+                <p class="text-gray-400 text-sm">Need assistance? Browse our FAQs or contact support for more information.</p>
+            </div>
+            <div class="footer-section md:w-1/3 px-4">
+                <h3 class="text-xl font-semibold mb-3 text-gray-200">Contact</h3>
+                <p class="text-gray-400 text-sm">Email: support@carrepairhelp.com</p>
+                <p class="text-gray-400 text-sm">Phone: +123 456 7890</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="overlay" id="overlay" onclick="closePopup()"></div>
+
+    <!-- Popups for Battery Issues -->
+    <div class="popup" id="popupA">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Dead Battery</h2>
+        <p class="text-gray-700 mt-4 mb-2"><b>Solution:</b> Jump-start the car using jumper cables and another vehicle or a portable jump starter. Ensure connections are correct (positive to positive, negative to ground).</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Jump+Start+Car" alt="Jump Start Car">
+        <p class="text-gray-700 mb-2">After jump-starting, drive the car for at least 20-30 minutes to allow the alternator to recharge the battery. Test the battery charge with a multimeter.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Recharge+Battery" alt="Recharge Battery">
+        <p class="text-gray-700 mb-2">If the battery continues to die, have it tested by a professional. It might need replacement if it cannot hold a charge.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Test+or+Replace+Battery" alt="Test or Replace Battery">
+    </div>
+
+    <div class="popup" id="popupB">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Corroded Battery Terminals</h2>
+        <p class="text-gray-700 mb-2"><b>Solution:</b> Disconnect battery terminals (negative first, then positive). Use a wire brush and a baking soda-water solution to clean off corrosion.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Clean+Terminals" alt="Clean Terminals">
+        <p class="text-gray-700 mb-2">Rinse with clean water and dry thoroughly. Apply a thin layer of dielectric grease or anti-corrosion spray to the terminals before reconnecting (positive first, then negative).</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Apply+Anti-Corrosion" alt="Apply Anti-Corrosion">
+        <p class="text-gray-700 mb-2">Ensure battery cables are securely tightened to the terminals. Loose connections can also cause starting issues.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Secure+Connections" alt="Secure Connections">
+    </div>
+
+    <div class="popup" id="popupC">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Faulty Starter Motor</h2>
+        <p class="text-gray-700 mb-2"><b>Solution:</b> If the battery is good but the car still won't crank or only clicks, the starter motor might be faulty. Try gently tapping the starter motor with a hammer (if accessible) while someone tries to start the car. This can sometimes temporarily dislodge a stuck solenoid.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Tap+Starter+Motor" alt="Tap Starter Motor">
+        <p class="text-gray-700 mb-2">Check the starter motor's electrical connections. Ensure they are clean and tight. A loose or corroded connection can prevent the starter from engaging.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Check+Starter+Connections" alt="Check Starter Connections">
+        <p class="text-gray-700 mb-2">If tapping or checking connections doesn't work, the starter motor likely needs replacement. This is typically a job for a mechanic.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Replace+Starter+Motor" alt="Replace Starter Motor">
+    </div>
+
+    <div class="popup" id="popupD">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Low Battery Charge</h2>
+        <p class="text-gray-700 mb-2"><b>Solution:</b> Charge the battery using a battery charger. Connect the charger to the battery terminals (positive to positive, negative to negative) and allow it to charge fully.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Charge+Battery" alt="Charge Battery">
+        <p class="text-gray-700 mb-2">Check for excessive parasitic drains. Ensure all lights and accessories are turned off when the car is off. Unplug unused car chargers.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Check+Parasitic+Drain" alt="Check Parasitic Drain">
+        <p class="text-gray-700 mb-2">If short trips are common, consider a trickle charger to maintain battery health.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Use+Trickle+Charger" alt="Use Trickle Charger">
+    </div>
+
+    <div class="popup" id="popupE">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Loose or Corroded Battery Cables</h2>
+        <p class="text-gray-700 mb-2"><b>Solution:</b> Safely disconnect battery cables (negative first). Inspect them for corrosion or damage. Clean any corrosion with a wire brush and baking soda solution.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Clean+Cables" alt="Clean Cables">
+        <p class="text-gray-700 mb-2">Ensure the battery cables are tightly secured to the battery terminals. A loose connection can cause poor electrical flow and dim lights.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Tighten+Cables" alt="Tighten Cables">
+        <p class="text-gray-700 mb-2">If cables are severely corroded or damaged, they should be replaced to ensure optimal electrical conductivity.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Replace+Damaged+Cables" alt="Replace Damaged Cables">
+    </div>
+
+    <div class="popup" id="popupF">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Failing Alternator</h2>
+        <p class="text-gray-700 mb-2"><b>Solution:</b> Test the alternator output with a multimeter. With the car running, the voltage across the battery terminals should be around 13.5-14.5 volts. If it's significantly lower, the alternator is likely failing.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Test+Alternator+Output" alt="Test Alternator Output">
+        <p class="text-gray-700 mb-2">Inspect the serpentine belt that drives the alternator. Ensure it's not loose, cracked, or worn. A slipping belt can prevent the alternator from charging properly.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Check+Serpentine+Belt" alt="Check Serpentine Belt">
+        <p class="text-gray-700 mb-2">If the alternator is confirmed faulty, it needs to be replaced. This is a crucial component for charging the battery while the car is running.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Replace+Failing+Alternator" alt="Replace Failing Alternator">
+    </div>
+
+    <div class="popup" id="popupG">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Faulty Alternator</h2>
+        <p class="text-gray-700 mb-2"><b>Solution:</b> As described for dim headlights, test the alternator's voltage output. If it's not charging the battery correctly, the warning light will illuminate.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Test+Alternator+Voltage" alt="Test Alternator Voltage">
+        <p class="text-gray-700 mb-2">Check the wiring connections to the alternator. Loose or corroded wires can disrupt the charging signal and trigger the light.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Check+Alternator+Wiring" alt="Check Alternator Wiring">
+        <p class="text-gray-700 mb-2">If the alternator is faulty, replacement is necessary. This will resolve the charging issue and turn off the warning light.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Replace+Alternator" alt="Replace Alternator">
+    </div>
+
+    <div class="popup" id="popupH">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Loose or Damaged Serpentine Belt</h2>
+        <p class="text-gray-700 mb-2"><b>Solution:</b> Inspect the serpentine belt for cracks, fraying, or excessive looseness. A damaged belt can lead to the alternator not spinning at the correct speed.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Inspect+Serpentine+Belt" alt="Inspect Serpentine Belt">
+        <p class="text-gray-700 mb-2">If the belt is loose, it may need to be tightened. If it's damaged, it should be replaced. This often requires special tools or a mechanic.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Tighten+or+Replace+Belt" alt="Tighten or Replace Belt">
+        <p class="text-gray-700 mb-2">Ensure the belt tensioner is functioning correctly. A failing tensioner can cause the belt to become loose.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Check+Belt+Tensioner" alt="Check Belt Tensioner">
+    </div>
+
+    <div class="popup" id="popupI">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Battery Cell Malfunction</h2>
+        <p class="text-gray-700 mb-2"><b>Solution:</b> Perform a load test on the battery. A battery tester can detect if one or more cells are failing, which can trigger the warning light even if the overall voltage seems okay.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Perform+Battery+Load+Test" alt="Perform Battery Load Test">
+        <p class="text-gray-700 mb-2">Check the battery's age. If it's older than 3-5 years, it might be nearing the end of its life, and internal cell damage is more likely.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Check+Battery+Age" alt="Check Battery Age">
+        <p class="text-gray-700 mb-2">If individual cells are failing, the battery needs to be replaced. There's no effective repair for internal battery cell damage.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Replace+Battery" alt="Replace Battery">
+    </div>
+
+    <div class="popup" id="popupJ">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Weak Battery</h2>
+        <p class="text-gray-700 mb-2"><b>Solution:</b> Test the battery's voltage and cold-cranking amps (CCA). A weak battery will show lower voltage or CCA than specified, especially in cold weather.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Test+Battery+Health" alt="Test Battery Health">
+        <p class="text-gray-700 mb-2">If the battery is weak but not dead, a slow charge with a battery charger can help restore its capacity. Avoid frequent jump-starts as this can damage the battery.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Recharge+Weak+Battery" alt="Recharge Weak Battery">
+        <p class="text-gray-700 mb-2">If the battery is consistently weak or old, replacement is the best long-term solution. Choose a battery with appropriate CCA for your climate.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Replace+Weak+Battery" alt="Replace Weak Battery">
+    </div>
+
+    <div class="popup" id="popupK">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">High Resistance in Battery Cables</h2>
+        <p class="text-gray-700 mb-2"><b>Solution:</b> Inspect battery cables for corrosion, fraying, or swelling. Corrosion under the insulation can create high resistance.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Inspect+Cables+for+Resistance" alt="Inspect Cables for Resistance">
+        <p class="text-gray-700 mb-2">Clean all contact points thoroughly – battery terminals, cable ends, and the engine/chassis ground points. Use sandpaper or a wire brush.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Clean+Cable+Contact+Points" alt="Clean Cable Contact Points">
+        <p class="text-gray-700 mb-2">If cables are old, stiff, or visibly damaged, replace them. New, correctly sized cables will ensure proper current flow to the starter.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Replace+High+Resistance+Cables" alt="Replace High Resistance Cables">
+    </div>
+
+    <div class="popup" id="popupL">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Cold Weather Impact</h2>
+        <p class="text-gray-700 mb-2"><b>Solution:</b> In cold climates, use a battery with higher Cold Cranking Amps (CCA) rating. Higher CCA batteries are designed to deliver more power in freezing temperatures.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Use+High+CCA+Battery" alt="Use High CCA Battery">
+        <p class="text-gray-700 mb-2">Consider using a battery blanket or engine block heater in extremely cold conditions. These devices help keep the battery and engine warm, improving starting performance.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Use+Battery+Warmer" alt="Use Battery Warmer">
+        <p class="text-gray-700 mb-2">Keep the battery fully charged, especially during winter months. A fully charged battery is less susceptible to freezing and performs better in the cold.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Keep+Battery+Charged+in+Cold" alt="Keep Battery Charged in Cold">
+    </div>
+
+    <div class="popup" id="popupM">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Overcharging</h2>
+        <p class="text-gray-700 mb-2"><b>Solution:</b> Test the alternator's voltage regulator. If the alternator is consistently putting out too much voltage (above 14.5-15V), it's overcharging the battery.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Test+Voltage+Regulator" alt="Test Voltage Regulator">
+        <p class="text-gray-700 mb-2">If the voltage regulator is internal to the alternator, the alternator will need to be replaced. If external, the regulator itself can be replaced.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Replace+Alternator+or+Regulator" alt="Replace Alternator or Regulator">
+        <p class="text-gray-700 mb-2">Check for any aftermarket electrical accessories that might be drawing excessive current or causing charging system issues.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Check+Aftermarket+Accessories" alt="Check Aftermarket Accessories">
+    </div>
+
+    <div class="popup" id="popupN">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Internal Short Circuit</h2>
+        <p class="text-gray-700 mb-2"><b>Solution:</b> A bulging or leaking battery is a strong indicator of an internal short. This is often caused by plate sulfation or physical damage.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Identify+Battery+Bulge+Leak" alt="Identify Battery Bulge/Leak">
+        <p class="text-gray-700 mb-2"><b>Warning:</b> Do not attempt to charge or jump-start a visibly swollen or leaking battery. It is a fire hazard.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Do+Not+Charge+Swollen+Battery" alt="Do Not Charge Swollen Battery">
+        <p class="text-gray-700 mb-2">An internally shorted battery cannot be repaired and must be replaced immediately. Dispose of it properly at a recycling center.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Replace+Internally+Shorted+Battery" alt="Replace Internally Shorted Battery">
+    </div>
+
+    <div class="popup" id="popupO">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Physical Damage</h2>
+        <p class="text-gray-700 mb-2"><b>Solution:</b> Inspect the battery for cracks, dents, or signs of impact. Even minor damage can compromise the battery's integrity and lead to leaks.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Inspect+Battery+for+Damage" alt="Inspect Battery for Damage">
+        <p class="text-gray-700 mb-2">Ensure the battery is securely mounted in its tray. Vibrations from a loose battery can cause internal damage or external cracking.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Secure+Battery+Mount" alt="Secure Battery Mount">
+        <p class="text-gray-700 mb-2">Any battery with physical damage that causes leaking or swelling should be replaced immediately. Handle with care due to corrosive acid.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Replace+Physically+Damaged+Battery" alt="Replace Physically Damaged Battery">
+    </div>
+
+    <div class="popup" id="popupP">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Parasitic Drain</h2>
+        <p class="text-gray-700 mb-2"><b>Solution:</b> A parasitic drain is when an electrical component continues to draw power when the car is off. Use a multimeter to test for current draw by disconnecting the negative battery cable and connecting the meter in series.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Test+Parasitic+Drain" alt="Test Parasitic Drain">
+        <p class="text-gray-700 mb-2">Pull fuses one by one while monitoring the multimeter to identify the circuit causing the drain. Common culprits include interior lights, stereos, or alarm systems.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Identify+Drain+Source" alt="Identify Drain Source">
+        <p class="text-gray-700 mb-2">Once identified, repair or replace the faulty component. If it's an aftermarket accessory, consider disconnecting it if not essential.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Repair+Parasitic+Drain" alt="Repair Parasitic Drain">
+    </div>
+
+    <div class="popup" id="popupQ">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Alternator Issues (Undercharging)</h2>
+        <p class="text-gray-700 mb-2"><b>Solution:</b> If the alternator is not charging the battery sufficiently, it leads to frequent battery discharge. Test the alternator's output voltage (should be 13.5-14.5V with engine running).</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Test+Alternator+Output" alt="Test Alternator Output">
+        <p class="text-gray-700 mb-2">Check the serpentine belt for proper tension and condition. A loose or worn belt will prevent the alternator from generating enough power.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Check+Serpentine+Belt" alt="Check Serpentine Belt">
+        <p class="text-gray-700 mb-2">If the alternator is undercharging, it needs to be repaired or replaced. This ensures the battery receives adequate charge during operation.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Replace+Undercharging+Alternator" alt="Replace Undercharging Alternator">
+    </div>
+
+    <div class="popup" id="popupR">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 class="text-2xl font-bold mb-4 text-[#1C4E80]">Poor Battery Quality / Old Battery</h2>
+        <p class="text-gray-700 mb-2"><b>Solution:</b> Batteries have a finite lifespan, typically 3-5 years. If your battery is old, it naturally loses its ability to hold a charge efficiently.</p>
+        <img src="https://placehold.co/600x400/AEC6CF/000000?text=Check+Battery+Age" alt="Check Battery Age">
+        <p class="text-gray-700 mb-2">Invest in a reputable brand battery that meets or exceeds your car's specifications. Cheaper, lower-quality batteries may have a shorter lifespan.</p>
+        <img src="https://placehold.co/600x400/CDB8DF/000000?text=Invest+in+Quality+Battery" alt="Invest in Quality Battery">
+        <p class="text-gray-700 mb-2">Consider factors like CCA rating for your climate and type of driving. Ensure the battery is a good fit for your vehicle's electrical demands.</p>
+        <img src="https://placehold.co/600x400/ADD8E6/000000?text=Choose+Correct+Battery+Specs" alt="Choose Correct Battery Specs">
+    </div>
+
+    <button id="car-chatbot-toggle-button">
+        <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/message-circle.svg" alt="Chatbot" class="car-chatbot-icon">
+        Chatbot
+    </button>
+
+    <div class="car-chatbot-container" id="car-chatbot-container">
+        <header class="car-chatbot-header">
+            <h1>CarChatBot</h1>
+            <p class="text-gray-600">Your Virtual Car Assistant</p>
+        </header>
+        <div class="car-chatbot-messages" id="car-chatbot-messages">
+            </div>
+        <div class="car-chatbot-input-area flex-col">
+            <input type="text" id="car-chatbot-user-input" placeholder="Ask about a car problem or maintenance...">
+            <div class="flex w-full justify-between gap-2 mt-2">
+                <button id="car-chatbot-send-button" class="flex-grow" disabled>
+                    <img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/send.svg" alt="Send" class="car-chatbot-icon">
+                    Send
+                </button>
+                <button id="car-chatbot-generate-tips-button" class="flex-grow bg-purple-600 hover:bg-purple-700 transition duration-300">
+                    ✨ Get Maintenance Tips
+                </button>
+            </div>
+        </div>
+        <div id="car-chatbot-loading-indicator"></div>
+        <div class="car-chatbot-suggestion-box" id="car-chatbot-suggestion-box">
+            <p>Here are some common car problems:</p>
+            <ul class="car-chatbot-suggestion-list" id="car-chatbot-suggestion-list">
+                </ul>
+        </div>
+    </div>
+
+    <button class="help-button" onclick="window.location.href='https://query-fire-base-v1.vercel.app/'">Need More Help?</button>
+
+    <script>
+        // --- Existing Website Script (modified for battery issues) ---
+
+        // Popup functionality
+        function optionClicked(option) {
+            document.querySelectorAll(".popup").forEach(popup => popup.style.display = "none");
+            const popup = document.getElementById(`popup${option}`);
+            if (popup) {
+                popup.style.display = "block";
+                document.getElementById("overlay").style.display = "block";
+            }
+        }
+
+        function closePopup() {
+            document.querySelectorAll(".popup").forEach(popup => popup.style.display = "none");
+            document.getElementById("overlay").style.display = "none";
+        }
+
+        // Search Functionality
+        function searchProblems() {
+            const input = document.getElementById("searchInput").value.toLowerCase();
+            const cards = document.querySelectorAll(".card");
+
+            cards.forEach(card => {
+                const cardText = card.querySelector("p").textContent.toLowerCase();
+                const selectOptions = Array.from(card.querySelectorAll("select option")).map(option => option.textContent.toLowerCase());
+                const optionsMatch = selectOptions.some(optionText => optionText.includes(input));
+
+                if (cardText.includes(input) || optionsMatch) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        // Add event listener for Enter key in search input
+        document.getElementById("searchInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                searchProblems();
+            }
+        });
+
+
+        // --- New Chatbot Script (with Gemini API Integration) ---
+
+        const chatMessages = document.getElementById('car-chatbot-messages');
+        const userInput = document.getElementById('car-chatbot-user-input');
+        const sendButton = document.getElementById('car-chatbot-send-button');
+        const loadingIndicator = document.getElementById('car-chatbot-loading-indicator');
+        const suggestionList = document.getElementById('car-chatbot-suggestion-list');
+        const suggestionBox = document.getElementById('car-chatbot-suggestion-box');
+        const chatbotContainer = document.getElementById('car-chatbot-container');
+        const chatbotToggleButton = document.getElementById('car-chatbot-toggle-button');
+        const generateTipsButton = document.getElementById('car-chatbot-generate-tips-button');
+
+
+        // Common problems for initial suggestions (updated for battery issues)
+        const commonProblems = [
+            "car won't start",
+            "dim headlights",
+            "battery light on",
+            "slow crank",
+            "battery leaking",
+            "frequent battery replacement",
+            "car electric issues",
+            "alternator problems",
+        ];
+
+        function populateSuggestions() {
+            suggestionList.innerHTML = '';
+            commonProblems.forEach(problem => {
+                const listItem = document.createElement('li');
+                listItem.textContent = problem;
+                listItem.addEventListener('click', () => {
+                    userInput.value = problem;
+                    handleInputChange();
+                });
+                suggestionList.appendChild(listItem);
+            });
+        }
+
+        async function getGeminiResponse(prompt) {
+            loadingIndicator.style.display = 'block';
+            sendButton.disabled = true;
+            userInput.disabled = true;
+            generateTipsButton.disabled = true;
+            suggestionBox.style.display = 'none';
+
+            try {
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    return result.candidates[0].content.parts[0].text;
+                } else {
+                    return "Sorry, I couldn't get a response from the AI. Please try again or rephrase your question.";
+                }
+            } catch (error) {
+                console.error("Error calling Gemini API:", error);
+                return "An error occurred while connecting to the AI. Please check your internet connection.";
+            } finally {
+                loadingIndicator.style.display = 'none';
+                sendButton.disabled = false;
+                userInput.disabled = false;
+                generateTipsButton.disabled = false;
+                suggestionBox.style.display = 'block';
+            }
+        }
+
+        async function sendMessage() {
+            const userText = userInput.value;
+            if (!userText.trim()) return;
+
+            addMessage('user', userText);
+            userInput.value = '';
+            handleInputChange();
+
+            const botResponse = await getGeminiResponse(`Provide detailed car repair advice for the following battery problem: ${userText}`);
+            addMessage('bot', botResponse);
+        }
+
+        async function generateMaintenanceTips() {
+            addMessage('user', "Generate some car maintenance tips.");
+            const prompt = "Generate 5 practical and concise car maintenance tips for a general audience, specifically related to car battery care and general car health. Include tips on battery checks, terminal cleaning, and regular servicing.";
+            const botResponse = await getGeminiResponse(prompt);
+            addMessage('bot', botResponse);
+        }
+
+        function addMessage(sender, text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('car-chatbot-message', sender);
+            const messageContentDiv = document.createElement('div');
+            messageContentDiv.classList.add('car-chatbot-message-content');
+            messageContentDiv.textContent = text;
+            messageDiv.appendChild(messageContentDiv);
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function handleInputChange() {
+            sendButton.disabled = !userInput.value.trim();
+        }
+
+        // Event Listeners for the chatbot
+        userInput.addEventListener('input', handleInputChange);
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' && !sendButton.disabled) {
+                sendMessage();
+            }
+        });
+
+        generateTipsButton.addEventListener('click', generateMaintenanceTips);
+
+        chatbotToggleButton.addEventListener('click', () => {
+            chatbotContainer.classList.toggle('active');
+            if (chatbotContainer.classList.contains('active')) {
+                chatbotToggleButton.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/x-circle.svg" alt="Close" class="car-chatbot-icon"> Close`;
+            } else {
+                chatbotToggleButton.innerHTML = `<img src="https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/message-circle.svg" alt="Chatbot" class="car-chatbot-icon"> Chatbot`;
+            }
+        });
+
+        // Initialize the chatbot on window load
+        window.onload = () => {
+            addMessage('bot', "Hello! I'm CarChatBot, your virtual car assistant. What problem are you experiencing with your car battery?");
+            populateSuggestions();
+        };
+    </script>
+</body>
+</html>
